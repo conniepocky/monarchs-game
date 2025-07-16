@@ -1,7 +1,12 @@
 package core;
 import javax.swing.*;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+
 import states.GameState;
 import states.MainMenuState;
+import states.MouseInteractable;
 import states.PlayingState;
 
 import java.awt.*;
@@ -12,26 +17,43 @@ public class App extends JPanel {
     private GameState currentState;
 
     public App() {
+        setFocusable(true);
         setCurrentState(new MainMenuState(this));
+
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 handleInput(e);
             }
         });
-        setFocusable(true);
+
+        MouseAdapter mouseHandler = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (currentState instanceof MouseInteractable) {
+                    ((MouseInteractable) currentState).mousePressed(e);
+                }
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (currentState instanceof MouseInteractable) {
+                    ((MouseInteractable) currentState).mouseMoved(e);
+                }
+            }
+        };
+
+        addMouseListener(mouseHandler);
+        addMouseMotionListener(mouseHandler);
     }
 
     private void handleInput(KeyEvent e) {
         if (currentState != null) {
             currentState.handleInput();
-            // if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-            //     setCurrentState(new PlayingState());
-            // }
         }
     }
 
-    public void setCurrentState(GameState newState) {
+    public void setCurrentState(GameState newState) {        
         currentState = newState;
     }
 

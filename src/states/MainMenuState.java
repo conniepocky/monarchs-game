@@ -15,31 +15,30 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Point;
 
-public class MainMenuState implements GameState {
+public class MainMenuState implements GameState, MouseInteractable {
+
     private App app;
-    private Rectangle startBtn, settingsBtn;
+    private Rectangle startBtn, tutorialBtn;
     private Point mouse = new Point();
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (startBtn.contains(e.getPoint())) {
+            app.setCurrentState(new PlayingState(app));
+        } else if (tutorialBtn.contains(e.getPoint())) {
+            app.setCurrentState(new TutorialState(app));
+        }
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        mouse = e.getPoint();
+    }
 
     public MainMenuState(App app) {
         this.app = app;
         this.startBtn = new Rectangle();   
-        this.settingsBtn = new Rectangle();
-
-        app.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (startBtn.contains(e.getPoint())) {
-                    app.setCurrentState(new PlayingState(app));
-                } 
-            }
-        });
-
-        app.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mouse = e.getPoint();
-            }
-        });
+        this.tutorialBtn = new Rectangle();
     }
 
     @Override
@@ -70,8 +69,8 @@ public class MainMenuState implements GameState {
         g.drawString(text, x, y);
 
         startBtn.setBounds((width-200)/2, height/3, 200, 50);
-        settingsBtn.setBounds((width-200)/2, height/3+70, 200, 50);
+        tutorialBtn.setBounds((width-200)/2, height/3+70, 200, 50);
         Button.draw(g, "Start", startBtn, mouse);
-        Button.draw(g, "Settings", settingsBtn, mouse);
+        Button.draw(g, "How To", tutorialBtn, mouse);
     }
 }

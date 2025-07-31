@@ -1,13 +1,13 @@
 package ui;
 import java.awt.*;
 
-public class Button {
+public class ButtonComponent {
     public static void draw(Graphics g, String text, Rectangle r, Point mouse) {
         boolean hover = r.contains(mouse);
 
-        g.setColor(hover ? new Color(255,102,102) : new Color(255,153,153));
+        g.setColor(hover ? new Color(200, 200, 200) : new Color(220, 220, 220));
         g.fillRect(r.x, r.y, r.width, r.height);
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         
         FontMetrics fm = g.getFontMetrics();
         int tx = r.x + (r.width - fm.stringWidth(text)) / 2;

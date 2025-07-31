@@ -20,18 +20,11 @@ public class App extends JPanel {
         setFocusable(true);
         setCurrentState(new MainMenuState(this));
 
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                handleInput(e);
-            }
-        });
-
         MouseAdapter mouseHandler = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (currentState instanceof MouseInteractable) {
-                    ((MouseInteractable) currentState).mousePressed(e);
+                if (currentState instanceof MouseInteractable) { 
+                    ((MouseInteractable) currentState).mousePressed(e); 
                 }
             }
 
@@ -47,12 +40,6 @@ public class App extends JPanel {
         addMouseMotionListener(mouseHandler);
     }
 
-    private void handleInput(KeyEvent e) {
-        if (currentState != null) {
-            currentState.handleInput();
-        }
-    }
-
     public void setCurrentState(GameState newState) {        
         currentState = newState;
     }
@@ -65,7 +52,7 @@ public class App extends JPanel {
 
     public void render(Graphics g) {
         if (currentState != null) {
-            currentState.render(g, getWidth(), getHeight());
+            currentState.render(g, getWidth(), getHeight()); 
         }
     }
 

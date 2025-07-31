@@ -6,7 +6,7 @@ public class GameLoop extends JFrame {
 
     public GameLoop() {
         game = new App();
-        setTitle("Title");
+        setTitle("Monarchs");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(game);

@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import core.App; 
 import ui.ButtonComponent;
 import java.awt.Rectangle;
+import java.util.List;
 
 public class GameOverState implements GameState, MouseInteractable {
 
@@ -41,7 +42,7 @@ public class GameOverState implements GameState, MouseInteractable {
         } else if (reason == "knowledge too low") {
             this.endMessage = "Your kingdom falls into ignorance and superstition. With no investment in learning or progress, society stagnates. You are ousted by reformers who promise a brighter future.";
         } else if (reason == "army too low") {
-            this.endMessage = "With a weakened army, your enemies grow bold. A military faction stages a swift coup. You are taken from your chambers before dawn, never to return.\"";
+            this.endMessage = "With a weakened army, your enemies grow bold. A military faction stages a swift coup. You are taken from your chambers before dawn, never to return.";
         } else if (reason == "people too high") {
             this.endMessage = "Your popularity reaches dizzying heights. The people adore you, but their expectations become impossible. When you fail to meet them, they turn on you. A mob storms the palace, and you are never seen again.";
         } else if (reason == "money too high") {
@@ -117,17 +118,31 @@ public class GameOverState implements GameState, MouseInteractable {
         g.setFont(endMessageFont);
         FontMetrics fm2 = g.getFontMetrics(endMessageFont);
 
-        String[] lines = new String[(this.endMessage.length() + 59) / 60]; // number of lines needed for 60 characters per line, define array size
+        String[] words = this.endMessage.split(" ");
+        List<String> linesList = new java.util.ArrayList<>();
+        StringBuilder currentLine = new StringBuilder(); 
 
-        for (int i = 0; i < lines.length; i++) {
-            int start = i * 60;
-            int end = Math.min(start + 60, this.endMessage.length()); // calculate end index, ensuring it doesn't exceed string length
+        for (String word : words) {
+            if (currentLine.length() + word.length() + 1 <= 60) { // 60 characters per line, plus one accounts for space
+                if (currentLine.length() > 0) { // if not the first word add a space 
+                    currentLine.append(" ");
+                }
 
-            lines[i] = this.endMessage.substring(start, end);
+                currentLine.append(word);
+            } else { // if the current line is full
+                linesList.add(currentLine.toString());
+
+                currentLine = new StringBuilder(word);
+            }
         }
+
+        if (currentLine.length() > 0) {  // add final line if it exists
+            linesList.add(currentLine.toString());
+        }
+
         int yPosition = 250; 
 
-        for (String line : lines) {
+        for (String line : linesList) {
             int lineWidth = fm2.stringWidth(line);
             g.drawString(line, (width - lineWidth) / 2, yPosition);
             yPosition += fm2.getHeight(); 

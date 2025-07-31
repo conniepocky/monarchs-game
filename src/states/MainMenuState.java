@@ -41,9 +41,7 @@ public class MainMenuState implements GameState, MouseInteractable {
         } else if (achievementsBtn.contains(e.getPoint())) {
             app.setCurrentState(new AchievementsState(app));
         } else if (progressBtn.contains(e.getPoint())) {
-            // app.setCurrentState(new ProgressState(app));
-
-            app.setCurrentState(new GameOverState(app, 20, "Connie", "army too low")); // TO DO: implement ProgressState
+            app.setCurrentState(new ProgressState(app));
         }
     }
 

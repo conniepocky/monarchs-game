@@ -57,9 +57,9 @@ public class TutorialState implements GameState, MouseInteractable {
         
         g.drawString("1. Press the play button in the main menu and enter a monarch name to begin.", 50, startY);
         g.drawString("2. Carefully read each card and its choices, they affect your kingdom's resources.", 50, startY + lineHeight);
-        g.drawString("3. Manage your resources wisely: People, Money, Knowledge, and Army.", 50, startY + 2 * lineHeight);
-        g.drawString("4. Some decisions unlock bonus cards with lasting effects each turn.", 50, startY + 3 * lineHeight);
-        g.drawString("5. Make strategic choices to expand your kingdom and lengthen your reign.", 50, startY + 4 * lineHeight);
+        g.drawString("3. Manage your resources wisely: People, Wealth, Knowledge and Army.", 50, startY + 2 * lineHeight);
+        g.drawString("4. If any of your 4 resources reach 0% or 100% the game will be over.", 50, startY + 3 * lineHeight);
+        g.drawString("5. Some decisions unlock bonus cards with lasting effects each turn.", 50, startY + 4 * lineHeight);
         g.drawString("6. Track your progress and unlock achievements along the way.", 50, startY + 5 * lineHeight);
         g.drawString("7. Enjoy the game and aim for a long, prosperous reign!", 50, startY + 6 * lineHeight);
 

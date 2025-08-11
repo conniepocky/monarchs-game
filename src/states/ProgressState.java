@@ -3,7 +3,12 @@ package states;
 import java.awt.Graphics;
 import ui.ButtonComponent;
 import java.awt.Rectangle;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import data.Monarch;
 import core.App;
 import java.util.List;
 import java.util.Date;
@@ -33,11 +38,7 @@ public class ProgressState implements GameState, MouseInteractable {
 
     private App app;
 
-    // TO DO: Define data structures to hold monarchs and their reign lengths
-
-    // sample monarch list
-
-    private List<String> monarchs; 
+    private List<Monarch> monarchs; 
 
     // ui components for displaying monarchs and reign lengths
 
@@ -50,19 +51,45 @@ public class ProgressState implements GameState, MouseInteractable {
     public ProgressState(App app) {
         this.app = app;
 
-        // TOOD load monarchs and reign lengths from database. sql table with monarch names and reign lengths
+        this.monarchs = new java.util.ArrayList<>(); 
 
-        this.monarchs = List.of( // sample list
-            new String("Monarch A"),
-            new String("Monarch B"),
-            new String("Monarch C")
-        ); 
+        fetchMonarchs();
 
     }
 
     @Override
     public void update() {
         // Update progress logic
+    }
+
+    public void fetchMonarchs() {
+        String url = "jdbc:sqlite:res/monarchs-database.db";
+        String sql = "SELECT id, monarchName, reignLength, causeOfDeath, timestamp FROM progress ORDER BY timestamp DESC"; // SQL query to fetch progress
+
+        try (Connection conn = DriverManager.getConnection(url); // establish connection
+            PreparedStatement pstmt = conn.prepareStatement(sql); 
+
+            // execute SQL query and store in a result set
+            ResultSet rs = pstmt.executeQuery()) { 
+
+            monarchs.clear();
+            while (rs.next()) {
+                // get monarch details from result set
+
+                Integer id = rs.getInt("id");
+                String name = rs.getString("monarchName");
+                Integer reignLength = rs.getInt("reignLength");
+                String causeOfDeath = rs.getString("causeOfDeath");
+                Date time = rs.getTimestamp("timestamp");
+
+                Monarch monarch = new Monarch(id, name, reignLength, causeOfDeath, time); // create new monarch object
+
+                monarchs.add(monarch); // add to list
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // print error
+        }
     }
 
     public void descendingOrderSort() {
@@ -106,13 +133,12 @@ public class ProgressState implements GameState, MouseInteractable {
 
         // list of monarchs
 
-        for (String monarch : monarchs) {
-            g.drawString(monarch, 50, 150 + monarchs.indexOf(monarch) * 20);
+        for (Monarch monarch : monarchs) {
+            g.drawString(monarch.getMonarchName(), 50, 150 + monarchs.indexOf(monarch) * 20);
         }
 
         // back button to return to main menu
         backButton = new Rectangle(width - 150, height - 50, 100, 30);
         ButtonComponent.draw(g, "Back", backButton, mouse);
     }
-    
 }

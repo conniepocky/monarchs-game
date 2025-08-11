@@ -3,11 +3,18 @@ package states;
 import java.awt.Graphics;
 import ui.ButtonComponent;
 import java.awt.Rectangle;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 
 import core.App;
 import java.util.List;
 import java.util.Date;
 import java.awt.Point;
+import data.Achievement;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -29,10 +36,7 @@ public class AchievementsState implements GameState, MouseInteractable {
 
     private App app;
 
-    // TO DO: Define data structures to hold achievements, description and completion status
-
-    // sample achievements list
-    private List<String> achievements;
+    private List<Achievement> achievements;
 
     // ui components
 
@@ -42,15 +46,40 @@ public class AchievementsState implements GameState, MouseInteractable {
 
     public AchievementsState(App app) {
         this.app = app;
+        this.achievements = new java.util.ArrayList<>(); 
 
-        // TOOD load achievements and their details from database. sql table with achievement names, descriptions and whether they are completed
+        fetchAchievements();
 
-        this.achievements = List.of( // sample list
-            new String("First Monarch"),
-            new String("Heir to the Throne"),
-            new String("Conequeror")
-        );
+    }
 
+    private void fetchAchievements() {
+        String url = "jdbc:sqlite:res/monarchs-database.db";
+        String sql = "SELECT id, name, description, unlocked, timestamp FROM achievements ORDER BY timestamp DESC"; // SQL query to fetch achievements
+
+        try (Connection conn = DriverManager.getConnection(url); // establish connection
+             PreparedStatement pstmt = conn.prepareStatement(sql); 
+
+             // execute SQL query and store in a result set
+             ResultSet rs = pstmt.executeQuery()) { 
+
+            achievements.clear();
+            while (rs.next()) {
+                // get achievement details from result set
+
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                Integer unlocked = rs.getInt("unlocked");
+                Date time = rs.getTimestamp("timestamp");
+                Integer id = rs.getInt("id");
+
+                Achievement achievement = new Achievement(id, name, description, unlocked, time); // create new achievement object
+
+                achievements.add(achievement); // add to list
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // print error
+        }
     }
 
     @Override
@@ -75,10 +104,28 @@ public class AchievementsState implements GameState, MouseInteractable {
         // list of achievements
 
         g.setFont(generalFont);
-        g.setColor(Color.BLACK);
 
-        for (String achievement : achievements) {
-            g.drawString(achievement, 50, 150 + achievements.indexOf(achievement) * 20);
+        for (Achievement achievement : achievements) {
+            if (achievement.getUnlocked() == 1) {
+                g.setColor(new Color(91, 176, 116)); // unlocked achievements in green
+            } else {
+                g.setColor(Color.BLACK); // locked achievements in black
+            }
+
+            g.drawString(achievement.getName(), 50, 150 + achievements.indexOf(achievement) * 20);
+
+            g.drawString(achievement.getDescription(), 250, 150 + achievements.indexOf(achievement) * 20);
+
+            if (achievement.getUnlocked() == 1 && achievement.getTimestamp() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+                String formattedDate = achievement.getTimestamp()
+                                                .toInstant() // UTC time
+                                                .atZone(java.time.ZoneId.systemDefault()) // set to system default timezone
+                                                .toLocalDate() // removes time section
+                                                .format(formatter);
+
+                g.drawString(formattedDate, 625, 150 + achievements.indexOf(achievement) * 20);
+            } 
         }
 
         // back button to return to main menu

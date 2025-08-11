@@ -48,9 +48,9 @@ public class GameOverState implements GameState, MouseInteractable {
         } else if (reason == "money too high") {
             this.endMessage = "Your kingdom's riches overflow, attracting envy and corruption. Greedy nobles and foreign powers plot to seize your fortune. One night, a trusted advisor poisons your wine.";
         } else if (reason == "knowledge too high") {
-            this.endMessage = "Scholars and inventors have surpassed even your wildest ambitions. A council of intellects deems monarchy obsolete. They politely thank you for your service and usher in a new era of reason — without you.";
+            this.endMessage = "Obsessed with unraveling nature’s deepest secrets, your royal scientist crossed the final threshold. Their experiments defied morality, birthing something neither living nor dead. The creature turned on its creator, and the kingdom recoiled in horror, forcing your abdication in fear of what you had allowed to exist.";
         } else if (reason == "army too high") {
-            this.endMessage = "Your army grows into an unstoppable force — and decides it doesn’t need a king. The generals declare you should be exiled.";
+            this.endMessage = "Your army grows into an unstoppable force, and decides it doesn’t need a king. The generals declare you should be exiled.";
         } else {
             this.endMessage = "Your reign ended for an unknown reason.";
         }

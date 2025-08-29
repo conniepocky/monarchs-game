@@ -1,15 +1,14 @@
 package data;
-import java.awt.Choice;
 
-public class Card {
-    protected Integer id;
+public class SpecialEventCard {
+    private Integer id;
     private String text;
     private String characterName;
-    private Choice left;
-    private Choice right;
+    private SpecialChoice left;
+    private SpecialChoice right;
     private String imagePath;
 
-    public Card(Integer id, String text, String characterName, Choice left, Choice right, String imagePath) {
+    public SpecialEventCard(Integer id, String text, String characterName, SpecialChoice left, SpecialChoice right, String imagePath) {
         this.id = id;
         this.text = text;
         this.characterName = characterName;
@@ -30,11 +29,11 @@ public class Card {
         return characterName;
     }
 
-    public Choice getLeft() {
+    public SpecialChoice getLeft() {
         return left;
     }
 
-    public Choice getRight() {
+    public SpecialChoice getRight() {
         return right;
     }
 

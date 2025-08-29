@@ -8,6 +8,9 @@ import ui.BonusCardComponent;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.Image;
+import javax.imageio.ImageIO;
+import java.io.IOException;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
@@ -18,6 +21,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Point;
+import java.io.File;
 
 public class PlayingState implements GameState, MouseInteractable {
 
@@ -48,6 +52,8 @@ public class PlayingState implements GameState, MouseInteractable {
     private Float moneyStat = 0.5f;
     private Float knowledgeStat = 0.5f;
     private Float armyStat = 0.5f;
+
+    private Float time = 0.0f;
 
     public PlayingState(App app, String name) {
         this.app = app;
@@ -108,6 +114,18 @@ public class PlayingState implements GameState, MouseInteractable {
     @Override
     public void render(Graphics g, int width, int height) { 
 
+        // background image 
+
+        // try {
+        //     File file = new File("src/assets/specialEvent/vampire.jpg");
+        //     Image img = ImageIO.read(file);
+        //     g.drawImage(img, 0, 0, width, height, null);
+        // } catch (IOException e) {
+        //     e.printStackTrace(); // Handle error
+        // }
+
+        // fonts
+
         Font generalFont = new Font("Telegraf", Font.PLAIN, 20);
         Font buttonFont = new Font("Telegraf", Font.PLAIN, 15);
 
@@ -115,10 +133,10 @@ public class PlayingState implements GameState, MouseInteractable {
 
         // stats images rendering and updating based on percentage
 
-        StatImageComponent peopleStatImage = new StatImageComponent("src/assets/people.png");
-        StatImageComponent moneyStatImage = new StatImageComponent("src/assets/money.png");
-        StatImageComponent knowledgeStatImage = new StatImageComponent("src/assets/knowledge.png");
-        StatImageComponent armyStatImage = new StatImageComponent("src/assets/army.png");
+        StatImageComponent peopleStatImage = new StatImageComponent("src/assets/stats/people.png");
+        StatImageComponent moneyStatImage = new StatImageComponent("src/assets/stats/money.png");
+        StatImageComponent knowledgeStatImage = new StatImageComponent("src/assets/stats/knowledge.png");
+        StatImageComponent armyStatImage = new StatImageComponent("src/assets/stats/army.png");
 
         // alignment of stat icons at the top of the screen, centered horizontally
 
@@ -156,7 +174,7 @@ public class PlayingState implements GameState, MouseInteractable {
         g.drawString("Year: " + String.valueOf(year), 10, 50); 
 
         cardObject.setBounds((width-200)/2, (height/3)-100, 200, 300);
-        CardComponent.draw(g, cardObject, mouse, "Card Text", "Character Name", "");
+        CardComponent.draw(g, cardObject, mouse, "Card Text", "Character Name", "src/assets/characters/general.png");
 
         // decision buttons either side of the card 
 
@@ -164,6 +182,7 @@ public class PlayingState implements GameState, MouseInteractable {
 
         decisionLeft.setBounds(cardObject.x - 220, cardObject.y + 100, 200, 50);
         decisionRight.setBounds(cardObject.x + cardObject.width + 20, cardObject.y + 100, 200, 50);
+        
         ButtonComponent.draw(g, "Decision Left", decisionLeft, mouse);
         ButtonComponent.draw(g, "Decision Right", decisionRight, mouse);
 
@@ -172,14 +191,14 @@ public class PlayingState implements GameState, MouseInteractable {
         int bonusCardWidth = 100;
         int bonusCardHeight = 100;
 
-        int bonusCardX = (width - (bonusCardWidth * 4 + 30)) / 2;
+        int bonusCardX = (width - (bonusCardWidth * 4 + 30)) / 2; // center the bonus cards horizontally
         int bonusCardY = height - bonusCardHeight - 30;
         
-        for (int i = 0; i < bonusCards.length; i++) {
+        for (int i = 0; i < bonusCards.length; i++) { // align each bonus card based on its width and spacing
             bonusCards[i].setBounds(bonusCardX + (i * (bonusCardWidth + 10)), bonusCardY, bonusCardWidth, bonusCardHeight);
         }
 
-        for (int i = 0; i < bonusCards.length; i++) {
+        for (int i = 0; i < bonusCards.length; i++) { // draw each bonus card
             BonusCardComponent.draw(g, activeBonusCards[i], bonusCards[i], mouse);
         }
     }

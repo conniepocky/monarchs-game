@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
+
 import data.Monarch;
 import core.App;
 import java.util.List;
@@ -123,18 +125,38 @@ public class ProgressState implements GameState, MouseInteractable {
         int buttonSpacing = 20;
         int totalButtonWidth = buttonWidth * 2 + buttonSpacing;
     
-        int startX = (width - totalButtonWidth) / 2;
+        int buttonStartX = (width - totalButtonWidth) / 2;
     
-        this.sortByReignLengthBtn = new Rectangle(startX, 75, buttonWidth, buttonHeight);
-        this.sortByChronologicalOrderBtn = new Rectangle(startX + buttonWidth + buttonSpacing, 75, buttonWidth, buttonHeight);
+        this.sortByReignLengthBtn = new Rectangle(buttonStartX, 75, buttonWidth, buttonHeight);
+        this.sortByChronologicalOrderBtn = new Rectangle(buttonStartX + buttonWidth + buttonSpacing, 75, buttonWidth, buttonHeight);
 
         ButtonComponent.draw(g, "Sort by Reign Length", sortByReignLengthBtn, mouse);
         ButtonComponent.draw(g, "Sort by Chronological Order", sortByChronologicalOrderBtn, mouse);
 
         // list of monarchs
 
-        for (Monarch monarch : monarchs) {
-            g.drawString(monarch.getMonarchName(), 50, 150 + monarchs.indexOf(monarch) * 20);
+        int startX = (width - 500) / 2;
+
+        if (monarchs.isEmpty()) {
+            g.setColor(Color.RED);
+            g.drawString("No monarchs found in database. Come back once you have played a game!", startX, 150);
+        } else {
+            for (Monarch monarch : monarchs) {
+                g.drawString(monarch.getMonarchName(), startX, 150 + monarchs.indexOf(monarch) * 20);
+    
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
+                String formattedDate = monarch.getTimestamp()
+                                                .toInstant() // UTC time
+                                                .atZone(java.time.ZoneId.systemDefault()) // set to system default timezone
+                                                .toLocalDate() // removes time section
+                                                .format(formatter);
+    
+                g.drawString(formattedDate, startX+150, 150 + monarchs.indexOf(monarch) * 20);
+    
+                g.drawString(monarch.getReignLength().toString() + " years", startX+300, 150 + monarchs.indexOf(monarch) * 20);
+    
+                g.drawString(monarch.getCauseOfDeath(), startX+450, 150 + monarchs.indexOf(monarch) * 20);
+            }
         }
 
         // back button to return to main menu

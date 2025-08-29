@@ -102,8 +102,9 @@ public class AchievementsState implements GameState, MouseInteractable {
         g.drawString(title, (width - titleWidth) / 2, 50);
 
         // list of achievements
-
         g.setFont(generalFont);
+
+        int startX = (width - 400) / 3; 
 
         for (Achievement achievement : achievements) {
             if (achievement.getUnlocked() == 1) {
@@ -112,9 +113,9 @@ public class AchievementsState implements GameState, MouseInteractable {
                 g.setColor(Color.BLACK); // locked achievements in black
             }
 
-            g.drawString(achievement.getName(), 50, 150 + achievements.indexOf(achievement) * 20);
+            g.drawString(achievement.getName(), startX, 150 + achievements.indexOf(achievement) * 20);
 
-            g.drawString(achievement.getDescription(), 250, 150 + achievements.indexOf(achievement) * 20);
+            g.drawString(achievement.getDescription(), startX+150, 150 + achievements.indexOf(achievement) * 20);
 
             if (achievement.getUnlocked() == 1 && achievement.getTimestamp() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
@@ -124,9 +125,10 @@ public class AchievementsState implements GameState, MouseInteractable {
                                                 .toLocalDate() // removes time section
                                                 .format(formatter);
 
-                g.drawString(formattedDate, 625, 150 + achievements.indexOf(achievement) * 20);
+                g.drawString(formattedDate, (int)(startX+(150*3.5)), 150 + achievements.indexOf(achievement) * 20);
             } 
         }
+        
 
         // back button to return to main menu
         backButton = new Rectangle(width - 150, height - 50, 100, 30);

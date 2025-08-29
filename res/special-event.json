@@ -1,0 +1,142 @@
+{
+    "vampire": [
+      {
+        "id": 1,
+        "text": "The General arrives with a letter from an unfamiliar count, inviting you to his estate for a night of intellectual discussion. Your advisors warn you against it. A faint, colorful wave washes over your stats, indicating that this choice comes with unknown consequences.",
+        "characterName": "The General",
+        "imagePath": "src/assets/characters/general.png",
+        "choices": [
+          {
+            "text": "Accept",
+            "nextCardId": 2,
+            "effects": {
+              "army": -10
+            }
+          },
+          {
+            "text": "Decline",
+            "nextCardId": 3,
+            "effects": {
+              "knowledge": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "text": "You enter a grand, gothic castle where the Count, a pale and charming man, offers you a glass of dark red wine. He speaks with an unnerving, yet compelling, wisdom.",
+        "characterName": "The Count",
+        "imagePath": "src/assets/characters/count.png",
+        "choices": [
+          {
+            "text": "Drink",
+            "nextCardId": 6,
+            "effects": {}
+          },
+          {
+            "text": "Refuse",
+            "nextCardId": 4,
+            "effects": {
+              "army": 10
+            }
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "text": "You stay at home. The General returns, stating the Count was offended by your refusal. Your court is now filled with whispers of his displeasure.",
+        "characterName": "The General",
+        "imagePath": "src/assets/characters/general.png",
+        "choices": [
+          {
+            "text": "Send an apology.",
+            "nextCardId": 5,
+            "effects": {
+              "people": 10
+            }
+          },
+          {
+            "text": "Ignore it.",
+            "nextCardId": 7,
+            "effects": {}
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "text": "The Count smiles thinly at your refusal. 'A wise decision,' he says, 'but are you truly so strong?' He then offers to test your resolve in a game of strategy, placing a chest of gold on the table.",
+        "characterName": "The Count",
+        "imagePath": "src/assets/characters/count.png",
+        "choices": [
+          {
+            "text": "Play the game.",
+            "nextCardId": null,
+            "effects": {
+              "wealth": 25,
+              "knowledge": 25
+            }
+          },
+          {
+            "text": "Leave immediately.",
+            "nextCardId": null,
+            "effects": {
+              "people": 15,
+              "army": 15
+            }
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "text": "The Count accepts your apology and surprisingly visits your court. He is impressed by your courtesy and offers a strange gift: an ancient, forgotten text.",
+        "characterName": "The Count",
+        "imagePath": "src/assets/characters/count.png",
+        "choices": [
+          {
+            "text": "Accept the gift.",
+            "nextCardId": 8,
+            "effects": {
+              "knowledge": 25,
+              "people": 15
+            }
+          },
+          {
+            "text": "Refuse the gift.",
+            "nextCardId": 9,
+            "effects": {
+              "army": 20,
+              "people": 10
+            }
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "text": "You awaken in your bed, but with a strange, hollow feeling. Your commands are ignored. The whispers of the court are no longer about your rule, but about 'His' will. A small, subtle bite mark on your neck is the only physical evidence of your mistake.",
+        "characterName": "The Count",
+        "imagePath": "src/assets/characters/count.png",
+        "choices": []
+      },
+      {
+        "id": 7,
+        "text": "The Count's servants harass your kingdom's borders until the people and army revolt against you.",
+        "characterName": "The Count",
+        "imagePath": "src/assets/characters/count.png",
+        "choices": []
+      },
+      {
+        "id": 8,
+        "text": "The book contains invaluable knowledge that helps you govern better. The Count leaves, and your kingdom thrives.",
+        "characterName": "Narrator",
+        "imagePath": "src/assets/characters/narrator.png",
+        "choices": []
+      },
+      {
+        "id": 9,
+        "text": "The Count disappears silently. You've avoided his game entirely.",
+        "characterName": "The Count",
+        "imagePath": "src/assets/characters/count.png",
+        "choices": []
+      }
+    ]
+}

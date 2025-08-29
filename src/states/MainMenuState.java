@@ -33,9 +33,14 @@ public class MainMenuState implements GameState, MouseInteractable {
         if (startBtn.contains(e.getPoint())) {
             String name = JOptionPane.showInputDialog(app, "Enter your monarch name:"); // pop-up dialog for name input
 
-            // TO DO validation for name input
+            if (name == null || name.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(app, "Monarch name cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (name.length() > 20) {
+                JOptionPane.showMessageDialog(app, "Monarch name cannot exceed 20 characters.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                app.setCurrentState(new PlayingState(app, name.trim()));
+            }
 
-            app.setCurrentState(new PlayingState(app, name.trim()));
         } else if (tutorialBtn.contains(e.getPoint())) {
             app.setCurrentState(new TutorialState(app));
         } else if (achievementsBtn.contains(e.getPoint())) {

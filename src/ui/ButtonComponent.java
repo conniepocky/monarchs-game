@@ -10,8 +10,10 @@ public class ButtonComponent {
         g.setColor(Color.BLACK);
         
         FontMetrics fm = g.getFontMetrics();
+
         int tx = r.x + (r.width - fm.stringWidth(text)) / 2;
         int ty = r.y + (r.height + fm.getAscent()) / 2 - 4;
+
         g.drawString(text, tx, ty);
     }
 }

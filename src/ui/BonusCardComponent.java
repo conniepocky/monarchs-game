@@ -3,10 +3,8 @@ import java.awt.*;
 
 public class BonusCardComponent {
     public static void draw(Graphics g, String text, Rectangle r, Point mouse) {
-        boolean hover = r.contains(mouse);
-
-        g.setColor(hover ? new Color(200, 200, 200) : new Color(220, 220, 220));
-        g.fillRect(r.x, r.y, r.width, r.height);
+        g.setColor(new Color(249, 251, 253));
+        g.fillRoundRect(r.x, r.y, r.width, r.height, 20, 20);
         g.setColor(Color.BLACK);
 
         if (text != null || !text.isEmpty()) {

@@ -38,6 +38,8 @@ public class AchievementsState implements GameState, MouseInteractable {
 
     private List<Achievement> achievements;
 
+    private List<String> achievements2;
+
     // ui components
 
     private Rectangle backButton;
@@ -104,7 +106,7 @@ public class AchievementsState implements GameState, MouseInteractable {
         // list of achievements
         g.setFont(generalFont);
 
-        int startX = (width - 400) / 3; 
+        int startX = (width - 500) / 3; 
 
         for (Achievement achievement : achievements) {
             if (achievement.getUnlocked() == 1) {
@@ -115,7 +117,7 @@ public class AchievementsState implements GameState, MouseInteractable {
 
             g.drawString(achievement.getName(), startX, 150 + achievements.indexOf(achievement) * 20);
 
-            g.drawString(achievement.getDescription(), startX+150, 150 + achievements.indexOf(achievement) * 20);
+            g.drawString(achievement.getDescription(), startX+175, 150 + achievements.indexOf(achievement) * 20);
 
             if (achievement.getUnlocked() == 1 && achievement.getTimestamp() != null) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
@@ -125,10 +127,19 @@ public class AchievementsState implements GameState, MouseInteractable {
                                                 .toLocalDate() // removes time section
                                                 .format(formatter);
 
-                g.drawString(formattedDate, (int)(startX+(150*3.5)), 150 + achievements.indexOf(achievement) * 20);
+                g.drawString(formattedDate, (int)(startX+(175*3.25)), 150 + achievements.indexOf(achievement) * 20);
             } 
         }
-        
+
+        // achievements2 = List.of(
+        //     new String("First Monarch"),
+        //     new String("Heir to the Throne"),
+        //     new String("Conequeror")
+        // );
+
+        // for (String achievement : achievements2) {
+        //     g.drawString(achievement, 50, 150 + achievements2.indexOf(achievement) * 20);
+        // }
 
         // back button to return to main menu
         backButton = new Rectangle(width - 150, height - 50, 100, 30);

@@ -53,7 +53,7 @@ public class TutorialState implements GameState, MouseInteractable {
         
         g.setFont(new Font("Telegraf", Font.PLAIN, 16));
         int startY = 150;
-        int startX = (width - 400) / 3; 
+        int startX = (width - 500) / 3; 
         int lineHeight = 30;
         
         g.drawString("1. Press the play button in the main menu and enter a monarch name to begin.", startX, startY);

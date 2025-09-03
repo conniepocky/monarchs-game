@@ -42,6 +42,8 @@ public class ProgressState implements GameState, MouseInteractable {
 
     private List<Monarch> monarchs; 
 
+    // private List<String> monarchs2; 
+
     // ui components for displaying monarchs and reign lengths
 
     private Rectangle sortByReignLengthBtn;
@@ -158,6 +160,16 @@ public class ProgressState implements GameState, MouseInteractable {
                 g.drawString(monarch.getCauseOfDeath(), startX+450, 150 + monarchs.indexOf(monarch) * 20);
             }
         }
+
+        // monarchs2 = List.of( // sample list
+        //     new String("Monarch A"),
+        //     new String("Monarch B"),
+        //     new String("Monarch C")
+        // ); 
+
+        // for (String monarch : monarchs2) {
+        //     g.drawString(monarch, 50, 150 + monarchs2.indexOf(monarch) * 20);
+        // }
 
         // back button to return to main menu
         backButton = new Rectangle(width - 150, height - 50, 100, 30);

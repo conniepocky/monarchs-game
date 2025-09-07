@@ -1,0 +1,13 @@
+{
+    
+    "bonusCards": [
+        {
+            "id": 1,
+            "description": "Secure an heir",
+            "effects": {
+                "people": 5
+            },
+            "duration": 20
+        }
+    ]
+}

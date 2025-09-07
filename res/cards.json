@@ -1,0 +1,144 @@
+{
+    "cards": [
+        {
+            "id": 1,
+            "text": "I have been experimenting with a new anaesthetic called 'ether'. It could make surgery painless, but it is risky and the Church calls it unnatural. May I demonstrate it?",
+            "characterName": "Royal Physician",
+            "imagePath": "src/assets/characters/doctor.png",
+            "choices": {
+                "left": {
+                    "text": "Sure",
+                    "effects": {
+                        "people": -5,
+                        "knowledge": 10
+                    }
+                },
+                "right": {
+                    "text": "It's too dangerous.",
+                    "effects": {
+                        "knowledge": -5,
+                        "people": 5
+                    }
+                }
+            }
+        },
+        {
+            "id": 2,
+            "text": "Your Majesty, the literacy rate among the poor is decreasing each day. I propose we sponsor a series of cheap, thrilling stories to encourage the lower classes to read.",
+            "characterName": "Novelist",
+            "imagePath": "src/assets/characters/novelist.png",
+            "choices": {
+                "left": {
+                    "text": "Yes, let's promote literacy.",
+                    "effects": {
+                        "people": 5,
+                        "knowledge": 5,
+                        "wealth": -5
+                    }
+                },
+                "right": {
+                    "text": "No, it's too expensive.",
+                    "effects": {
+                        "people": -10,
+                        "knowledge": -5
+                    }
+                }
+            }
+        },
+        {
+            "id": 3,
+            "text": "The industrial revolution is transforming our world. Should we invest in new factories and technologies to keep up with the changing times?",
+            "characterName": "Industrialist",
+            "imagePath": "src/assets/characters/industrialist.png",
+            "choices": {
+                "left": {
+                    "text": "Yes, invest in industry.",
+                    "effects": {
+                        "wealth": 10,
+                        "people": -5,
+                        "knowledge": 5
+                    }
+                },
+                "right": {
+                    "text": "No, stick to tradition.",
+                    "effects": {
+                        "wealth": -5,
+                        "people": 5,
+                        "knowledge": -5
+                    }
+                }
+            }
+        },
+        {
+            "id": 4,
+            "text": "The suffragette movement is gaining momentum. Should we grant women the right to vote?",
+            "characterName": "Prime Minister",
+            "imagePath": "src/assets/characters/primeminister.png",
+            "choices": {
+                "left": {
+                    "text": "Yes.",
+                    "effects": {
+                        "people": 10,
+                        "knowledge": 10
+                    }
+                },
+                "right": {
+                    "text": "No.",
+                    "effects": {
+                        "people": -10,
+                        "knowledge": -5
+                    }
+                }
+            }
+        },
+        {
+            "id": 5,
+            "text": "A charismatic leader is rallying the working class to demand better wages and conditions. Should we negotiate with him?",
+            "characterName": "Industrialist",
+            "imagePath": "src/assets/characters/industrialist.png",
+            "choices": {
+                "left": {
+                    "text": "Yes, negotiate.",
+                    "effects": {
+                        "people": 10,
+                        "wealth": -5
+                    }
+                },
+                "right": {
+                    "text": "No, suppress the movement.",
+                    "effects": {
+                        "people": -10,
+                        "army": 5
+                    }
+                }
+            }
+        },
+        {
+            "id": 6,
+            "text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. I have opened negotiations with two promising courts.",
+            "characterName": "Foreign Ambassador",
+            "imagePath": "src/assets/characters/foreignambassador.png",
+            "choices": {
+                "left": {
+                    "text": "Marry into the French court.",
+                    "effects": {
+                        "people": 5,
+                        "wealth": -10,
+                        "army": 5
+                    
+                    },
+                    "bonusCardId": 1
+                },
+                "right": {
+                    "text": "Marry into the Spanish court.",
+                    "effects": {
+                        "people": -5,
+                        "wealth": -15,
+                        "army": 10
+                    },
+                    "bonusCardId": 2
+                }
+            }
+        }
+    ]
+}

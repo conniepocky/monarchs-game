@@ -10,10 +10,10 @@ public class MenuButtonComponent {
         g.setColor(Color.WHITE);
         
         FontMetrics fm = g.getFontMetrics();
-        
-        int tx = r.x + (r.width - fm.stringWidth(text)) / 2; // center text horizontally by accounting for text width
-        int ty = r.y + (r.height + fm.getAscent()) / 2 - 4; // center text vertically by accounting for text height
 
-        g.drawString(text, tx, ty);
+        int textX = r.x + (r.width - fm.stringWidth(text)) / 2; // center text horizontally by accounting for text width
+        int textY = r.y + (r.height + fm.getAscent()) / 2 - 4; // center text vertically by accounting for text height
+
+        g.drawString(text, textX, textY);
     }
 }

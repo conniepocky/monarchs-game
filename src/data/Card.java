@@ -1,8 +1,8 @@
 package data;
-import java.awt.Choice;
+import data.Choice;
 
 public class Card {
-    protected Integer id;
+    private Integer id;
     private String text;
     private String characterName;
     private Choice left;

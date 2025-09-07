@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "GameLoop",
+            "request": "launch",
+            "mainClass": "core.GameLoop",
+            "projectName": "monarchs-game_9ffcae60"
+        },
+        {
+            "type": "java",
+            "name": "Launch MyProgram",
+            "request": "launch",
+            "mainClass": "com.example.MyProgram",
+            "vmArgs": "-Dswing.defaultlaf=com.sun.java.swing.plaf.windows.WindowsLookAndFeel"
+        }
+    ]
+}

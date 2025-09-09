@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.Image;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.awt.event.MouseEvent;
@@ -160,6 +162,7 @@ public class PlayingState implements GameState, MouseInteractable {
             return fileContentString; 
 
         } catch (IOException e) {
+            JOptionPane.showMessageDialog(app, "Error reading card JSON file.", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
@@ -179,10 +182,10 @@ public class PlayingState implements GameState, MouseInteractable {
 
         for (String key : effects.keySet()) {
             effectsMap.put(key, effects.getInt(key));
-            System.out.println("Effect Key: " + key + ", Value: " + effects.get(key));
+            //System.out.println("Effect Key: " + key + ", Value: " + effects.get(key));
         }
 
-        System.out.println("Choice Effects: " + effects.toString());
+        //System.out.println("Choice Effects: " + effects.toString());
 
         return new Choice(choiceText, effectsMap, achievementId, bonusCardId);
     }
@@ -196,13 +199,13 @@ public class PlayingState implements GameState, MouseInteractable {
         if (jsonContent != null && !jsonContent.trim().isEmpty()) { // check if the content is not null or empty
             try {
                 // parse JSON content and populate card list
-    
+
                 JSONObject rootObject = new JSONObject(jsonContent); // parse the root JSON object
                 JSONArray cardsArray = rootObject.getJSONArray("cards"); // get the array of cards
                 
                 for (int i = 0; i < cardsArray.length(); i++) { // for each card in the array...
                     JSONObject cardJson = cardsArray.getJSONObject(i); // get the card JSON object
-    
+
                     // get card attributes 
 
                     Integer id = cardJson.getInt("id");
@@ -229,6 +232,7 @@ public class PlayingState implements GameState, MouseInteractable {
                 e.printStackTrace();
             }
         } else {
+            JOptionPane.showMessageDialog(app, "Error reading card JSON file.", "Error", JOptionPane.ERROR_MESSAGE);
             System.err.println("Error: JSON content is empty or null.");
         }
     }
@@ -278,6 +282,8 @@ public class PlayingState implements GameState, MouseInteractable {
         moneyStatImage.draw(g, moneyStatIcon, mouse);
         knowledgeStatImage.draw(g, knowledgeStatIcon, mouse);
         armyStatImage.draw(g, armyStatIcon, mouse);
+
+        // updating percentage filled of the stats, this will run every 16ms so will appear instantaneous as each decision is made without needing to manaually update when effects are put in place 
 
         peopleStatImage.updatePercentageFilled(g, peopleStatIcon, peopleStat); 
         moneyStatImage.updatePercentageFilled(g, moneyStatIcon, moneyStat);

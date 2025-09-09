@@ -23,13 +23,20 @@ public class ButtonComponent {
 
         // text
 
+        Integer fontSize = (int)(rect.height * 0.40);
+
+        if (rect.height > 45) {
+            fontSize = (int)(rect.height * 0.25);
+        }
+
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Telegraf", Font.PLAIN,  (int)(rect.height * 0.25)));
+
+        g.setFont(new Font("Telegraf", Font.PLAIN, fontSize));
 
         FontMetrics fm = g.getFontMetrics();
 
         String[] words = text.split(" ");
-        System.out.println(text);
+
         List<String> linesList = new java.util.ArrayList<>();
         StringBuilder currentLine = new StringBuilder(); 
 

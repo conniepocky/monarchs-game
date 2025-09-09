@@ -304,12 +304,7 @@ public class PlayingState implements GameState, MouseInteractable {
         cardObject.setBounds(panelX + (panelWidth - cardWidth) / 2, panelY + (int)(panelHeight * 0.1), cardWidth, cardHeight);
         CardComponent.draw(g, cardObject, mouse, currentCard.getText(), currentCard.getCharacterName(), currentCard.getImagePath());
 
-
         // draw + align decision buttons either side of the card 
-
-        int buttonFontSize = (int)(panelHeight * 0.025);
-
-        g.setFont(new Font("Telegraf", Font.PLAIN, buttonFontSize));
 
         int decisionButtonWidth = (int)(panelWidth * 0.2);
         int decisionButtonY = panelHeight / 2;
@@ -327,8 +322,9 @@ public class PlayingState implements GameState, MouseInteractable {
 
         int bonusCardGap = (int)(panelWidth * 0.03);
 
-        int totalBonusCardsWidth = (bonusCardWidth * 4) + (bonusCardGap * 3);
-        int bonusCardsStartX = panelX + (panelWidth - totalBonusCardsWidth) / 2;
+        int totalBonusCardsWidth = (bonusCardWidth * 4) + (bonusCardGap * 3); // total width of all bonus cards and gaps
+
+        int bonusCardsStartX = panelX + (panelWidth - totalBonusCardsWidth) / 2; 
         int bonusCardsY = panelY + panelHeight - bonusCardHeight - (int)(panelHeight * 0.03);
 
         for (int i = 0; i < bonusCards.length; i++) {

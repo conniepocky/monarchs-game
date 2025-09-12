@@ -35,7 +35,6 @@ public class CardComponent {
         int textY = rect.y + ((rect.height + textFm.getAscent()) / 2) + 50; 
 
         String[] words = text.split(" ");
-        System.out.println(text);
         List<String> linesList = new java.util.ArrayList<>();
         StringBuilder currentLine = new StringBuilder(); 
 
@@ -58,7 +57,6 @@ public class CardComponent {
         }
 
         for (String line : linesList) {
-            int lineWidth = textFm.stringWidth(line);
             g.drawString(line, textX, textY);
             textY += textFm.getHeight(); 
         }

@@ -53,7 +53,7 @@ public class PlayingState implements GameState, MouseInteractable {
     private Rectangle[] bonusCards = {bonusCard1, bonusCard2, bonusCard3, bonusCard4};
 
     private Rectangle peopleStatIcon;
-    private Rectangle moneyStatIcon;
+    private Rectangle wealthStatIcon;
     private Rectangle knowledgeStatIcon;
     private Rectangle armyStatIcon;
 
@@ -66,7 +66,7 @@ public class PlayingState implements GameState, MouseInteractable {
     private String[] activeBonusCards;
 
     private Float peopleStat = 0.5f;
-    private Float moneyStat = 0.5f;
+    private Float wealthStat = 0.5f;
     private Float knowledgeStat = 0.5f;
     private Float armyStat = 0.5f;
 
@@ -102,7 +102,7 @@ public class PlayingState implements GameState, MouseInteractable {
         this.bonusCards = new Rectangle[] {bonusCard1, bonusCard2, bonusCard3, bonusCard4};
 
         this.peopleStatIcon = new Rectangle();
-        this.moneyStatIcon = new Rectangle();
+        this.wealthStatIcon = new Rectangle();
         this.knowledgeStatIcon = new Rectangle();
         this.armyStatIcon = new Rectangle();
 
@@ -119,17 +119,52 @@ public class PlayingState implements GameState, MouseInteractable {
 
     public void CardSelection() {
         // logic for selecting a card from JSON file
+
+        // temp for now just pick a random card
+
+        int randomIndex = (int)(Math.random() * cards.size());
+        currentCard = cards.get(randomIndex);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        Choice selectedChoice = null;
+
         if (decisionLeft.contains(e.getPoint())) {
             // Handle left decision
             System.out.println("Left decision made");
+
+            selectedChoice = currentCard.getLeft();
+
         } else if (decisionRight.contains(e.getPoint())) {
             // Handle right decision
             System.out.println("Right decision made");
+
+            selectedChoice = currentCard.getRight();
         }
+
+        for (String effectKey : selectedChoice.getEffects().keySet()) {
+            // Apply each effect to the game state
+            Float effectValue = (selectedChoice.getEffects().get(effectKey)) / 100.0f;
+
+            if (effectKey.equals("people")) {
+                peopleStat += effectValue;
+                peopleStat = Math.max(0.0f, Math.min(1.0f, peopleStat)); // clamp between 0 and 1
+            } else if (effectKey.equals("wealth")) {
+                wealthStat += effectValue;
+                wealthStat = Math.max(0.0f, Math.min(1.0f, wealthStat));
+            } else if (effectKey.equals("knowledge")) {
+                knowledgeStat += effectValue;
+                knowledgeStat = Math.max(0.0f, Math.min(1.0f, knowledgeStat));
+            } else if (effectKey.equals("army")) {
+                armyStat += effectValue;
+                armyStat = Math.max(0.0f, Math.min(1.0f, armyStat));
+            }
+        }
+
+        System.out.println(peopleStat + ", " + wealthStat + ", " + knowledgeStat + ", " + armyStat);
+
+        CardSelection();
     }
 
     @Override
@@ -263,7 +298,7 @@ public class PlayingState implements GameState, MouseInteractable {
         // draw and align stat icons and update percentage filled
 
         StatImageComponent peopleStatImage = new StatImageComponent("src/assets/stats/people.png");
-        StatImageComponent moneyStatImage = new StatImageComponent("src/assets/stats/money.png");
+        StatImageComponent wealthStatImage = new StatImageComponent("src/assets/stats/wealth.png");
         StatImageComponent knowledgeStatImage = new StatImageComponent("src/assets/stats/knowledge.png");
         StatImageComponent armyStatImage = new StatImageComponent("src/assets/stats/army.png");
 
@@ -274,19 +309,19 @@ public class PlayingState implements GameState, MouseInteractable {
         int statIconStartY = 10; 
 
         peopleStatIcon.setBounds(iconsStartX, statIconStartY, iconSize, iconSize);
-        moneyStatIcon.setBounds(iconsStartX + (iconSize + gap), statIconStartY, iconSize, iconSize);
+        wealthStatIcon.setBounds(iconsStartX + (iconSize + gap), statIconStartY, iconSize, iconSize);
         knowledgeStatIcon.setBounds(iconsStartX + 2 * (iconSize + gap), statIconStartY, iconSize, iconSize);
         armyStatIcon.setBounds(iconsStartX + 3 * (iconSize + gap), statIconStartY, iconSize, iconSize);
         
         peopleStatImage.draw(g, peopleStatIcon, mouse);
-        moneyStatImage.draw(g, moneyStatIcon, mouse);
+        wealthStatImage.draw(g, wealthStatIcon, mouse);
         knowledgeStatImage.draw(g, knowledgeStatIcon, mouse);
         armyStatImage.draw(g, armyStatIcon, mouse);
 
         // updating percentage filled of the stats, this will run every 16ms so will appear instantaneous as each decision is made without needing to manaually update when effects are put in place 
 
         peopleStatImage.updatePercentageFilled(g, peopleStatIcon, peopleStat); 
-        moneyStatImage.updatePercentageFilled(g, moneyStatIcon, moneyStat);
+        wealthStatImage.updatePercentageFilled(g, wealthStatIcon, wealthStat);
         knowledgeStatImage.updatePercentageFilled(g, knowledgeStatIcon, knowledgeStat);
         armyStatImage.updatePercentageFilled(g, armyStatIcon, armyStat);
 

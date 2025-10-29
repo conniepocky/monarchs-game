@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import org.json.JSONObject;
 import org.json.JSONArray;
 import java.util.Map;
@@ -65,14 +67,15 @@ public class PlayingState implements GameState, MouseInteractable {
 
     private String[] activeBonusCards;
 
-    private Float peopleStat = 0.5f;
-    private Float wealthStat = 0.5f;
-    private Float knowledgeStat = 0.5f;
-    private Float armyStat = 0.5f;
+    Map<String, Float> stats = new LinkedHashMap<>();
+
+    Map<String, Object> activeFlags = new HashMap<>();
 
     private Float time = 0.0f;
 
     private List<Card> cards;
+
+    private Map<Card, Float> weightedDeck;
 
     private Card currentCard;
 
@@ -106,6 +109,13 @@ public class PlayingState implements GameState, MouseInteractable {
         this.knowledgeStatIcon = new Rectangle();
         this.armyStatIcon = new Rectangle();
 
+        // stats
+
+        stats.put("people",0.5f);
+        stats.put("wealth",0.5f);
+        stats.put("knowledge",0.5f);
+        stats.put("army",0.5f);
+
         // fetching cards
 
         this.cards = new ArrayList<>();
@@ -117,13 +127,36 @@ public class PlayingState implements GameState, MouseInteractable {
         }
     }
 
-    public void CardSelection() {
+    public void cardSelection() {
         // logic for selecting a card from JSON file
 
         // temp for now just pick a random card
 
         int randomIndex = (int)(Math.random() * cards.size());
         currentCard = cards.get(randomIndex);
+    }
+
+    public void checkIfGameOver() {
+        for (Map.Entry<String, Float> statEntry : stats.entrySet()) {
+            String name = statEntry.getKey();
+            float value = statEntry.getValue();
+            String reason = "";
+
+
+            if (value <= 0.0f) {
+                reason = name + " too low";
+            } else if (value >= 1.0f) {
+                reason = name + " too high";
+            }
+
+            System.out.println(reason);
+
+            // if a reason was found, end the game and exit the method immediately
+            if (!reason.isEmpty()) {
+                app.setCurrentState(new GameOverState(app, year, monarchName, reason)); // switch to game over state
+                return; // stop checking as soon as one game-over condition is met
+            }
+        }
     }
 
     @Override
@@ -145,26 +178,30 @@ public class PlayingState implements GameState, MouseInteractable {
 
         for (String effectKey : selectedChoice.getEffects().keySet()) {
             // Apply each effect to the game state
-            Float effectValue = (selectedChoice.getEffects().get(effectKey)) / 100.0f;
+            Float effectValue = selectedChoice.getEffects().get(effectKey);
 
-            if (effectKey.equals("people")) {
-                peopleStat += effectValue;
-                peopleStat = Math.max(0.0f, Math.min(1.0f, peopleStat)); // clamp between 0 and 1
-            } else if (effectKey.equals("wealth")) {
-                wealthStat += effectValue;
-                wealthStat = Math.max(0.0f, Math.min(1.0f, wealthStat));
-            } else if (effectKey.equals("knowledge")) {
-                knowledgeStat += effectValue;
-                knowledgeStat = Math.max(0.0f, Math.min(1.0f, knowledgeStat));
-            } else if (effectKey.equals("army")) {
-                armyStat += effectValue;
-                armyStat = Math.max(0.0f, Math.min(1.0f, armyStat));
+            // update stats based on effect key
+
+            for (Map.Entry<String, Float> statEntry : stats.entrySet()) {
+                String name = statEntry.getKey();
+                Float value = statEntry.getValue();
+
+                if (effectKey.equals(name)) {
+                    Float change = value + effectValue;
+
+                    // clamp the value between 0 and 1
+                    stats.put(name, Math.max(0.0f, Math.min(1.0f, change)));
+                }
             }
         }
 
-        System.out.println(peopleStat + ", " + wealthStat + ", " + knowledgeStat + ", " + armyStat);
+        System.out.println(stats.get("people") + ", " + stats.get("wealth") + ", " + stats.get("knowledge") + ", " + stats.get("army"));
 
-        CardSelection();
+        checkIfGameOver();
+
+        year += 1;
+
+        cardSelection();
     }
 
     @Override
@@ -205,24 +242,45 @@ public class PlayingState implements GameState, MouseInteractable {
     }
 
     public Choice parseChoice(JSONObject choiceContent) {
+        // get contents of choice
+
         String choiceText = choiceContent.getString("text");
 
         Integer achievementId = choiceContent.has("achievementId") ? choiceContent.getInt("achievementId") : null;
         Integer bonusCardId = choiceContent.has("bonusCardId") ? choiceContent.getInt("bonusCardId") : null;
 
         JSONObject effects = choiceContent.getJSONObject("effects");
+        JSONObject flags = choiceContent.getJSONObject("flags");
 
+        // initialise empty hash maps to hold the effects and flags
 
-        Map<String, Integer> effectsMap = new HashMap<>();
+        Map<String, Float> effectsMap = new HashMap<>();
+        Map<String, Object> flagsMap = new HashMap<>();
+
+        // populate the effects map with the effects
 
         for (String key : effects.keySet()) {
-            effectsMap.put(key, effects.getInt(key));
-            //System.out.println("Effect Key: " + key + ", Value: " + effects.get(key));
+            effectsMap.put(key, effects.getFloat(key));
         }
 
-        //System.out.println("Choice Effects: " + effects.toString());
+        // populate the flags map with the flags
 
-        return new Choice(choiceText, effectsMap, achievementId, bonusCardId);
+        for (String key : flags.keySet()) {
+            flagsMap.put(key, flags.get(key));
+        }
+
+        // update the active flags map with any new flags from this choice
+
+        if (!flagsMap.isEmpty()) {
+            for (Map.Entry<String, Object> flagEntry : flagsMap.entrySet()) { // update active flags map
+                String flagName = flagEntry.getKey();
+                Object flagValue = flagEntry.getValue();
+
+                activeFlags.put(flagName, flagValue);
+            }
+        }
+
+        return new Choice(choiceText, effectsMap, flagsMap, achievementId, bonusCardId);
     }
 
     public void parseCards() {
@@ -248,6 +306,7 @@ public class PlayingState implements GameState, MouseInteractable {
                     String characterName = cardJson.getString("characterName");
                     String imagePath = cardJson.getString("imagePath");
 
+
                     // parsing choices
 
                     JSONObject choicesObject = cardJson.getJSONObject("choices");
@@ -258,9 +317,18 @@ public class PlayingState implements GameState, MouseInteractable {
                     Choice left = parseChoice(leftChoice);
                     Choice right = parseChoice(rightChoice);
 
+                    // parsing tags
+
+                    JSONArray tagsArray = cardJson.getJSONArray("tags");
+                    List<String> tags = new ArrayList<>();
+
+                    for (int j = 0; j < tagsArray.length(); j++) {
+                        tags.add(tagsArray.getString(j));
+                    }
+
                     // create card object and add to list
                     
-                    Card card = new Card(id, text, characterName, left, right, imagePath);
+                    Card card = new Card(id, text, characterName, tags, left, right, imagePath);
                     this.cards.add(card);                    
                 }
             } catch (org.json.JSONException e) {
@@ -320,10 +388,10 @@ public class PlayingState implements GameState, MouseInteractable {
 
         // updating percentage filled of the stats, this will run every 16ms so will appear instantaneous as each decision is made without needing to manaually update when effects are put in place 
 
-        peopleStatImage.updatePercentageFilled(g, peopleStatIcon, peopleStat); 
-        wealthStatImage.updatePercentageFilled(g, wealthStatIcon, wealthStat);
-        knowledgeStatImage.updatePercentageFilled(g, knowledgeStatIcon, knowledgeStat);
-        armyStatImage.updatePercentageFilled(g, armyStatIcon, armyStat);
+        peopleStatImage.updatePercentageFilled(g, peopleStatIcon, stats.get("people")); 
+        wealthStatImage.updatePercentageFilled(g, wealthStatIcon, stats.get("wealth"));
+        knowledgeStatImage.updatePercentageFilled(g, knowledgeStatIcon, stats.get("knowledge"));
+        armyStatImage.updatePercentageFilled(g, armyStatIcon, stats.get("army"));
 
         // monarch name and current year in top left
 

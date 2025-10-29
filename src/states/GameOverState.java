@@ -35,25 +35,27 @@ public class GameOverState implements GameState, MouseInteractable {
         this.reason = reason;
         this.backButton = new Rectangle(50, 50, 150, 30); 
 
-        if (reason == "people too low") {
+        System.out.println("Game Over Reason: " + reason);
+
+        if (reason.equals("people too low")) {
             this.endMessage = "Discontent spreads like wildfire. The people rise against your rule, chanting your downfall. Overwhelmed and abandoned, your reign ends in revolution.\"";
-        } else if (reason == "money too low") {
+        } else if (reason.equals("wealth too low")) {
             this.endMessage = "The royal treasury is empty. With no coin to pay officials or allies, the court descends into chaos. You are blamed for the collapse and quietly disposed of.";
-        } else if (reason == "knowledge too low") {
+        } else if (reason.equals("knowledge too low")) {
             this.endMessage = "Your kingdom falls into ignorance and superstition. With no investment in learning or progress, society stagnates. You are ousted by reformers who promise a brighter future.";
-        } else if (reason == "army too low") {
+        } else if (reason.equals("army too low")) {
             this.endMessage = "With a weakened army, your enemies grow bold. A military faction stages a swift coup. You are taken from your chambers before dawn, never to return.";
-        } else if (reason == "people too high") {
+        } else if (reason.equals("people too high")) {
             this.endMessage = "Your popularity reaches dizzying heights. The people adore you, but their expectations become impossible. When you fail to meet them, they turn on you. A mob storms the palace, and you are never seen again.";
-        } else if (reason == "money too high") {
+        } else if (reason.equals("wealth too high")) {
             this.endMessage = "Your kingdom's riches overflow, attracting envy and corruption. Greedy nobles and foreign powers plot to seize your fortune. One night, a trusted advisor poisons your wine.";
-        } else if (reason == "knowledge too high") {
+        } else if (reason.equals("knowledge too high")) {
             this.endMessage = "Obsessed with unraveling nature’s deepest secrets, your royal scientist crossed the final threshold. Their experiments defied morality, birthing something neither living nor dead. The creature turned on its creator, and the kingdom recoiled in horror, forcing your abdication in fear of what you had allowed to exist.";
-        } else if (reason == "army too high") {
+        } else if (reason.equals("army too high")) {
             this.endMessage = "Your army grows into an unstoppable force, and decides it doesn’t need a king. The generals declare you should be exiled.";
-        } else if (reason == "vampire1") {
+        } else if (reason.equals("vampire1")) {
             this.endMessage = "Your reign ends as you have been coerced into giving the Count your kingdom.";
-        } else if (reason == "vampire2") {
+        } else if (reason.equals("vampire2")) {
             this.endMessage = "Your reign ends as the Count's servants harass your kingdom's borders until the people and army revolt against you.";
         } else {
             this.endMessage = "Your reign ended for an unknown reason.";

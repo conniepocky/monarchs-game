@@ -9,16 +9,18 @@
                 "left": {
                     "text": "Sure",
                     "effects": {
-                        "people": -5,
-                        "knowledge": 10
-                    }
+                        "people": -0.05,
+                        "knowledge": 0.10
+                    },
+                    "flags": {}
                 },
                 "right": {
                     "text": "It's too dangerous.",
                     "effects": {
-                        "knowledge": -5,
-                        "people": 5
-                    }
+                        "knowledge": -0.05,
+                        "people": 0.05
+                    },
+                    "flags": {}
                 }
             }
         },
@@ -31,17 +33,19 @@
                 "left": {
                     "text": "Yes, let's promote literacy.",
                     "effects": {
-                        "people": 5,
-                        "knowledge": 5,
-                        "wealth": -5
-                    }
+                        "people": 0.05,
+                        "knowledge": 0.05,
+                        "wealth": -0.05
+                    },
+                    "flags": {}
                 },
                 "right": {
                     "text": "No, it's too expensive.",
                     "effects": {
-                        "people": -10,
-                        "knowledge": -5
-                    }
+                        "people": -0.10,
+                        "knowledge": -0.05
+                    },
+                    "flags": {}
                 }
             }
         },
@@ -54,18 +58,20 @@
                 "left": {
                     "text": "Yes, invest in industry.",
                     "effects": {
-                        "wealth": 10,
-                        "people": -5,
-                        "knowledge": 5
-                    }
+                        "wealth": 0.10,
+                        "people": -0.05,
+                        "knowledge": 0.05
+                    },
+                    "flags": {}
                 },
                 "right": {
                     "text": "No, stick to tradition.",
                     "effects": {
-                        "wealth": -5,
-                        "people": 5,
-                        "knowledge": -5
-                    }
+                        "wealth": -0.05,
+                        "people": 0.05,
+                        "knowledge": -0.05
+                    },
+                    "flags": {}
                 }
             }
         },
@@ -78,16 +84,18 @@
                 "left": {
                     "text": "Yes.",
                     "effects": {
-                        "people": 10,
-                        "knowledge": 10
-                    }
+                        "people": 0.10,
+                        "knowledge": 0.10
+                    },
+                    "flags": {}
                 },
                 "right": {
                     "text": "No.",
                     "effects": {
-                        "people": -10,
-                        "knowledge": -5
-                    }
+                        "people": -0.10,
+                        "knowledge": -0.05
+                    },
+                    "flags": {}
                 }
             }
         },
@@ -100,16 +108,18 @@
                 "left": {
                     "text": "Yes, negotiate.",
                     "effects": {
-                        "people": 10,
-                        "wealth": -5
-                    }
+                        "people": 0.10,
+                        "wealth": -0.05
+                    },
+                    "flags": {}
                 },
                 "right": {
                     "text": "No, suppress the movement.",
                     "effects": {
-                        "people": -10,
-                        "army": 5
-                    }
+                        "people": -0.10,
+                        "army": 0.05
+                    },
+                    "flags": {}
                 }
             }
         },
@@ -122,21 +132,22 @@
                 "left": {
                     "text": "Marry into the French court.",
                     "effects": {
-                        "people": 5,
-                        "wealth": -10,
-                        "army": 5
-                    
+                        "people": 0.05,
+                        "wealth": -0.10,
+                        "army": 0.05
                     },
-                    "bonusCardId": 1
+                    "bonusCardId": 1,
+                    "flags": {}
                 },
                 "right": {
                     "text": "Marry into the Spanish court.",
                     "effects": {
-                        "people": -5,
-                        "wealth": -15,
-                        "army": 10
+                        "people": -0.05,
+                        "wealth": -0.15,
+                        "army": 0.10
                     },
-                    "bonusCardId": 2
+                    "bonusCardId": 2,
+                    "flags": {}
                 }
             }
         }

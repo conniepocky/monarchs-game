@@ -44,6 +44,8 @@ import java.io.File;
 
 public class PlayingState implements GameState, MouseInteractable {
 
+    // game state and ui
+
     private Point mouse = new Point();
 
     private Rectangle cardObject;
@@ -59,6 +61,13 @@ public class PlayingState implements GameState, MouseInteractable {
     private Rectangle knowledgeStatIcon;
     private Rectangle armyStatIcon;
 
+    private StatImageComponent peopleStatImage;
+    private StatImageComponent wealthStatImage;
+    private StatImageComponent knowledgeStatImage;
+    private StatImageComponent armyStatImage;
+
+    // core game state
+
     private App app;
 
     private Integer year = 1; 
@@ -73,6 +82,8 @@ public class PlayingState implements GameState, MouseInteractable {
 
     private Float time = 0.0f;
 
+    // card handling
+
     private List<Card> cards;
 
     private Map<Card, Float> weightedDeck;
@@ -81,40 +92,10 @@ public class PlayingState implements GameState, MouseInteractable {
 
     public PlayingState(App app, String name) {
         this.app = app;
-
         this.monarchName = name;
 
-        this.activeBonusCards = new String[] {
-            "",
-            "",
-            "",
-            ""
-        };
-
-        // ui set up 
-
-        this.cardObject = new Rectangle();
-        this.decisionLeft = new Rectangle();
-        this.decisionRight = new Rectangle();
-
-        this.bonusCard1 = new Rectangle();
-        this.bonusCard2 = new Rectangle();
-        this.bonusCard3 = new Rectangle();
-        this.bonusCard4 = new Rectangle();
-
-        this.bonusCards = new Rectangle[] {bonusCard1, bonusCard2, bonusCard3, bonusCard4};
-
-        this.peopleStatIcon = new Rectangle();
-        this.wealthStatIcon = new Rectangle();
-        this.knowledgeStatIcon = new Rectangle();
-        this.armyStatIcon = new Rectangle();
-
-        // stats
-
-        stats.put("people",0.5f);
-        stats.put("wealth",0.5f);
-        stats.put("knowledge",0.5f);
-        stats.put("army",0.5f);
+        initUIComponents();
+        initStats();
 
         // fetching cards
 
@@ -123,8 +104,36 @@ public class PlayingState implements GameState, MouseInteractable {
         parseCards();
 
         if (!cards.isEmpty()) {
-            currentCard = cards.get(0); // start with the first card
+            currentCard = cards.get(0); // TEMP start with the first card
         }
+    }
+
+    // Initializes UI component objects once to avoid creating them in render().
+    private void initUIComponents() {
+        this.cardObject = new Rectangle();
+        this.decisionLeft = new Rectangle();
+        this.decisionRight = new Rectangle();
+        this.bonusCards = new Rectangle[] {new Rectangle(), new Rectangle(), new Rectangle(), new Rectangle()};
+        this.peopleStatIcon = new Rectangle();
+        this.wealthStatIcon = new Rectangle();
+        this.knowledgeStatIcon = new Rectangle();
+        this.armyStatIcon = new Rectangle();
+
+        this.peopleStatImage = new StatImageComponent("src/assets/stats/people.png");
+        this.wealthStatImage = new StatImageComponent("src/assets/stats/wealth.png");
+        this.knowledgeStatImage = new StatImageComponent("src/assets/stats/knowledge.png");
+        this.armyStatImage = new StatImageComponent("src/assets/stats/army.png");
+
+        this.activeBonusCards = new String[] {
+            "", "", "", ""
+        };
+    }
+
+    private void initStats() {
+        stats.put("people", 0.5f);
+        stats.put("wealth", 0.5f);
+        stats.put("knowledge", 0.5f);
+        stats.put("army", 0.5f);
     }
 
     public void cardSelection() {
@@ -340,35 +349,14 @@ public class PlayingState implements GameState, MouseInteractable {
         }
     }
 
-    @Override
-    public void render(Graphics g, int width, int height) { 
-
-        // fonts
-
-        Font generalFont = new Font("Telegraf", Font.PLAIN, 20);
-
-        g.setFont(generalFont);
-    
-        // panel alignment
-
-        float panelWidthRatio = 0.6f; // panel takes up 60% of the screen width
-        float panelHeightRatio = 0.9f; // panel takes up 90% of the screen height
-
-        int panelWidth = (int)(width * panelWidthRatio);
-        int panelHeight = (int)(height * panelHeightRatio);
-
-        int panelX = (width - panelWidth) / 2;
-        int panelY = (height - panelHeight) / 2; 
-        
+    private void drawPanel(Graphics g, int panelX, int panelY, int panelWidth, int panelHeight) {
+        // Draw panel background
         g.setColor(new Color(179, 221, 254));
         g.fillRect(panelX, panelY, panelWidth, panelHeight);
+    }
 
-        // draw and align stat icons and update percentage filled
-
-        StatImageComponent peopleStatImage = new StatImageComponent("src/assets/stats/people.png");
-        StatImageComponent wealthStatImage = new StatImageComponent("src/assets/stats/wealth.png");
-        StatImageComponent knowledgeStatImage = new StatImageComponent("src/assets/stats/knowledge.png");
-        StatImageComponent armyStatImage = new StatImageComponent("src/assets/stats/army.png");
+    private void drawStats(Graphics g, int panelX, int panelWidth, int panelY) {
+        // Draw and align stat icons and update percentage filled
 
         int iconSize = (int)(panelWidth * 0.09); 
         int gap = (int)(panelWidth * 0.04);
@@ -392,22 +380,31 @@ public class PlayingState implements GameState, MouseInteractable {
         wealthStatImage.updatePercentageFilled(g, wealthStatIcon, stats.get("wealth"));
         knowledgeStatImage.updatePercentageFilled(g, knowledgeStatIcon, stats.get("knowledge"));
         armyStatImage.updatePercentageFilled(g, armyStatIcon, stats.get("army"));
+    }
 
-        // monarch name and current year in top left
+    private void drawOverlayText(Graphics g) {
+        // Monarch name and current year in top left
 
         g.setColor(Color.BLACK);
         g.drawString("Monarch: " + monarchName, 10, 30);
         g.drawString("YEAR: " + String.valueOf(year), 10, 50); 
-    
-        // draw card
+    }
+
+    private void drawCard(Graphics g, int panelX, int panelY, int panelWidth, int panelHeight) {
+        // Draw card
 
         int cardWidth = (int)(panelWidth * 0.5);
         int cardHeight = (int)(panelHeight * 0.7);
 
         cardObject.setBounds(panelX + (panelWidth - cardWidth) / 2, panelY + (int)(panelHeight * 0.1), cardWidth, cardHeight);
-        CardComponent.draw(g, cardObject, mouse, currentCard.getText(), currentCard.getCharacterName(), currentCard.getImagePath());
 
-        // draw + align decision buttons either side of the card 
+        if (currentCard != null) {
+            CardComponent.draw(g, cardObject, mouse, currentCard.getText(), currentCard.getCharacterName(), currentCard.getImagePath());
+        }
+    }
+
+    private void drawDecisions(Graphics g, int panelX, int panelY, int panelWidth, int panelHeight) {
+        // Draw and align decision buttons either side of the card 
 
         int decisionButtonWidth = (int)(panelWidth * 0.2);
         int decisionButtonY = panelHeight / 2;
@@ -415,10 +412,14 @@ public class PlayingState implements GameState, MouseInteractable {
         decisionLeft.setBounds(panelX - decisionButtonWidth - 20, decisionButtonY, decisionButtonWidth, 50);
         decisionRight.setBounds(panelX + panelWidth + 20, decisionButtonY, decisionButtonWidth, 50);
 
-        ButtonComponent.draw(g, currentCard.getLeft().getText(), decisionLeft, mouse);
-        ButtonComponent.draw(g, currentCard.getRight().getText(), decisionRight, mouse);
+        if (currentCard != null) {
+            ButtonComponent.draw(g, currentCard.getLeft().getText(), decisionLeft, mouse);
+            ButtonComponent.draw(g, currentCard.getRight().getText(), decisionRight, mouse);
+        }
+    }
 
-        // bonus cards (aligned at the bottom of the panel)
+    private void drawBonusCards(Graphics g, int panelX, int panelY, int panelWidth, int panelHeight) {
+        // Bonus cards (aligned at the bottom of the panel)
 
         int bonusCardWidth = (int)(panelWidth * 0.2);
         int bonusCardHeight = (int)(panelHeight * 0.15);
@@ -439,5 +440,30 @@ public class PlayingState implements GameState, MouseInteractable {
         for (int i = 0; i < bonusCards.length; i++) { // draw each bonus card
             BonusCardComponent.draw(g, activeBonusCards[i], bonusCards[i], mouse);
         }
+    }
+
+    @Override
+    public void render(Graphics g, int width, int height) { 
+
+        Font generalFont = new Font("Telegraf", Font.PLAIN, 20);
+
+        g.setFont(generalFont);
+
+        // panel layout 
+
+        float panelWidthRatio = 0.6f; // panel takes up 60% of the screen width
+        float panelHeightRatio = 0.9f; // panel takes up 90% of the screen height
+        int panelWidth = (int)(width * panelWidthRatio);
+        int panelHeight = (int)(height * panelHeightRatio);
+        int panelX = (width - panelWidth) / 2;
+        int panelY = (height - panelHeight) / 2; 
+
+        // call helper methods to draw each part 
+        drawPanel(g, panelX, panelY, panelWidth, panelHeight);
+        drawStats(g, panelX, panelWidth, panelY);
+        drawOverlayText(g);
+        drawCard(g, panelX, panelY, panelWidth, panelHeight);
+        drawDecisions(g, panelX, panelY, panelWidth, panelHeight);
+        drawBonusCards(g, panelX, panelY, panelWidth, panelHeight);
     }
 }

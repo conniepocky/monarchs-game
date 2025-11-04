@@ -23,15 +23,19 @@ public class App extends JPanel {
         MouseAdapter mouseHandler = new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if (currentState instanceof MouseInteractable) { 
-                    ((MouseInteractable) currentState).mousePressed(e); 
+                MouseInteractable handler = currentState.getInputHandler();
+                
+                if (handler != null) {
+                    handler.mousePressed(e);
                 }
             }
-
+    
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (currentState instanceof MouseInteractable) {
-                    ((MouseInteractable) currentState).mouseMoved(e);
+                MouseInteractable handler = currentState.getInputHandler();
+                
+                if (handler != null) {
+                    handler.mouseMoved(e);
                 }
             }
         };

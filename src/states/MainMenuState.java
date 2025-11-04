@@ -102,4 +102,9 @@ public class MainMenuState implements GameState, MouseInteractable {
         MenuButtonComponent.draw(g, "Achievements", achievementsBtn, mouse);
         MenuButtonComponent.draw(g, "Progress", progressBtn, mouse);
     }
+
+    @Override
+    public MouseInteractable getInputHandler() {
+        return this;
+    }
 }

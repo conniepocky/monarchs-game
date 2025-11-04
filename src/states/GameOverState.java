@@ -161,4 +161,9 @@ public class GameOverState implements GameState, MouseInteractable {
         backButton = new Rectangle(width - 225, height - 50, 175, 30);
         ButtonComponent.draw(g, "Return to Main Menu", backButton, mouse);
     } 
+
+    @Override
+    public MouseInteractable getInputHandler() {
+        return this;
+    }
 }

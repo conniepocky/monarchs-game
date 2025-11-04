@@ -23,7 +23,7 @@
                     "flags": {}
                 }
             },
-            "tags": []
+            "tags": ["knowledge"]
         },
         {
             "id": 2,
@@ -49,7 +49,7 @@
                     "flags": {}
                 }
             },
-            "tags": []
+            "tags": ["people"]
         },
         {
             "id": 3,
@@ -76,7 +76,7 @@
                     "flags": {}
                 }
             },
-            "tags": []
+            "tags": ["people", "knowledge"]
         },
         {
             "id": 4,
@@ -101,7 +101,7 @@
                     "flags": {}
                 }
             },
-            "tags": []
+            "tags": ["people", "knowledge"]
         },
         {
             "id": 5,
@@ -126,36 +126,36 @@
                     "flags": {}
                 }
             },
-            "tags": []
+            "tags": ["people"]
         },
         {
             "id": 6,
-            "text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. I have opened negotiations with two promising courts.",
+            "text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. Shall we arrange a marriage with France?",
             "characterName": "Foreign Ambassador",
             "imagePath": "src/assets/characters/foreignambassador.png",
             "choices": {
                 "left": {
                     "text": "Marry into the French court.",
                     "effects": {
-                        "people": 0.05,
+                        "people": 0.10,
                         "wealth": -0.10,
-                        "army": 0.05
-                    },
-                    "bonusCardId": 1,
-                    "flags": {}
-                },
-                "right": {
-                    "text": "Marry into the Spanish court.",
-                    "effects": {
-                        "people": -0.05,
-                        "wealth": -0.15,
                         "army": 0.10
                     },
+                    "bonusCardId": 1,
+                    "flags": {"marriage_to_france": true}
+                },
+                "right": {
+                    "text": "Reject the proposal and remain unmarried.",
+                    "effects": {
+                        "people": -0.05,
+                        "wealth": 0.05,
+                        "army": -0.05
+                    },
                     "bonusCardId": 2,
-                    "flags": {}
+                    "flags": {"reject_marriage": true}
                 }
             },
-            "tags": []
+            "tags": ["people"]
         }
     ]
 }

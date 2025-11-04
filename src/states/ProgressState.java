@@ -166,4 +166,9 @@ public class ProgressState implements GameState, MouseInteractable {
         backButton = new Rectangle(width - 150, height - 50, 100, 30);
         ButtonComponent.draw(g, "Back", backButton, mouse);
     }
+
+    @Override
+    public MouseInteractable getInputHandler() {
+        return this;
+    }
 }

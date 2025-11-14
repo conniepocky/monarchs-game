@@ -21,7 +21,9 @@ import java.util.LinkedHashMap;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import java.util.Map;
+import java.util.Stack;
 import java.io.FileReader;
+import data.TableResult;
 import java.io.BufferedReader;
 
 public class PlayingState implements GameState {
@@ -43,9 +45,11 @@ public class PlayingState implements GameState {
 
     private List<Card> cards;
 
-    private Map<Card, Float> weightedDeck;
-
     private Card currentCard;
+
+    private Stack<Card> recentlyPlayedStack = new Stack<Card>();
+
+    private Map<String, Float> progressionCounters = new HashMap<>();
 
     public PlayingState(App app, String name) {
         this.app = app;
@@ -79,13 +83,70 @@ public class PlayingState implements GameState {
         stats.put("army", 0.5f);
     }
 
+    public Float calculateCardWeight(Card card) {
+        // TODO
+        return 0.0f;
+    }
+
+    public void endTurnUpdates() {
+        // TODO
+
+        if (currentCard.getTags().contains("special")) {
+            
+        }
+    }
+
+    public Integer drawWeightedCard(Float[] probTable, Integer[] aliasTable, Integer N) {
+        // TODO
+        return 0;
+    }
+
+    public TableResult setupAliasTables(List<Float> weights, Float totalWeight, Integer N) {
+        // TODO
+        return new TableResult(null, null);
+    }
+
     public void cardSelection() {
-        // logic for selecting a card from JSON file
+        List<Float> weights = new ArrayList<>();
 
-        // temp for now just pick a random card
+        Float totalWeight = 0.0f;
+        Integer N = cards.size();
 
-        int randomIndex = (int)(Math.random() * cards.size());
-        currentCard = cards.get(randomIndex);
+        Card chosenCard = null;
+        Card previousCard = currentCard;
+
+        // calculate card weights and update total weight
+
+        for (Card card: cards) {
+            Float weight = calculateCardWeight(card);
+            weights.add(weight);
+            totalWeight += weight;
+        }
+
+        if (totalWeight == 0.0f) {  // error check, select at random uniformly
+            Integer randomIndex = (int)(Math.random() * N);
+            chosenCard = cards.get(randomIndex);
+        } else {
+            // weighted random selection
+
+            TableResult tableResult = setupAliasTables(weights, totalWeight, N);
+
+            // select a card using the draw a card algorithm
+
+            Integer chosenIndex = drawWeightedCard(tableResult.getProbTable(), tableResult.getAliasTable(), N);
+
+            chosenCard = cards.get(chosenIndex);
+        }
+
+        // update the stack and set the chosen card
+
+        recentlyPlayedStack.push(previousCard);
+
+        while (recentlyPlayedStack.size() > 5) {
+            recentlyPlayedStack.pop();
+        }
+
+        currentCard = chosenCard;
     }
 
     public void checkIfGameOver() {
@@ -120,16 +181,12 @@ public class PlayingState implements GameState {
 
             // update stats based on effect key
 
-            for (Map.Entry<String, Float> statEntry : stats.entrySet()) {
-                String name = statEntry.getKey();
-                Float value = statEntry.getValue();
+            if (stats.containsKey(effectKey)) {
+                Float currentValue = stats.get(effectKey);
+                Float newValue = currentValue + effectValue;
 
-                if (effectKey.equals(name)) {
-                    Float change = value + effectValue;
-
-                    // clamp the value between 0 and 1
-                    stats.put(name, Math.max(0.0f, Math.min(1.0f, change)));
-                }
+                // clamp the value between 0 and 1
+                stats.put(effectKey, Math.max(0.0f, Math.min(1.0f, newValue)));
             }
         }
 

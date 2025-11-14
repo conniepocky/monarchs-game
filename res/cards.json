@@ -1,161 +1,329 @@
 {
-    "cards": [
-        {
-            "id": 1,
-            "text": "I have been experimenting with a new anaesthetic called 'ether'. It could make surgery painless, but it is risky and the Church calls it unnatural. May I demonstrate it?",
-            "characterName": "Royal Physician",
-            "imagePath": "src/assets/characters/doctor.png",
-            "choices": {
-                "left": {
-                    "text": "Sure",
-                    "effects": {
-                        "people": -0.05,
-                        "knowledge": 0.10
-                    },
-                    "flags": {}
-                },
-                "right": {
-                    "text": "It's too dangerous.",
-                    "effects": {
-                        "knowledge": -0.05,
-                        "people": 0.05
-                    },
-                    "flags": {}
-                }
-            },
-            "tags": ["knowledge"]
-        },
-        {
-            "id": 2,
-            "text": "Your Majesty, the literacy rate among the poor is decreasing each day. I propose we sponsor a series of cheap, thrilling stories to encourage the lower classes to read.",
-            "characterName": "Novelist",
-            "imagePath": "src/assets/characters/novelist.png",
-            "choices": {
-                "left": {
-                    "text": "Yes, let's promote literacy.",
-                    "effects": {
-                        "people": 0.05,
-                        "knowledge": 0.05,
-                        "wealth": -0.05
-                    },
-                    "flags": {}
-                },
-                "right": {
-                    "text": "No, it's too expensive.",
-                    "effects": {
-                        "people": -0.10,
-                        "knowledge": -0.05
-                    },
-                    "flags": {}
-                }
-            },
-            "tags": ["people"]
-        },
-        {
-            "id": 3,
-            "text": "The industrial revolution is transforming our world. Should we invest in new factories and technologies to keep up with the changing times?",
-            "characterName": "Industrialist",
-            "imagePath": "src/assets/characters/industrialist.png",
-            "choices": {
-                "left": {
-                    "text": "Yes, invest in industry.",
-                    "effects": {
-                        "wealth": 0.10,
-                        "people": -0.05,
-                        "knowledge": 0.05
-                    },
-                    "flags": {}
-                },
-                "right": {
-                    "text": "No, stick to tradition.",
-                    "effects": {
-                        "wealth": -0.05,
-                        "people": 0.05,
-                        "knowledge": -0.05
-                    },
-                    "flags": {}
-                }
-            },
-            "tags": ["people", "knowledge"]
-        },
-        {
-            "id": 4,
-            "text": "The suffragette movement is gaining momentum. Should we grant women the right to vote?",
-            "characterName": "Prime Minister",
-            "imagePath": "src/assets/characters/primeminister.png",
-            "choices": {
-                "left": {
-                    "text": "Yes.",
-                    "effects": {
-                        "people": 0.10,
-                        "knowledge": 0.10
-                    },
-                    "flags": {}
-                },
-                "right": {
-                    "text": "No.",
-                    "effects": {
-                        "people": -0.10,
-                        "knowledge": -0.05
-                    },
-                    "flags": {}
-                }
-            },
-            "tags": ["people", "knowledge"]
-        },
-        {
-            "id": 5,
-            "text": "A charismatic leader is rallying the working class to demand better wages and conditions. Should we negotiate with him?",
-            "characterName": "Industrialist",
-            "imagePath": "src/assets/characters/industrialist.png",
-            "choices": {
-                "left": {
-                    "text": "Yes, negotiate.",
-                    "effects": {
-                        "people": 0.10,
-                        "wealth": -0.05
-                    },
-                    "flags": {}
-                },
-                "right": {
-                    "text": "No, suppress the movement.",
-                    "effects": {
-                        "people": -0.10,
-                        "army": 0.05
-                    },
-                    "flags": {}
-                }
-            },
-            "tags": ["people"]
-        },
-        {
-            "id": 6,
-            "text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. Shall we arrange a marriage with France?",
-            "characterName": "Foreign Ambassador",
-            "imagePath": "src/assets/characters/foreignambassador.png",
-            "choices": {
-                "left": {
-                    "text": "Marry into the French court.",
-                    "effects": {
-                        "people": 0.10,
-                        "wealth": -0.10,
-                        "army": 0.10
-                    },
-                    "bonusCardId": 1,
-                    "flags": {"marriage_to_france": true}
-                },
-                "right": {
-                    "text": "Reject the proposal and remain unmarried.",
-                    "effects": {
-                        "people": -0.05,
-                        "wealth": 0.05,
-                        "army": -0.05
-                    },
-                    "bonusCardId": 2,
-                    "flags": {"reject_marriage": true}
-                }
-            },
-            "tags": ["people"]
-        }
-    ]
+	"cards": [
+		{
+			"id": 1,
+			"text": "I have been experimenting with a new anaesthetic called 'ether'. It could make surgery painless, but it is risky and the Church calls it unnatural. May I demonstrate it?",
+			"characterName": "Royal Physician",
+			"imagePath": "src/assets/characters/doctor.png",
+			"choices": {
+				"left": {
+					"text": "Sure",
+					"effects": {
+						"people": -0.05,
+						"knowledge": 0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "It's too dangerous.",
+					"effects": {
+						"knowledge": -0.05,
+						"people": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"knowledge"
+			]
+		},
+		{
+			"id": 2,
+			"text": "Your Majesty, the literacy rate among the poor is decreasing each day. I propose we sponsor a series of cheap, thrilling stories to encourage the lower classes to read.",
+			"characterName": "Novelist",
+			"imagePath": "src/assets/characters/novelist.png",
+			"choices": {
+				"left": {
+					"text": "Yes, let's promote literacy.",
+					"effects": {
+						"people": 0.05,
+						"knowledge": 0.05,
+						"wealth": -0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "No, it's too expensive.",
+					"effects": {
+						"people": -0.1,
+						"knowledge": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people"
+			]
+		},
+		{
+			"id": 3,
+			"text": "The industrial revolution is transforming our world. Should we invest in new factories and technologies to keep up with the changing times?",
+			"characterName": "Industrialist",
+			"imagePath": "src/assets/characters/industrialist.png",
+			"choices": {
+				"left": {
+					"text": "Yes, invest in industry.",
+					"effects": {
+						"wealth": 0.1,
+						"people": -0.05,
+						"knowledge": 0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "No, stick to tradition.",
+					"effects": {
+						"wealth": -0.05,
+						"people": 0.05,
+						"knowledge": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"knowledge"
+			]
+		},
+		{
+			"id": 4,
+			"text": "The suffragette movement is gaining momentum. Should we grant women the right to vote?",
+			"characterName": "Prime Minister",
+			"imagePath": "src/assets/characters/primeminister.png",
+			"choices": {
+				"left": {
+					"text": "Yes.",
+					"effects": {
+						"people": 0.1,
+						"knowledge": 0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "No.",
+					"effects": {
+						"people": -0.1,
+						"knowledge": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"knowledge"
+			]
+		},
+		{
+			"id": 5,
+			"text": "A charismatic leader is rallying the working class to demand better wages and conditions. Should we negotiate with him?",
+			"characterName": "Industrialist",
+			"imagePath": "src/assets/characters/industrialist.png",
+			"choices": {
+				"left": {
+					"text": "Yes, negotiate.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "No, suppress the movement.",
+					"effects": {
+						"people": -0.1,
+						"army": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people"
+			]
+		},
+		{
+			"id": 6,
+			"text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. Shall we arrange a marriage with France?",
+			"characterName": "Foreign Ambassador",
+			"imagePath": "src/assets/characters/foreignambassador.png",
+			"choices": {
+				"left": {
+					"text": "Marry into the French court.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.1,
+						"army": 0.1
+					},
+					"bonusCardId": 1,
+					"flags": {
+						"marriage_to_france": true
+					}
+				},
+				"right": {
+					"text": "Reject the proposal and remain unmarried.",
+					"effects": {
+						"people": -0.05,
+						"wealth": 0.05,
+						"army": -0.05
+					},
+					"bonusCardId": 2,
+					"flags": {
+						"reject_marriage": true
+					}
+				}
+			},
+			"tags": [
+				"people"
+			]
+		},
+		{
+			"id": 7,
+			"text": "Your Majesty, our rivals adopt the new breech-loading rifle. It is expensive, but it will give our soldiers a vast advantage. Shall we re-arm the military?",
+			"characterName": "The General",
+			"imagePath": "src/assets/characters/general.png",
+			"choices": {
+				"left": {
+					"text": "Arm them. We must have the best.",
+					"effects": {
+						"army": 0.15,
+						"wealth": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "The cost is too high.",
+					"effects": {
+						"army": -0.05,
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"army",
+				"wealth"
+			]
+		},
+		{
+			"id": 8,
+			"text": "My new book on natural selection is complete. The Church is outraged, calling it heresy. Will you grant me your Royal Patronage for its publication?",
+			"characterName": "The Scientist",
+			"imagePath": "src/assets/characters/scientist.png",
+			"choices": {
+				"left": {
+					"text": "Publish it. Truth is paramount.",
+					"effects": {
+						"knowledge": 0.15,
+						"people": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "This will cause chaos. Bury it.",
+					"effects": {
+						"knowledge": -0.1,
+						"people": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"knowledge",
+				"people"
+			]
+		},
+		{
+			"id": 9,
+			"text": "The public is restless. A grand Royal Charity Ball will lift their spirits and remind them of your generosity. Shall I begin preparations? It will be... opulent.",
+			"characterName": "The Aristocrat",
+			"imagePath": "src/assets/characters/aristocrat.png",
+			"choices": {
+				"left": {
+					"text": "An excellent idea. Spare no expense.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "A frivolous waste. We need grain, not games.",
+					"effects": {
+						"people": -0.05,
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"wealth"
+			]
+		},
+		{
+			"id": 10,
+			"text": "The Royal Physician's chemicals fail. A poultice of foxglove and willow bark will ease the royal consort's heart-fever. The old ways are strong. Will you trust me?",
+			"characterName": "The Witch",
+			"imagePath": "src/assets/characters/witch.png",
+			"choices": {
+				"left": {
+					"text": "I will trust the old ways.",
+					"effects": {
+						"knowledge": 0.1,
+						"people": 0.05
+					},
+					"flags": {
+						"rel_witch": "friendly"
+					}
+				},
+				"right": {
+					"text": "Get this peasant magic away from me.",
+					"effects": {
+						"knowledge": -0.05,
+						"people": -0.05
+					},
+					"flags": {
+						"rel_witch": "angry"
+					}
+				}
+			},
+			"tags": [
+				"knowledge",
+				"people",
+				"witch_advice"
+			]
+		},
+		{
+			"id": 11,
+			"text": "Our subjects in the colonies are rebelling! A quick, decisive show of force will crush their dissent and secure the trade routes. I await your order to deploy.",
+			"characterName": "The General",
+			"imagePath": "src/assets/characters/general.png",
+			"choices": {
+				"left": {
+					"text": "Crush the rebellion.",
+					"effects": {
+						"army": -0.1,
+						"wealth": 0.1,
+						"people": -0.05
+					},
+					"flags": {
+						"at_war": true
+					}
+				},
+				"right": {
+					"text": "Open negotiations.",
+					"effects": {
+						"army": 0.05,
+						"wealth": -0.1
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"army",
+				"wealth",
+				"people",
+				"war"
+			]
+		}
+	]
 }

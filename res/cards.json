@@ -246,7 +246,7 @@
 					"flags": {}
 				},
 				"right": {
-					"text": "A frivolous waste. We need grain, not games.",
+					"text": "What a waste of money.",
 					"effects": {
 						"people": -0.05,
 						"wealth": 0.05
@@ -323,6 +323,387 @@
 				"wealth",
 				"people",
 				"war"
+			]
+		},
+		{
+			"id": 12,
+			"text": "The war effort is stalling. We need more funds for munitions and fresh horses. The treasury must assist us!",
+			"characterName": "The General",
+			"imagePath": "src/assets/characters/general.png",
+			"choices": {
+				"left": {
+					"text": "Give him the funds.",
+					"effects": {
+						"army": 0.1,
+						"wealth": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "The army must make do.",
+					"effects": {
+						"army": -0.1,
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"war",
+				"army",
+				"wealth"
+			]
+		},
+		{
+			"id": 13,
+			"text": "War-weariness has set in. The people are protesting the conscription and the food shortages. They demand we negotiate for peace!",
+			"characterName": "Prime Minister",
+			"imagePath": "src/assets/characters/primeminister.png",
+			"choices": {
+				"left": {
+					"text": "We will hold fast.",
+					"effects": {
+						"people": -0.1,
+						"army": 0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "Sue for peace.",
+					"effects": {
+						"people": 0.1,
+						"army": -0.1,
+						"wealth": -0.05
+					},
+					"flags": {
+						"at_war": false
+					}
+				}
+			},
+			"tags": [
+				"war",
+				"people",
+				"army"
+			]
+		},
+		{
+			"id": 14,
+			"text": "I have seen a vision, Your Majesty. A red eagle flies over a sleeping barracks. Your General is not who he seems... he plots against you.",
+			"characterName": "The Witch",
+			"imagePath": "src/assets/characters/witch.png",
+			"choices": {
+				"left": {
+					"text": "Investigate the General.",
+					"effects": {
+						"army": -0.05,
+						"knowledge": 0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "This is treasonous nonsense.",
+					"effects": {
+						"people": -0.05
+					},
+					"flags": {
+						"rel_witch": "angry"
+					}
+				}
+			},
+			"tags": [
+				"witch_advice",
+				"army",
+				"knowledge"
+			]
+		},
+		{
+			"id": 15,
+			"text": "The fields are blighted. For a small donation to the old ways, I can bless the fields and ensure a stronger harvest. The people will thank you.",
+			"characterName": "The Witch",
+			"imagePath": "src/assets/characters/witch.png",
+			"choices": {
+				"left": {
+					"text": "A small price for security.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.05
+					},
+					"flags": {
+						"rel_witch": "friendly"
+					}
+				},
+				"right": {
+					"text": "Superstition. They must ration.",
+					"effects": {
+						"people": -0.1
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"witch_advice",
+				"people",
+				"wealth"
+			]
+		},
+		{
+			"id": 16,
+			"text": "Disaster! A potato blight is sweeping the countryside. The harvest has failed and our grain reserves are empty. A great famine is upon us.",
+			"characterName": "Prime Minister",
+			"imagePath": "src/assets/characters/primeminister.png",
+			"choices": {
+				"left": {
+					"text": "Open the royal reserves.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.15
+					},
+					"flags": {
+						"famine": true
+					}
+				},
+				"right": {
+					"text": "They must fend for themselves.",
+					"effects": {
+						"people": -0.15,
+						"wealth": 0.05
+					},
+					"flags": {
+						"famine": true
+					}
+				}
+			},
+			"tags": [
+				"people",
+				"wealth"
+			]
+		},
+		{
+			"id": 17,
+			"text": "Your Majesty, the people are starving. May I suggest we import cheap grain from the colonies to alleviate their suffering?",
+			"characterName": "The Aristocrat",
+			"imagePath": "src/assets/characters/aristocrat.png",
+			"choices": {
+				"left": {
+					"text": "Do it. Whatever the cost.",
+					"effects": {
+						"people": 0.15,
+						"wealth": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "We cannot afford it.",
+					"effects": {
+						"people": -0.1,
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"famine",
+				"people",
+				"wealth"
+			]
+		},
+		{
+			"id": 18,
+			"text": "Good news! My research into chemical fertilizers is complete. We can end this famine and ensure it never happens again.",
+			"characterName": "The Scientist",
+			"imagePath": "src/assets/characters/scientist.png",
+			"choices": {
+				"left": {
+					"text": "Implement these new methods.",
+					"effects": {
+						"knowledge": 0.1,
+						"wealth": -0.05,
+						"people": 0.1
+					},
+					"flags": {
+						"famine": false
+					}
+				},
+				"right": {
+					"text": "We don't have time for experiments.",
+					"effects": {
+						"knowledge": -0.05,
+						"people": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"famine",
+				"knowledge",
+				"people"
+			]
+		},
+		{
+			"id": 19,
+			"text": "Your Majesty, reformers protest the use of children in our factories. They demand we enforce a '10-hour day'. This will hurt productivity!",
+			"characterName": "Industrialist",
+			"imagePath": "src/assets/characters/industrialist.png",
+			"choices": {
+				"left": {
+					"text": "The children must be protected.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "Productivity is paramount.",
+					"effects": {
+						"people": -0.1,
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"wealth"
+			]
+		},
+		{
+			"id": 20,
+			"text": "My 'vaccine' for smallpox is ready. It uses a harmless strain of cowpox to grant immunity. Shall we begin a public vaccination campaign?",
+			"characterName": "The Scientist",
+			"imagePath": "src/assets/characters/scientist.png",
+			"choices": {
+				"left": {
+					"text": "A brilliant breakthrough. Do it.",
+					"effects": {
+						"knowledge": 0.1,
+						"people": 0.05,
+						"wealth": -0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "Injecting *what*? No.",
+					"effects": {
+						"knowledge": -0.05,
+						"people": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"knowledge",
+				"people"
+			]
+		},
+		{
+			"id": 21,
+			"text": "The old 'common lands' are inefficient. Allow us, the nobility, to enclose them for modern sheep farming. We will all profit handsomely.",
+			"characterName": "The Aristocrat",
+			"imagePath": "src/assets/characters/aristocrat.png",
+			"choices": {
+				"left": {
+					"text": "Efficiency brings wealth.",
+					"effects": {
+						"wealth": 0.1,
+						"people": -0.1
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "The land belongs to all.",
+					"effects": {
+						"wealth": -0.05,
+						"people": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"wealth",
+				"people"
+			]
+		},
+		{
+			"id": 22,
+			"text": "A new marvel: the electric telegraph! We can send messages across the empire in moments. It will require a vast investment in wires and poles.",
+			"characterName": "Industrialist",
+			"imagePath": "src/assets/characters/industrialist.png",
+			"choices": {
+				"left": {
+					"text": "Connect the empire.",
+					"effects": {
+						"knowledge": 0.1,
+						"wealth": -0.1,
+						"army": 0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "A waste of money.",
+					"effects": {
+						"knowledge": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"knowledge",
+				"wealth"
+			]
+		},
+		{
+			"id": 23,
+			"text": "The Crown's finances are strained, Your Majesty. I propose a new 'window tax'. It is an ingenious way to tax the wealthy, based on the size of their homes.",
+			"characterName": "Prime Minister",
+			"imagePath": "src/assets/characters/primeminister.png",
+			"choices": {
+				"left": {
+					"text": "A fair and modern tax.",
+					"effects": {
+						"wealth": 0.1,
+						"people": -0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "The people will revolt.",
+					"effects": {
+						"wealth": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"wealth",
+				"people"
+			]
+		},
+		{
+			"id": 24,
+			"text": "Your Majesty, you look pale. A good bloodletting with leeches will balance your humors and restore your vitality. It's perfectly safe.",
+			"characterName": "Royal Physician",
+			"imagePath": "src/assets/characters/doctor.png",
+			"choices": {
+				"left": {
+					"text": "Very well, I trust you.",
+					"effects": {
+						"people": -0.05,
+						"knowledge": -0.05
+					},
+					"flags": {}
+				},
+				"right": {
+					"text": "That sounds barbaric.",
+					"effects": {
+						"knowledge": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"knowledge"
 			]
 		}
 	]

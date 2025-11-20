@@ -14,6 +14,7 @@ import data.Achievement;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -148,33 +149,17 @@ public class PlayingState implements GameState {
         for (Map.Entry<String, Float> statEntry : stats.entrySet()) {
             String statName = statEntry.getKey();
             float statValue = statEntry.getValue();
+
             String counterName = "pressure_" + statName;
-            
             float currentCounter = progressionCounters.getOrDefault(counterName, 0.0f);
-            float pressureIncrease = 0.0f;
 
-            // --- UPDATED BOUNDS ---
-            final float LOWER_BOUND = 0.4f; // Pressure starts building at 40%
-            final float UPPER_BOUND = 0.6f; // Pressure starts building at 60%
-            final float PRESSURE_MULTIPLIER = 5.0f; 
-
-            if (statValue < LOWER_BOUND) {
-                // Calculate gap (e.g., 0.4 - 0.3 = 0.1 gap)
-                float gap = LOWER_BOUND - statValue;
-                pressureIncrease = gap * PRESSURE_MULTIPLIER; 
-                
-            } else if (statValue > UPPER_BOUND) {
-                // Calculate gap (e.g., 0.7 - 0.6 = 0.1 gap)
-                float gap = statValue - UPPER_BOUND; 
-                pressureIncrease = gap * PRESSURE_MULTIPLIER;
-            }
-
-            // Apply the pressure
-            if (pressureIncrease > 0) {
-                this.progressionCounters.put(counterName, currentCounter + pressureIncrease);
+            if (statValue < 0.2f || statValue > 0.8f) {
+                currentCounter += 0.02f; // increase likelihood if stat is in critical range 
             } else {
-                this.progressionCounters.put(counterName, 1.0f); // Reset
+                currentCounter = 1.0f; // reset if stat is in safe range
             }
+
+            progressionCounters.put(counterName, currentCounter);
         }
     }
 
@@ -315,6 +300,13 @@ public class PlayingState implements GameState {
     }
 
     public void cardSelection() {
+
+        if (activeFlags.containsKey("special")) {
+            // handle special event 
+            System.out.println("DEBUG: Special event active, skipping normal card selection.");
+            return;
+        }
+
         List<Float> weights = new ArrayList<>();
 
         Float totalWeight = 0.0f;
@@ -364,6 +356,22 @@ public class PlayingState implements GameState {
         System.out.println("DEBUG: recentlyPlayedStack contents: " + recentlyPlayedStack.toString());
 
         currentCard = chosenCard;
+
+        List<Float> testWeights = Arrays.asList(1.0f, 1.0f, 1.0f, 1.0f);
+
+        TableResult testResult = setupAliasTables(testWeights, 4.0f, 4);
+
+        System.out.println("DEBUG: Probability Table: ");
+        for (Float prob : testResult.getProbTable()) {
+            System.out.print(prob + " ");
+        }
+        System.out.println();
+
+        System.out.println("DEBUG: Alias Table: ");
+        for (Integer alias : testResult.getAliasTable()) {
+            System.out.print(alias + " ");
+        }
+        System.out.println();
     }
 
     public void checkIfGameOver() {
@@ -371,7 +379,6 @@ public class PlayingState implements GameState {
             String name = statEntry.getKey();
             float value = statEntry.getValue();
             String reason = "";
-
 
             if (value <= 0.0f) {
                 reason = name + " too low";
@@ -422,6 +429,12 @@ public class PlayingState implements GameState {
         year += 1;
 
         endTurnUpdates();
+
+        if (activeFlags.containsKey("special")) {
+            // handle special event card selection
+            System.out.println("DEBUG: Special event active, skipping normal card selection.");
+            return;
+        } 
 
         cardSelection();
     }

@@ -155,11 +155,11 @@
 					},
 					"bonusCardId": 1,
 					"flags": {
-						"marriage_to_france": true
+						"is_married": true
 					}
 				},
 				"right": {
-					"text": "Reject the proposal and remain unmarried.",
+					"text": "Reject the proposal.",
 					"effects": {
 						"people": -0.05,
 						"wealth": 0.05,
@@ -288,8 +288,7 @@
 			},
 			"tags": [
 				"knowledge",
-				"people",
-				"witch_advice"
+				"people"
 			]
 		},
 		{
@@ -705,6 +704,33 @@
 				"people",
 				"knowledge"
 			]
+		},
+		{
+			"id": 25,
+			"text": "The General arrives with a sealed letter from an unfamiliar nobleman. Your advisors warn you against opening it.",
+			"characterName": "The General",
+			"imagePath": "src/assets/characters/general.png",
+			"choices": {
+				"left": {
+					"text": "Read it.",
+					"effects": {
+						"people": -0.05,
+						"army": 0.05
+					},
+					"flags": {
+						"start_vampire_event": true
+					}
+				},
+				"right": {
+					"text": "Decline.",
+					"effects": {
+						"people": 0.05,
+						"knowledge": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": ["special"]
 		}
 	]
 }

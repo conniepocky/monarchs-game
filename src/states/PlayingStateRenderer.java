@@ -62,10 +62,34 @@ public class PlayingStateRenderer implements MouseInteractable {
     private StatImageComponent knowledgeStatImage;
     private StatImageComponent armyStatImage;
 
+    private Map<String, Color> panelColour = new HashMap<>();
+    private Map<String, Color> cardColour = new HashMap<>();
+    private Map<String, Color> statColour = new HashMap<>();
+
+    private String currentColourPalette = "default";
+
     public PlayingStateRenderer(PlayingState state) {
         this.state = state;
 
         initUIComponents();
+        initColours();
+    }
+
+    private void initColours() {
+
+        currentColourPalette = "default";
+
+        // panel colours
+        panelColour.put("default", new Color(179, 221, 254));
+        panelColour.put("vampire", new Color(191, 18, 77));
+
+        // card colours
+        cardColour.put("default", new Color(113, 163, 193));
+        cardColour.put("vampire", new Color(118, 21, 60));
+
+        // stat colours
+        statColour.put("default", new Color(255, 0, 0, 128));
+        statColour.put("vampire", new Color(103, 178, 216, 128));
     }
 
     private void initUIComponents() {
@@ -109,7 +133,7 @@ public class PlayingStateRenderer implements MouseInteractable {
 
     private void drawPanel(Graphics g, int panelX, int panelY, int panelWidth, int panelHeight) {
         // Draw panel background
-        g.setColor(new Color(179, 221, 254));
+        g.setColor(panelColour.get(currentColourPalette));
         g.fillRect(panelX, panelY, panelWidth, panelHeight);
     }
 
@@ -134,10 +158,10 @@ public class PlayingStateRenderer implements MouseInteractable {
 
         // updating percentage filled of the stats, this will run every 16ms so will appear instantaneous as each decision is made without needing to manaually update when effects are put in place 
 
-        peopleStatImage.updatePercentageFilled(g, peopleStatIcon, state.getStats().get("people")); 
-        wealthStatImage.updatePercentageFilled(g, wealthStatIcon, state.getStats().get("wealth"));
-        knowledgeStatImage.updatePercentageFilled(g, knowledgeStatIcon, state.getStats().get("knowledge"));
-        armyStatImage.updatePercentageFilled(g, armyStatIcon, state.getStats().get("army"));
+        peopleStatImage.updatePercentageFilled(g, peopleStatIcon, state.getStats().get("people"), statColour.get(currentColourPalette)); 
+        wealthStatImage.updatePercentageFilled(g, wealthStatIcon, state.getStats().get("wealth"), statColour.get(currentColourPalette));
+        knowledgeStatImage.updatePercentageFilled(g, knowledgeStatIcon, state.getStats().get("knowledge"), statColour.get(currentColourPalette));
+        armyStatImage.updatePercentageFilled(g, armyStatIcon, state.getStats().get("army"), statColour.get(currentColourPalette));
     }
 
     private void drawOverlayText(Graphics g, PlayingState state) {
@@ -157,7 +181,7 @@ public class PlayingStateRenderer implements MouseInteractable {
         cardObject.setBounds(panelX + (panelWidth - cardWidth) / 2, panelY + (int)(panelHeight * 0.1), cardWidth, cardHeight);
 
         if (state.getCurrentCard() != null) {
-            CardComponent.draw(g, cardObject, mouse, state.getCurrentCard().getText(), state.getCurrentCard().getCharacterName(), state.getCurrentCard().getImagePath());
+            CardComponent.draw(g, cardObject, mouse, state.getCurrentCard().getText(), state.getCurrentCard().getCharacterName(), state.getCurrentCard().getImagePath(), cardColour.get(currentColourPalette));
         }
     }
 
@@ -200,6 +224,22 @@ public class PlayingStateRenderer implements MouseInteractable {
         }
     }
 
+    public void renderEvents() {
+        String eventName = state.getEventManager().getCurrentEventName();
+
+        if (eventName == null) {
+            currentColourPalette = "default";
+            return;
+        }
+
+        switch (eventName) {
+            case "vampire":
+                currentColourPalette = "vampire";
+                break;
+            // add more cases for other events as needed
+        }
+    }
+ 
     @Override
     public void mousePressed(MouseEvent e) {
         String clickedItem = getClickedArea(e.getPoint());
@@ -234,7 +274,7 @@ public class PlayingStateRenderer implements MouseInteractable {
         // clicking on bonus cards
         for (int i = 0; i < bonusCards.length; i++) {
             if (bonusCards[i].contains(mousePoint)) {
-                return "bonusCard_" + i; // Will return "bonusCard_0", "bonusCard_1", etc.
+                return "bonusCard_" + i; // will return "bonusCard_0", "bonusCard_1", etc.
             }
         }
         

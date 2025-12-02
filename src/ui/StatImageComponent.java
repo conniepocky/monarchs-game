@@ -25,14 +25,14 @@ public class StatImageComponent {
         }
     }
 
-    public void updatePercentageFilled(Graphics g, Rectangle r, Float newPercentage) {
+    public void updatePercentageFilled(Graphics g, Rectangle r, Float newPercentage, Color fillColor) {
         if (newPercentage >= 0 && newPercentage <= 1) {
             this.percentageFilled = newPercentage;
 
             // draw the filled portion over image from the bottom up
 
             int filledHeight = (int) (r.height * percentageFilled);
-            g.setColor(new Color(255, 0, 0, 128)); // semi transparnent red
+            g.setColor(fillColor); // use the provided fill color
             g.fillRect(r.x, r.y + r.height - filledHeight, r.width, filledHeight);
 
         } else {

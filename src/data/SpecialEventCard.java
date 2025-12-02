@@ -1,20 +1,8 @@
 package data;
 
-public class SpecialEventCard {
-    private Integer id;
-    private String text;
-    private String characterName;
-    private SpecialChoice left;
-    private SpecialChoice right;
-    private String imagePath;
-
-    public SpecialEventCard(Integer id, String text, String characterName, SpecialChoice left, SpecialChoice right, String imagePath) {
-        this.id = id;
-        this.text = text;
-        this.characterName = characterName;
-        this.left = left;
-        this.right = right;
-        this.imagePath = imagePath;
+public class SpecialEventCard extends Card {
+    public SpecialEventCard(Integer id, String text, String characterName, Choice left, Choice right, String imagePath) {
+        super(id, text, characterName, null, left, right, imagePath);
     }
 
     public Integer getId() {
@@ -29,11 +17,11 @@ public class SpecialEventCard {
         return characterName;
     }
 
-    public SpecialChoice getLeft() {
+    public Choice getLeft() {
         return left;
     }
 
-    public SpecialChoice getRight() {
+    public Choice getRight() {
         return right;
     }
 

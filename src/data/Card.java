@@ -3,13 +3,13 @@ import java.util.List;
 import data.Choice;
 
 public class Card {
-    private Integer id;
-    private String text;
-    private String characterName;
-    private List<String> tags;
-    private Choice left;
-    private Choice right;
-    private String imagePath;
+    protected Integer id;
+    protected String text;
+    protected String characterName;
+    protected List<String> tags;
+    protected Choice left;
+    protected Choice right;
+    protected String imagePath;
 
     public Card(Integer id, String text, String characterName, List<String> tags, Choice left, Choice right, String imagePath) {
         this.id = id;

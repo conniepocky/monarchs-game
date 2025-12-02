@@ -9,8 +9,10 @@ import core.App;
 
 import data.Card;
 import data.SpecialChoice;
+import data.SpecialEventCard;
 import data.Choice;
 import data.Achievement;
+import data.BonusCard;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -24,6 +26,8 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 import java.util.Map;
 import java.util.Stack;
+import java.util.Deque; 
+import java.util.ArrayDeque; 
 import java.util.Random;
 import java.io.FileReader;
 import data.TableResult;
@@ -35,12 +39,13 @@ public class PlayingState implements GameState {
 
     private App app;
     private PlayingStateRenderer renderer;
+    private SpecialEventManager eventManager;
 
     private Integer year = 1; 
 
     private String monarchName;
 
-    private String[] activeBonusCards;
+    private List<BonusCard> activeBonusCards = new ArrayList<>();
 
     Map<String, Float> stats = new LinkedHashMap<>();
 
@@ -50,7 +55,7 @@ public class PlayingState implements GameState {
 
     private Card currentCard;
 
-    private Stack<Card> recentlyPlayedStack = new Stack<Card>();
+    private Deque<Integer> recentlyPlayedQueue = new ArrayDeque<>();
 
     private Map<String, Float> progressionCounters = new HashMap<>();
 
@@ -60,8 +65,8 @@ public class PlayingState implements GameState {
         this.app = app;
         this.monarchName = name;
         this.renderer = new PlayingStateRenderer(this);
+        this.eventManager = new SpecialEventManager();
 
-        initBonusCards();
         initStats();
         initProgressionRules();
 
@@ -72,7 +77,7 @@ public class PlayingState implements GameState {
         parseCards();
 
         if (!cards.isEmpty()) {
-            currentCard = cards.get(0); // TEMP start with the first card
+            cardSelection(); 
         }
     }
 
@@ -85,12 +90,6 @@ public class PlayingState implements GameState {
         allProgressionRules.add(this::updateWitchRelationship);
     }
 
-    private void initBonusCards() {
-        this.activeBonusCards = new String[] {
-            "", "", "", ""
-        };
-    }
-
     private void initStats() {
         stats.put("people", 0.5f);
         stats.put("wealth", 0.5f);
@@ -99,7 +98,8 @@ public class PlayingState implements GameState {
     }
 
     public Float calculateCardWeight(Card card) {
-        if (recentlyPlayedStack.contains(card)) { // instant disqualification if card is recently played
+        if (recentlyPlayedQueue.contains(card.getId())) { // instant disqualification if card is recently played
+            System.out.println("Card " + card.getId() + " disqualified due to recent play.");
             return 0.0f;
         }
         
@@ -115,7 +115,7 @@ public class PlayingState implements GameState {
             String tagToCheck = counterName.replace("pressure_", ""); // e.g 'pressure_war' -> 'war'
 
             if (card.getTags().contains(tagToCheck)) { // check if card has the relevant tag
-                System.out.println("Card '" + card.getId() + "' matched tag '" + tagToCheck + "' with value " + counterValue);
+                // System.out.println("Card '" + card.getId() + "' matched tag '" + tagToCheck + "' with value " + counterValue);
                 weight *= counterValue; // apply the multiplier based on progression counter
             }
         }
@@ -133,6 +133,9 @@ public class PlayingState implements GameState {
     }
 
     private void updateSpecialEventCounters() {
+        System.out.println("Updating special event counters.");
+        System.out.println("Current card tags: " + currentCard.getTags().toString());
+
         if (currentCard.getTags().contains("special")) {
             progressionCounters.put("pressure_special", 0.01f);
         } else {
@@ -184,6 +187,13 @@ public class PlayingState implements GameState {
     }
 
     private void updateMarriageRefusalCounter() {
+        Boolean isMarried = activeFlags.containsKey("is_married") ? (Boolean)activeFlags.get("is_married") : false;
+
+        if (isMarried) {
+            progressionCounters.put("pressure_marriage", 0.0f);
+            return;
+        }
+
         int refusalCount = activeFlags.containsKey("count_marriage_declined") ? (Integer)activeFlags.get("count_marriage_declined") : 0;
         
         if (refusalCount >= 3) {
@@ -246,12 +256,12 @@ public class PlayingState implements GameState {
 
             // update the large items remaining probability
 
-            double remainingProb = scaledProbs[largeIndex] - (1.0 - scaledProbs[smallIndex]);
+            double remainingProb = (scaledProbs[largeIndex] + scaledProbs[smallIndex]) - 1.0;
             scaledProbs[largeIndex] = remainingProb;
 
             // re-sort the large index
 
-            if (remainingProb < 1.0) {
+            if (remainingProb < 1.0) { 
                 small.push(largeIndex);
             } else {
                 large.push(largeIndex);
@@ -272,18 +282,6 @@ public class PlayingState implements GameState {
 
         // return the resulting tables
 
-        System.out.println("DEBUG: Probability Table: ");
-        for (Float prob : probTable) {
-            System.out.print(prob + " ");
-        }
-        System.out.println();
-
-        System.out.println("DEBUG: Alias Table: ");
-        for (Integer alias : aliasTable) {
-            System.out.print(alias + " ");
-        }
-        System.out.println();
-
         return new TableResult(probTable, aliasTable);
     }
 
@@ -301,12 +299,6 @@ public class PlayingState implements GameState {
 
     public void cardSelection() {
 
-        if (activeFlags.containsKey("special")) {
-            // handle special event 
-            System.out.println("DEBUG: Special event active, skipping normal card selection.");
-            return;
-        }
-
         List<Float> weights = new ArrayList<>();
 
         Float totalWeight = 0.0f;
@@ -319,12 +311,9 @@ public class PlayingState implements GameState {
 
         for (Card card: cards) {
             Float weight = calculateCardWeight(card);
-            System.out.println("DEBUG: weight for card " + card.getId() + ": " + weight);
             weights.add(weight);
             totalWeight += weight;
         }
-
-        System.out.println("DEBUG: total weight calculated: " + totalWeight);
 
         if (totalWeight == 0.0f || totalWeight == N.floatValue()) {  // error check, select at random uniformly
             Integer randomIndex = (int)(Math.random() * N);
@@ -341,37 +330,19 @@ public class PlayingState implements GameState {
             chosenCard = cards.get(chosenIndex);
         }
 
-        // update the stack and set the chosen card
+        // update the queue and set the chosen card
 
-        System.out.println("DEBUG: recentlyPlayedStack size: " + recentlyPlayedStack.size());
-        System.out.println("DEBUG: recentlyPlayedStack contents: " + recentlyPlayedStack.toString());
-
-        while (recentlyPlayedStack.size() >= 5) { // limit stack size to 5
-            recentlyPlayedStack.pop();
+        // enqueue the previous card ID
+        if (previousCard != null) {
+            recentlyPlayedQueue.add(previousCard.getId());
         }
 
-        recentlyPlayedStack.push(previousCard);
-
-        System.out.println("DEBUG: recentlyPlayedStack size: " + recentlyPlayedStack.size());
-        System.out.println("DEBUG: recentlyPlayedStack contents: " + recentlyPlayedStack.toString());
+        // dequeue oldest if size exceeds 5
+        while (recentlyPlayedQueue.size() >= 5) {
+            recentlyPlayedQueue.poll(); // .poll() removes the Head (the oldest item)
+        }
 
         currentCard = chosenCard;
-
-        List<Float> testWeights = Arrays.asList(1.0f, 1.0f, 1.0f, 1.0f);
-
-        TableResult testResult = setupAliasTables(testWeights, 4.0f, 4);
-
-        System.out.println("DEBUG: Probability Table: ");
-        for (Float prob : testResult.getProbTable()) {
-            System.out.print(prob + " ");
-        }
-        System.out.println();
-
-        System.out.println("DEBUG: Alias Table: ");
-        for (Integer alias : testResult.getAliasTable()) {
-            System.out.print(alias + " ");
-        }
-        System.out.println();
     }
 
     public void checkIfGameOver() {
@@ -396,12 +367,10 @@ public class PlayingState implements GameState {
         }
     }
 
-    public void makeChoice(Choice choice) {
-        Choice selectedChoice = choice;
-
-        for (String effectKey : selectedChoice.getEffects().keySet()) {
+    public void applyChoiceEffects(Choice choice) {
+        for (String effectKey : choice.getEffects().keySet()) {
             // Apply each effect to the game state
-            Float effectValue = selectedChoice.getEffects().get(effectKey);
+            Float effectValue = choice.getEffects().get(effectKey);
 
             // update stats based on effect key
 
@@ -416,27 +385,96 @@ public class PlayingState implements GameState {
 
         // update active flags based on choice flags
 
-        for (String flagKey : selectedChoice.getFlags().keySet()) {
-            Object flagValue = selectedChoice.getFlags().get(flagKey);
+        for (String flagKey : choice.getFlags().keySet()) {
+            Object flagValue = choice.getFlags().get(flagKey);
+
+            System.out.println("Applying flag: " + flagKey + " with value: " + flagValue.toString());
 
             activeFlags.put(flagKey, flagValue);
+        }
+    }
+
+    public Boolean isEventOver(Choice choice) {
+        if (choice.getFlags().containsKey("game_over") && (Boolean)choice.getFlags().get("game_over")) {
+            app.setCurrentState(new GameOverState(app, year, monarchName, choice.getFlags().get("reason").toString()));
+            return true;
+        }
+
+        eventManager.advanceStory(((SpecialChoice) choice));
+        
+        // update the current card for the UI
+        if (eventManager.isEventActive()) {
+            this.currentCard = eventManager.getCurrentEventCard();
+        } else {
+            // Event ended
+            return true;
+        }
+
+        return false;
+    }
+
+    public void handleBonusCards(Choice choice) {
+        // bonus card logic here
+
+        // check for new bonus card from choice
+
+        if (choice.getBonusCardId() != null) {
+            // fetch bonus card by ID and add to active bonus cards
+            Integer bonusCardId = choice.getBonusCardId();
+        }
+    }
+
+    public void makeChoice(Choice choice) {
+
+        applyChoiceEffects(choice);
+        year += 1;
+
+        if (checkSpecialEvents()) { // check for a new event trigger
+            eventManager.startEvent("vampire");
+
+            this.currentCard = eventManager.getCurrentEventCard();
+
+            this.renderer.renderEvents();
+
+            return; // exit early to handle special event first
+        } 
+        
+        if (eventManager.isEventActive()) { // handle ongoing special event
+            // handle special event progression
+            if (isEventOver(choice)) {
+                cardSelection(); // event ended, select a normal card
+            }
+
+            this.renderer.renderEvents();
+
+            return; // always return even if special event ended to ensure player will not immediately die due to stats or other factors
         }
 
         System.out.println(stats.get("people") + ", " + stats.get("wealth") + ", " + stats.get("knowledge") + ", " + stats.get("army"));
 
         checkIfGameOver();
 
-        year += 1;
-
         endTurnUpdates();
 
-        if (activeFlags.containsKey("special")) {
-            // handle special event card selection
-            System.out.println("DEBUG: Special event active, skipping normal card selection.");
-            return;
-        } 
-
         cardSelection();
+
+        System.out.println("current card after choice: " + currentCard.getId());
+
+        this.renderer.renderEvents();
+    }
+
+    private Boolean checkSpecialEvents() {
+        // check for special events based on active flags or game state
+
+        if (activeFlags.containsKey("start_vampire_event") && (Boolean)activeFlags.get("start_vampire_event")) {
+            // trigger the vampire event
+            activeFlags.put("special", "vampire_event");
+            activeFlags.remove("start_vampire_event");
+            System.out.println("DEBUG: triggering vampire special event.");
+
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -450,10 +488,10 @@ public class PlayingState implements GameState {
         return this.renderer;
     }
 
-    // Method to read the file and return the content as a string
-    public String readJsonFile() {
+    // Method to read the cards JSON file and return the content as a string
+    public String readJsonFile(String filePath) {
         try {
-            File file = new File("res/cards.json");
+            File file = new File(filePath);
 
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder jsonContent = new StringBuilder();
@@ -514,10 +552,10 @@ public class PlayingState implements GameState {
     }
 
     public void parseCards() {
-        String jsonContent = readJsonFile();
+        String jsonContent = readJsonFile("res/cards.json");
 
         // verify the content right before parsing
-        System.out.println("DEBUG: JSON String to be Parsed: " + jsonContent); 
+        // System.out.println("DEBUG: JSON String to be Parsed: " + jsonContent); 
 
         if (jsonContent != null && !jsonContent.trim().isEmpty()) { // check if the content is not null or empty
             try {
@@ -577,10 +615,10 @@ public class PlayingState implements GameState {
     // getter methods
 
     public Card getCurrentCard() { return currentCard; }
+    public SpecialEventManager getEventManager() { return eventManager; }
     public Map<String, Float> getStats() { return stats; }
     public String getMonarchName() { return monarchName; }
     public Integer getYear() { return year; }
-    public String[] getActiveBonusCards() { return activeBonusCards; }
     public PlayingStateRenderer getRenderer() { return renderer; }
     public List<Card> getCards() { return cards; }
 }

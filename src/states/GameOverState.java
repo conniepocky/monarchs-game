@@ -53,12 +53,10 @@ public class GameOverState implements GameState, MouseInteractable {
             this.endMessage = "Obsessed with unraveling nature’s deepest secrets, your royal scientist crossed the final threshold. Their experiments defied morality, birthing something neither living nor dead. The creature turned on its creator, and the kingdom recoiled in horror, forcing your abdication in fear of what you had allowed to exist.";
         } else if (reason.equals("army too high")) {
             this.endMessage = "Your army grows into an unstoppable force, and decides it doesn’t need a king. The generals declare you should be exiled.";
-        } else if (reason.equals("vampire1")) {
-            this.endMessage = "Your reign ends as you have been coerced into giving the Count your kingdom.";
-        } else if (reason.equals("vampire2")) {
-            this.endMessage = "Your reign ends as the Count's servants harass your kingdom's borders until the people and army revolt against you.";
+        } else if (reason != null && !reason.isEmpty()) {
+            this.endMessage = reason;
         } else {
-            this.endMessage = "Your reign ended for an unknown reason.";
+            this.endMessage = "An unknown fate has befallen your reign.";
         }
     }
 

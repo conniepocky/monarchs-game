@@ -3,8 +3,8 @@ import java.awt.*;
 import java.util.List;
 
 public class CardComponent {
-    public static void draw(Graphics g, Rectangle rect, Point mouse, String text, String name, String imagePath) { 
-        g.setColor(new Color(113, 163, 193));
+    public static void draw(Graphics g, Rectangle rect, Point mouse, String text, String name, String imagePath, Color fillColor) { 
+        g.setColor(fillColor);
         g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, 20, 20);
         g.setColor(Color.BLACK);
 

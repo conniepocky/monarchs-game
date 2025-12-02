@@ -2,12 +2,12 @@ package data;
 import java.util.Map;
 
 public class SpecialChoice extends Choice { 
-    private SpecialEventCard node;
+    private Integer nodeId;
 
-    public SpecialChoice(String text, Map<String, Float> effects, Map<String,Object> flags, Integer achievementId, SpecialEventCard node) {
+    public SpecialChoice(String text, Map<String, Float> effects, Map<String,Object> flags, Integer achievementId, Integer nodeId) {
         super(text, effects, flags, null, achievementId);
 
-        this.node = node;
+        this.nodeId = nodeId;
     }
 
     // Getters
@@ -24,7 +24,7 @@ public class SpecialChoice extends Choice {
         return achievementId;
     }
 
-    public SpecialEventCard getNode() {
-        return node;
+    public Integer getNodeId() {
+        return nodeId;
     }
 }

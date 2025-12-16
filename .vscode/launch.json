@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "DatabaseManager",
+            "request": "launch",
+            "mainClass": "states.DatabaseManager",
+            "projectName": "monarchs-game_9ffcae60"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",

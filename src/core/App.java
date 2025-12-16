@@ -1,9 +1,11 @@
 package core;
 import javax.swing.*;
+import javax.xml.crypto.Data;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 
+import states.DatabaseManager;
 import states.GameState;
 import states.MainMenuState;
 import states.MouseInteractable;
@@ -19,6 +21,8 @@ public class App extends JPanel {
     public App() {
         setFocusable(true);
         setCurrentState(new MainMenuState(this));
+        DatabaseManager.createNewTables();
+        DatabaseManager.populateDefaultAchievements();
 
         MouseAdapter mouseHandler = new MouseAdapter() {
             @Override

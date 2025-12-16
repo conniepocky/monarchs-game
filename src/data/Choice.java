@@ -9,7 +9,7 @@ public class Choice {
 
     // optional fields for bonus cards and achievements
 
-    private Integer bonusCardId;              
+    protected Integer bonusCardId;              
     protected Integer achievementId;
 
     public Choice(String text, Map<String, Float> effects, Map<String, Object> flags, Integer bonusCardId, Integer achievementId) {
@@ -18,6 +18,8 @@ public class Choice {
         this.flags = flags;
         this.bonusCardId = bonusCardId;
         this.achievementId = achievementId; 
+
+        System.out.println("DEBUG: Choice Constructor - Bonus ID is: " + bonusCardId);
     }
 
     // Getters

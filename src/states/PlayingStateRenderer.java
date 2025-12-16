@@ -17,6 +17,7 @@ import core.App;
 
 import data.Card;
 import data.SpecialChoice;
+import data.BonusCard;
 import data.Choice;
 import data.Achievement;
 
@@ -219,8 +220,17 @@ public class PlayingStateRenderer implements MouseInteractable {
 
         // drawing bonus cards
 
-        for (int i = 0; i < bonusCards.length; i++) { // draw each bonus card
-            BonusCardComponent.draw(g, state.getActiveBonusCards()[i], bonusCards[i], mouse);
+        List<BonusCard> activeBonusCards = state.getActiveBonusCards();
+
+        for (int i = 0; i < bonusCards.length; i++) {  // draw each bonus card
+            if (i >= activeBonusCards.size()) {
+                // empty placeholder, no active bonus card
+                BonusCardComponent.drawPlaceholder(g, bonusCards[i]);
+            } else {
+                BonusCard bonusCard = activeBonusCards.get(i);
+                
+                BonusCardComponent.draw(g, bonusCard, bonusCards[i], mouse);
+            }
         }
     }
 
@@ -246,6 +256,23 @@ public class PlayingStateRenderer implements MouseInteractable {
 
         if (clickedItem == null) {
             return;
+        }
+
+        // handle bonus card clicks
+        if (clickedItem.startsWith("bonusCard_")) {
+            int index = Integer.parseInt(clickedItem.split("_")[1]);
+            List<BonusCard> activeBonuses = state.getActiveBonusCards();
+
+            if (index < activeBonuses.size()) {
+                BonusCard clickedBonus = activeBonuses.get(index);
+                JOptionPane.showMessageDialog(null, "Bonus Card Details:\n" +
+                    "Title: " + clickedBonus.getTitle() + "\n" +
+                    "Description: " + clickedBonus.getDescription() + "\n" +
+                    "Turns Remaining: " + clickedBonus.getTurnsRemaining(),
+                    "Bonus Card Info",
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+            return; // exit after handling bonus card click
         }
 
         // handle clicks based on the clicked area

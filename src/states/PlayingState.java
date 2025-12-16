@@ -40,12 +40,11 @@ public class PlayingState implements GameState {
     private App app;
     private PlayingStateRenderer renderer;
     private SpecialEventManager eventManager;
+    private BonusCardManager bonusCardManager;
 
     private Integer year = 1; 
 
     private String monarchName;
-
-    private List<BonusCard> activeBonusCards = new ArrayList<>();
 
     Map<String, Float> stats = new LinkedHashMap<>();
 
@@ -66,6 +65,7 @@ public class PlayingState implements GameState {
         this.monarchName = name;
         this.renderer = new PlayingStateRenderer(this);
         this.eventManager = new SpecialEventManager();
+        this.bonusCardManager = new BonusCardManager();
 
         initStats();
         initProgressionRules();
@@ -99,7 +99,6 @@ public class PlayingState implements GameState {
 
     public Float calculateCardWeight(Card card) {
         if (recentlyPlayedQueue.contains(card.getId())) { // instant disqualification if card is recently played
-            System.out.println("Card " + card.getId() + " disqualified due to recent play.");
             return 0.0f;
         }
         
@@ -127,15 +126,9 @@ public class PlayingState implements GameState {
         for (Runnable rule : allProgressionRules) {
             rule.run();
         }
-
-        System.out.println("DEBUG: current flags state: " + activeFlags.toString());
-        System.out.println("DEBUG: current progression counters: " + progressionCounters.toString());
     }
 
     private void updateSpecialEventCounters() {
-        System.out.println("Updating special event counters.");
-        System.out.println("Current card tags: " + currentCard.getTags().toString());
-
         if (currentCard.getTags().contains("special")) {
             progressionCounters.put("pressure_special", 0.01f);
         } else {
@@ -382,11 +375,19 @@ public class PlayingState implements GameState {
                 stats.put(effectKey, Math.max(0.0f, Math.min(1.0f, newValue)));
             }
         }
+    }
 
-        // update active flags based on choice flags
-
+    public void applyFlags(Choice choice) {
         for (String flagKey : choice.getFlags().keySet()) {
             Object flagValue = choice.getFlags().get(flagKey);
+
+            if (flagKey.equals("reject_marriage") && !(activeFlags.containsKey("count_marriage_declined"))) {
+                activeFlags.put("count_marriage_declined", 0);
+            } else if (flagKey.equals("reject_marriage") && (activeFlags.containsKey("count_marriage_declined"))) {
+                Integer currentRefusals = (Integer)activeFlags.get("count_marriage_declined");
+                activeFlags.put("count_marriage_declined", currentRefusals + 1);
+                continue; // skip the general flag application below
+            }
 
             System.out.println("Applying flag: " + flagKey + " with value: " + flagValue.toString());
 
@@ -413,22 +414,7 @@ public class PlayingState implements GameState {
         return false;
     }
 
-    public void handleBonusCards(Choice choice) {
-        // bonus card logic here
-
-        // check for new bonus card from choice
-
-        if (choice.getBonusCardId() != null) {
-            // fetch bonus card by ID and add to active bonus cards
-            Integer bonusCardId = choice.getBonusCardId();
-        }
-    }
-
-    public void makeChoice(Choice choice) {
-
-        applyChoiceEffects(choice);
-        year += 1;
-
+    public Boolean handleSpecialEvent(Choice choice) {
         if (checkSpecialEvents()) { // check for a new event trigger
             eventManager.startEvent("vampire");
 
@@ -436,7 +422,7 @@ public class PlayingState implements GameState {
 
             this.renderer.renderEvents();
 
-            return; // exit early to handle special event first
+            return true; // exit early to handle special event first
         } 
         
         if (eventManager.isEventActive()) { // handle ongoing special event
@@ -447,8 +433,27 @@ public class PlayingState implements GameState {
 
             this.renderer.renderEvents();
 
-            return; // always return even if special event ended to ensure player will not immediately die due to stats or other factors
+            return true; // always return even if special event ended to ensure player will not immediately die due to stats or other factors
         }
+
+        return false;
+    }
+
+    public void makeChoice(Choice choice) {
+
+        applyChoiceEffects(choice);
+        applyFlags(choice);
+        year += 1;
+
+        if (handleSpecialEvent(choice)) {
+            return;
+        }
+
+        if (choice.getBonusCardId() != null) {
+            bonusCardManager.activateBonus(choice.getBonusCardId());
+        }
+
+        bonusCardManager.updateBonuses(this.stats);
 
         System.out.println(stats.get("people") + ", " + stats.get("wealth") + ", " + stats.get("knowledge") + ", " + stats.get("army"));
 
@@ -457,8 +462,6 @@ public class PlayingState implements GameState {
         endTurnUpdates();
 
         cardSelection();
-
-        System.out.println("current card after choice: " + currentCard.getId());
 
         this.renderer.renderEvents();
     }
@@ -480,6 +483,10 @@ public class PlayingState implements GameState {
     @Override
     public void update() {
         // Update game logic
+
+        for (BonusCard bonus : bonusCardManager.getActiveBonusCards()) {
+            bonus.updateAnimation();
+        }
     }
 
     @Override
@@ -540,15 +547,11 @@ public class PlayingState implements GameState {
         // populate the flags map with the flags
 
         for (String key : flags.keySet()) {
-            if (key == "reject_marriage") {
-                Integer currentRefusals = activeFlags.containsKey("count_marriage_declined") ? (Integer)activeFlags.get("count_marriage_declined") : 0;
-                flagsMap.put(key, currentRefusals + 1);
-            } else {
-                flagsMap.put(key, flags.get(key));
-            }
+            flagsMap.put(key, flags.get(key));
         }
 
-        return new Choice(choiceText, effectsMap, flagsMap, achievementId, bonusCardId);
+        Choice c = new Choice(choiceText, effectsMap, flagsMap, bonusCardId, achievementId);
+        return c;
     }
 
     public void parseCards() {
@@ -618,6 +621,7 @@ public class PlayingState implements GameState {
     public SpecialEventManager getEventManager() { return eventManager; }
     public Map<String, Float> getStats() { return stats; }
     public String getMonarchName() { return monarchName; }
+    public List<BonusCard> getActiveBonusCards() { return bonusCardManager.getActiveBonusCards(); }
     public Integer getYear() { return year; }
     public PlayingStateRenderer getRenderer() { return renderer; }
     public List<Card> getCards() { return cards; }

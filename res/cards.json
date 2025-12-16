@@ -40,6 +40,7 @@
 						"knowledge": 0.05,
 						"wealth": -0.05
 					},
+					"bonusCardId": 1,
 					"flags": {}
 				},
 				"right": {
@@ -731,6 +732,95 @@
 				}
 			},
 			"tags": ["special"]
+		},
+		{
+			"id": 26,
+			"text": "The industrialist approachs the throne. He wishes to build a railway directly through the ancient cathedral grounds to speed up trade.",
+			"characterName": "The Industrialist",
+			"imagePath": "src/assets/characters/industrialist.png",
+			"choices": {
+				"left": {
+					"text": "Approve the railway.",
+					"effects": {
+						"wealth": 0.1,
+						"people": -0.1
+					},
+					"bonusCardId": 3,
+					"flags": {}
+				},
+				"right": {
+					"text": "Preserve the cathedral.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"wealth"
+			]
+		},
+		{
+			"id": 27,
+			"text": "A collective of eccentric poets and painters asks for a Royal Grant. They claim they will 'awaken the soul of the nation.'",
+			"characterName": "The Aristocrat",
+			"imagePath": "src/assets/characters/aristocrat.png",
+			"choices": {
+				"left": {
+					"text": "Fund the renaissance.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.1,
+						"knowledge": 0.05
+					},
+					"bonusCardId": 4,
+					"flags": {}
+				},
+				"right": {
+					"text": "It's too extravagant.",
+					"effects": {
+						"people": -0.05,	
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"wealth",
+				"knowledge"
+			]
+		},
+		{
+			"id": 28,
+			"text": "An author writes of the horrors in the workhouses. He pleads for royal intervention to improve conditions for the poor.",
+			"characterName": "The Novelist",
+			"imagePath": "src/assets/characters/novelist.png",
+			"choices": {
+				"left": {
+					"text": "Improve the workhouses.",
+					"effects": {
+						"people": 0.1,
+						"wealth": -0.1
+					},
+					"bonusCardId": 5,
+					"flags": {}
+				},
+				"right": {
+					"text": "It's not our concern.",
+					"effects": {
+						"people": -0.1,
+						"wealth": 0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"people",
+				"wealth"
+			]
 		}
 	]
 }

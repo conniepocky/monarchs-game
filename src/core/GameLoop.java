@@ -1,12 +1,18 @@
 package core;
 import javax.swing.*;
 
+import states.DatabaseManager;
+
 public class GameLoop extends JFrame {
     private App game;
 
     public GameLoop() {
         game = new App();
-        setTitle("Monarchs");
+
+        DatabaseManager.createNewTables();
+        DatabaseManager.populateDefaultAchievements();
+
+        setTitle("Reigns");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         add(game);

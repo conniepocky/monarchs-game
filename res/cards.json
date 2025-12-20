@@ -154,6 +154,7 @@
 						"wealth": -0.1,
 						"army": 0.1
 					},
+					"achievementId": 11,
 					"bonusCardId": 1,
 					"flags": {
 						"is_married": true

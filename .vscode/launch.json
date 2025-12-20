@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "GameLoop",
+            "request": "launch",
+            "mainClass": "core.GameLoop",
+            "projectName": "NEA_95083ac0"
+        },
+        {
+            "type": "java",
+            "name": "DatabaseManager",
+            "request": "launch",
+            "mainClass": "states.DatabaseManager",
+            "projectName": "NEA_95083ac0"
+        },
+        {
+            "type": "java",
             "name": "DatabaseManager",
             "request": "launch",
             "mainClass": "states.DatabaseManager",

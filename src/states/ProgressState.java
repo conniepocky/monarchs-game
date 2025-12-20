@@ -26,7 +26,7 @@ public class ProgressState implements GameState, MouseInteractable {
         if (sortByReignLengthBtn.contains(e.getPoint())) {
             descendingOrderSort();
         } else if (sortByChronologicalOrderBtn.contains(e.getPoint())) {
-            chronoglogicalOrderSort();
+            chronologicalOrderSort();
         } else if (backButton.contains(e.getPoint())) {
             app.setCurrentState(new MainMenuState(app));
         }
@@ -41,8 +41,6 @@ public class ProgressState implements GameState, MouseInteractable {
     private App app;
 
     private List<Monarch> monarchs; 
-
-    // private List<String> monarchs2; 
 
     // ui components for displaying monarchs and reign lengths
 
@@ -96,12 +94,58 @@ public class ProgressState implements GameState, MouseInteractable {
         }
     }
 
-    public void descendingOrderSort() {
-        // TODO quick sort the monarchs by reign length in descending order
+    public int partition(List<Monarch> list, int low, int high, java.util.Comparator<Monarch> comparator) {
+        Monarch pivot = list.get(high);
+        int i = (low - 1);
+
+        for (int j = low; j < high; j++) {
+            if (comparator.compare(list.get(j), pivot) < 0) {
+                i++;
+
+                // swap list[i] and list[j]
+                Monarch temp = list.get(i);
+                list.set(i, list.get(j));
+                list.set(j, temp);
+            }
+        }
+
+        // swap list[i + 1] and list[high] (or pivot)
+        Monarch temp = list.get(i + 1);
+        list.set(i + 1, list.get(high));
+        list.set(high, temp);
+
+        return i + 1;
     }
 
-    public void chronoglogicalOrderSort() {
-        // TODO quick sort the monarchs by most recently played in chronological order
+    public void quickSort(List<Monarch> list, int low, int high, java.util.Comparator<Monarch> comparator) {
+        if (low < high) {
+            int pi = partition(list, low, high, comparator);
+
+            quickSort(list, low, pi - 1, comparator);
+            quickSort(list, pi + 1, high, comparator);
+        }
+    }
+
+    public void descendingOrderSort() {
+        java.util.Comparator<Monarch> comparator = new java.util.Comparator<Monarch>() {
+            @Override
+            public int compare(Monarch m1, Monarch m2) {
+                return m2.getReignLength().compareTo(m1.getReignLength());
+            }
+        };
+
+        quickSort(monarchs, 0, monarchs.size() - 1, comparator);
+    }
+
+    public void chronologicalOrderSort() {
+        java.util.Comparator<Monarch> comparator = new java.util.Comparator<Monarch>() { 
+            @Override
+            public int compare(Monarch m1, Monarch m2) {
+                return m2.getTimestamp().compareTo(m1.getTimestamp());
+            }
+        };
+
+        quickSort(monarchs, 0, monarchs.size() - 1, comparator);
     }
 
     @Override

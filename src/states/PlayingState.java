@@ -2,6 +2,7 @@ package states;
 
 import java.awt.Graphics;
 import javax.swing.JOptionPane;
+import javax.xml.crypto.Data;
 
 import java.io.IOException;
 
@@ -95,6 +96,54 @@ public class PlayingState implements GameState {
         stats.put("wealth", 0.5f);
         stats.put("knowledge", 0.5f);
         stats.put("army", 0.5f);
+    }
+
+    public void checkChoiceAchievements(Choice choice) {
+        Integer achievementId = choice.getAchievementId();
+
+        if (achievementId != null) {
+            DatabaseManager.updateAchievement(achievementId);
+        }
+
+    }
+
+    public void checkCollectorAchievement() {
+        if (bonusCardManager.getActiveBonusCards().size() >= 4) {
+            DatabaseManager.updateAchievement(9); // collector achievement ID
+        }
+    }
+
+    public void checkBonusCardAchievements() {
+        for (BonusCard bonusCard : bonusCardManager.getActiveBonusCards()) {
+            if (bonusCard.getId() == 1) {  // heir to the throne achievement
+                DatabaseManager.updateAchievement(1);
+            } else if (bonusCard.getId() == 5) { // the peoples monarch achievement
+                DatabaseManager.updateAchievement(2);
+            }
+        }
+    }
+
+    public void checkYearAchievements() {
+        if (year == 1) {
+            DatabaseManager.updateAchievement(3); // first monarch achievement ID
+        } else if (year == 10) {
+            DatabaseManager.updateAchievement(4); // reign for 10 years achievement ID
+        } else if (year == 20) {
+            DatabaseManager.updateAchievement(5); // reign for 20 years achievement ID
+        } else if (year == 30) {
+            DatabaseManager.updateAchievement(6); // reign for 30 years achievement ID
+        } else if (year == 40) {
+            DatabaseManager.updateAchievement(7); // reign for 40 years achievement ID
+        } else if (year == 50) {
+            DatabaseManager.updateAchievement(8); // reign for 50 years achievement ID
+        }
+    }
+
+    public void checkAchievements(Choice choice) {
+        checkChoiceAchievements(choice);
+        checkBonusCardAchievements();
+        checkCollectorAchievement();
+        checkYearAchievements();
     }
 
     public Float calculateCardWeight(Card card) {
@@ -408,6 +457,7 @@ public class PlayingState implements GameState {
             this.currentCard = eventManager.getCurrentEventCard();
         } else {
             // Event ended
+            DatabaseManager.updateAchievement(10); // survive visit from the count achievement ID
             return true;
         }
 
@@ -416,7 +466,7 @@ public class PlayingState implements GameState {
 
     public Boolean handleSpecialEvent(Choice choice) {
         if (checkSpecialEvents()) { // check for a new event trigger
-            eventManager.startEvent("vampire");
+            eventManager.startEvent(activeFlags.get("special").toString().replace("_event", "")); // e.g 'vampire_event' -> 'vampire'
 
             this.currentCard = eventManager.getCurrentEventCard();
 
@@ -460,6 +510,8 @@ public class PlayingState implements GameState {
         checkIfGameOver();
 
         endTurnUpdates();
+
+        checkAchievements(choice);
 
         cardSelection();
 

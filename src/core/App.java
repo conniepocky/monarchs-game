@@ -21,8 +21,6 @@ public class App extends JPanel {
     public App() {
         setFocusable(true);
         setCurrentState(new MainMenuState(this));
-        DatabaseManager.createNewTables();
-        DatabaseManager.populateDefaultAchievements();
 
         MouseAdapter mouseHandler = new MouseAdapter() {
             @Override

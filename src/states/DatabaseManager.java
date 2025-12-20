@@ -25,8 +25,8 @@ public class DatabaseManager {
 
         // default data to insert
         String[][] defaults = {
-            {"Secure an heir", "Secure an heir from a specific card."},
-            {"Conqueror", "Gain the conquest bonus card."},
+            {"Secure an heir", "Gain the heir bonus card."},
+            {"The People's Monarch", "Gain the people's monarch bonus card."},
             {"First Monarch", "Complete your first reign."},
             {"Reign for 10 years.", "Reign for 10 years without dying."},
             {"Reign for 20 years.", "Reign for 20 years without dying."},
@@ -34,7 +34,8 @@ public class DatabaseManager {
             {"Reign for 40 years.", "Reign for 40 years without dying."},
             {"Reign for 50 years.", "Reign for 50 years without dying."},
             {"Collector", "Unlock 4 bonus cards at once."},
-            {"Visit from the Count", "Survive the visit from the count special event."}
+            {"Visit from the Count", "Survive the visit from the count special event."},
+            {"Marriage", "Marry for the first time."}
         };
 
         try (Connection conn = DriverManager.getConnection(URL)) {
@@ -102,10 +103,45 @@ public class DatabaseManager {
             // create 'achievements' table
             stmt.execute(sqlAchievements);
             
-            System.out.println("Tables initialized successfully.");
+            System.out.println("Tables initialised successfully.");
 
         } catch (SQLException e) {
             System.out.println("Error creating tables: " + e.getMessage());
+        }
+    }
+
+    public static void updateAchievement(int achievementId) {
+        String updateSql = "UPDATE achievements SET unlocked = ?, timestamp = CURRENT_TIMESTAMP WHERE id = ?";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+                PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
+            
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, achievementId);
+            pstmt.executeUpdate();
+            
+            System.out.println("Achievement " + achievementId + " updated successfully.");
+            
+        } catch (SQLException e) {
+            System.out.println("Error updating achievement: " + e.getMessage());
+        }
+    }
+
+    public static void uploadReign(String monarchName, int reignLength, String causeOfDeath) {
+        String insertSql = "INSERT INTO progress(monarchName, reignLength, causeOfDeath) VALUES(?, ?, ?)";
+        
+        try (Connection conn = DriverManager.getConnection(URL);
+                PreparedStatement pstmt = conn.prepareStatement(insertSql)) {
+            
+            pstmt.setString(1, monarchName);
+            pstmt.setInt(2, reignLength);
+            pstmt.setString(3, causeOfDeath);
+            pstmt.executeUpdate();
+            
+            System.out.println("Reign data uploaded successfully.");
+            
+        } catch (SQLException e) {
+            System.out.println("Error uploading reign data: " + e.getMessage());
         }
     }
 }

@@ -131,16 +131,6 @@ public class AchievementsState implements GameState, MouseInteractable {
             } 
         }
 
-        // achievements2 = List.of(
-        //     new String("First Monarch"),
-        //     new String("Heir to the Throne"),
-        //     new String("Conequeror")
-        // );
-
-        // for (String achievement : achievements2) {
-        //     g.drawString(achievement, 50, 150 + achievements2.indexOf(achievement) * 20);
-        // }
-
         // back button to return to main menu
         backButton = new Rectangle(width - 150, height - 50, 100, 30);
         ButtonComponent.draw(g, "Back", backButton, mouse);

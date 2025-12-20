@@ -70,6 +70,12 @@ public class GameOverState implements GameState, MouseInteractable {
         // Handle mouse press events if needed
 
         if (backButton.contains(e.getPoint())) {
+            if (reason.contains("vampire")) {
+                DatabaseManager.uploadReign(monarchName, finalYear, "turned into a vampire");
+            } else {
+                DatabaseManager.uploadReign(monarchName, finalYear, reason);
+            }
+            
             app.setCurrentState(new MainMenuState(app));
         }
     }

@@ -40,7 +40,6 @@
 						"knowledge": 0.05,
 						"wealth": -0.05
 					},
-					"bonusCardId": 1,
 					"flags": {}
 				},
 				"right": {
@@ -167,7 +166,6 @@
 						"wealth": 0.05,
 						"army": -0.05
 					},
-					"bonusCardId": 2,
 					"flags": {
 						"reject_marriage": true
 					}
@@ -821,6 +819,35 @@
 			"tags": [
 				"people",
 				"wealth"
+			]
+		},
+		{
+			"id": 29,
+			"text": "A famous writer seeks an audience. She wishes to meet with you to chronicle your reign and immortalize your legacy for future generations.",
+			"characterName": "The Novelist",
+			"imagePath": "src/assets/characters/novelist.png",
+			"choices": {
+				"left": {
+					"text": "Agree to visit.",
+					"effects": {
+						"knowledge": 0.1,
+						"people": 0.05
+					},
+					"flags": {
+						"start_writer_event": true
+					}
+				},
+				"right": {
+					"text": "I have no time for writers.",
+					"effects": {
+						"knowledge": -0.05,
+						"people": -0.05
+					},
+					"flags": {}
+				}
+			},
+			"tags": [
+				"special"
 			]
 		}
 	]

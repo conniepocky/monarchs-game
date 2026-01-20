@@ -14,6 +14,7 @@ import states.PlayingState;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseWheelEvent;
 
 public class App extends JPanel {
     private GameState currentState;
@@ -21,6 +22,7 @@ public class App extends JPanel {
     public App() {
         setFocusable(true);
         setCurrentState(new MainMenuState(this));
+        requestFocusInWindow();
 
         MouseAdapter mouseHandler = new MouseAdapter() {
             @Override
@@ -40,10 +42,20 @@ public class App extends JPanel {
                     handler.mouseMoved(e);
                 }
             }
+
+            @Override
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                MouseInteractable handler = currentState.getInputHandler();
+                
+                if (handler != null) {
+                    handler.mouseWheelMoved(e);
+                }
+            }
         };
 
         addMouseListener(mouseHandler);
         addMouseMotionListener(mouseHandler);
+        addMouseWheelListener(mouseHandler);
     }
 
     public void setCurrentState(GameState newState) {        

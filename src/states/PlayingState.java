@@ -61,6 +61,8 @@ public class PlayingState implements GameState {
 
     private List<Runnable> allProgressionRules = new ArrayList<>();
 
+    private static final Map<Integer, Integer> yearMilestones = new HashMap<>();
+
     public PlayingState(App app, String name) {
         this.app = app;
         this.monarchName = name;
@@ -70,6 +72,7 @@ public class PlayingState implements GameState {
 
         initStats();
         initProgressionRules();
+        initMilestones();
 
         // fetching cards
 
@@ -80,6 +83,16 @@ public class PlayingState implements GameState {
         if (!cards.isEmpty()) {
             cardSelection(); 
         }
+    }
+
+    private void initMilestones() {
+        // Key = Year, Value = Achievement ID
+        yearMilestones.put(1, 3);
+        yearMilestones.put(10, 4);
+        yearMilestones.put(20, 5);
+        yearMilestones.put(30, 6);
+        yearMilestones.put(40, 7);
+        yearMilestones.put(50, 8);
     }
 
     private void initProgressionRules() {
@@ -124,18 +137,9 @@ public class PlayingState implements GameState {
     }
 
     public void checkYearAchievements() {
-        if (year == 1) {
-            DatabaseManager.updateAchievement(3); // first monarch achievement ID
-        } else if (year == 10) {
-            DatabaseManager.updateAchievement(4); // reign for 10 years achievement ID
-        } else if (year == 20) {
-            DatabaseManager.updateAchievement(5); // reign for 20 years achievement ID
-        } else if (year == 30) {
-            DatabaseManager.updateAchievement(6); // reign for 30 years achievement ID
-        } else if (year == 40) {
-            DatabaseManager.updateAchievement(7); // reign for 40 years achievement ID
-        } else if (year == 50) {
-            DatabaseManager.updateAchievement(8); // reign for 50 years achievement ID
+        if (yearMilestones.containsKey(year)) {
+            int achievementId = yearMilestones.get(year);
+            DatabaseManager.updateAchievement(achievementId);
         }
     }
 
@@ -185,7 +189,7 @@ public class PlayingState implements GameState {
                 progressionCounters.put("pressure_special", 0.05f);
             } else {
                 Float currentCounter = progressionCounters.get("pressure_special");
-                progressionCounters.put("pressure_special", currentCounter + 0.05f);
+                progressionCounters.put("pressure_special", currentCounter + 0.5f);
             }
         }
     }
@@ -341,13 +345,25 @@ public class PlayingState implements GameState {
 
     public void cardSelection() {
 
+        Card chosenCard = null;
+        Card previousCard = currentCard;
+
+        // update the queue and set the chosen card
+
+        // enqueue the previous card ID
+        if (previousCard != null) {
+            recentlyPlayedQueue.add(previousCard.getId());
+        }
+
+        // dequeue oldest if size exceeds 5
+        while (recentlyPlayedQueue.size() >= 5) {
+            recentlyPlayedQueue.poll(); // .poll() removes the Head (the oldest item)
+        }
+
         List<Float> weights = new ArrayList<>();
 
         Float totalWeight = 0.0f;
         Integer N = cards.size();
-
-        Card chosenCard = null;
-        Card previousCard = currentCard;
 
         // calculate card weights and update total weight
 
@@ -370,18 +386,6 @@ public class PlayingState implements GameState {
             Integer chosenIndex = drawWeightedCard(tableResult.getProbTable(), tableResult.getAliasTable(), N);
 
             chosenCard = cards.get(chosenIndex);
-        }
-
-        // update the queue and set the chosen card
-
-        // enqueue the previous card ID
-        if (previousCard != null) {
-            recentlyPlayedQueue.add(previousCard.getId());
-        }
-
-        // dequeue oldest if size exceeds 5
-        while (recentlyPlayedQueue.size() >= 5) {
-            recentlyPlayedQueue.poll(); // .poll() removes the Head (the oldest item)
         }
 
         currentCard = chosenCard;
@@ -465,6 +469,8 @@ public class PlayingState implements GameState {
     }
 
     public Boolean handleSpecialEvent(Choice choice) {
+        System.out.println(activeFlags.toString());
+
         if (checkSpecialEvents()) { // check for a new event trigger
             eventManager.startEvent(activeFlags.get("special").toString().replace("_event", "")); // e.g 'vampire_event' -> 'vampire'
 
@@ -478,6 +484,8 @@ public class PlayingState implements GameState {
         if (eventManager.isEventActive()) { // handle ongoing special event
             // handle special event progression
             if (isEventOver(choice)) {
+                JOptionPane.showMessageDialog(app, "You have successfully concluded the " + activeFlags.get("special").toString().replace("_event", "") + " event!", "Event Concluded", JOptionPane.INFORMATION_MESSAGE);
+
                 cardSelection(); // event ended, select a normal card
             }
 
@@ -529,6 +537,16 @@ public class PlayingState implements GameState {
 
             return true;
         }
+
+        if (activeFlags.containsKey("start_writer_event") && (Boolean)activeFlags.get("start_writer_event")) {
+            // trigger the writer event
+            activeFlags.put("special", "writer_event");
+            activeFlags.remove("start_writer_event");
+            System.out.println("DEBUG: triggering writer special event.");
+
+            return true;
+        }
+
         return false;
     }
 
@@ -654,11 +672,16 @@ public class PlayingState implements GameState {
                     this.cards.add(card);                    
                 }
             } catch (org.json.JSONException e) {
+                JOptionPane.showMessageDialog(app, "Error reading card JSON file.", "Error", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
+        
+                app.setCurrentState(new MainMenuState(app)); // change to main menu state on error
             }
         } else {
             JOptionPane.showMessageDialog(app, "Error reading card JSON file.", "Error", JOptionPane.ERROR_MESSAGE);
             System.err.println("Error: JSON content is empty or null.");
+
+            app.setCurrentState(new MainMenuState(app)); // change to main menu state on error
         }
     }
 

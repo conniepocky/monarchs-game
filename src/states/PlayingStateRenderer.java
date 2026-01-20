@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import java.io.IOException;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import core.App;
 
@@ -83,14 +84,17 @@ public class PlayingStateRenderer implements MouseInteractable {
         // panel colours
         panelColour.put("default", new Color(179, 221, 254));
         panelColour.put("vampire", new Color(191, 18, 77));
+        panelColour.put("writer", new Color(100, 13, 95));
 
         // card colours
         cardColour.put("default", new Color(113, 163, 193));
-        cardColour.put("vampire", new Color(118, 21, 60));
+        cardColour.put("vampire", new Color(239, 136, 173));
+        cardColour.put("writer", new Color(234, 34, 100));
 
         // stat colours
         statColour.put("default", new Color(255, 0, 0, 128));
         statColour.put("vampire", new Color(103, 178, 216, 128));
+        statColour.put("writer", new Color(247, 141, 96, 128));
     }
 
     private void initUIComponents() {
@@ -246,8 +250,17 @@ public class PlayingStateRenderer implements MouseInteractable {
             case "vampire":
                 currentColourPalette = "vampire";
                 break;
+            case "writer":
+                currentColourPalette = "writer";
+                break;
             // add more cases for other events as needed
         }
+    }
+
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        // Handle mouse wheel movement here
+        System.out.println("Mouse wheel moved: " + e.getWheelRotation());
     }
  
     @Override

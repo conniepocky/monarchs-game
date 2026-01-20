@@ -23,6 +23,10 @@ import java.awt.FontMetrics;
 import java.awt.Point;
 
 public class MainMenuState implements GameState, MouseInteractable {
+    @Override
+    public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
+        // Handle mouse wheel movement here if needed
+    }
 
     private App app;
     private Rectangle startBtn, tutorialBtn, achievementsBtn, progressBtn;

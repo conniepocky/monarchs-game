@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.Graphics;
 import java.awt.Font;
 import java.awt.FontMetrics;
+import java.awt.event.MouseWheelEvent;
 
 public class TutorialState implements GameState, MouseInteractable {
     private App app;
@@ -29,6 +30,11 @@ public class TutorialState implements GameState, MouseInteractable {
     @Override
     public void mouseMoved(MouseEvent e) {
         mouse = e.getPoint();
+    }
+    
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        // Handle mouse wheel movement (currently no specific behavior)
     }
 
     @Override

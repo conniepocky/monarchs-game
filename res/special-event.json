@@ -275,5 +275,110 @@
         }
       }
     }
+  ],
+  "writer": [
+    {
+      "id": 1,
+      "text": "A mysterious letter arrives, inviting you to a secluded cabin in the woods to meet a renowned author. Your advisors are wary of the invitation.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Accept the invitation.",
+          "nextCardId": 2,
+          "effects": {
+            "knowledge": 0.1
+          }
+        },
+        "right": {
+          "text": "Decline the invitation.",
+          "nextCardId": 3,
+          "effects": {
+            "people": 0.1
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "text": "You arrive at the cabin and meet the author, who offers to share their wisdom in exchange for a favor.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Agree to the favor.",
+          "nextCardId": 4,
+          "effects": {
+            "knowledge": 0.2,
+            "wealth": -0.1
+          }
+        },
+        "right": {
+          "text": "Refuse the favor.",
+          "nextCardId": 5,
+          "effects": {
+            "people": -0.1
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "text": "You stay home, but rumors spread that you missed an opportunity to gain valuable knowledge.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Send a letter of regret.",
+          "nextCardId": null,
+          "effects": {
+            "people": 0.1
+          }
+        },
+        "right": {
+          "text": "Ignore the rumors.",
+          "nextCardId": null,
+          "effects": {
+            "wealth": -0.1
+          }
+        }
+      }
+    },
+    {
+      "id": 4,
+      "text": "The author shares their secrets, and you gain profound insights that enhance your rule.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Return to your court.",
+          "nextCardId": null,
+          "effects": {}
+        },
+        "right": {
+          "text": "Return to your court.",
+          "nextCardId": null,
+          "effects": {}
+        }
+      }
+    },
+    {
+      "id": 5,
+      "text": "The author is offended by your refusal and leaves, taking with them the opportunity for growth.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Return to your court.",
+          "nextCardId": null,
+          "effects": {}
+        },
+        "right": {
+          "text": "Return to your court.",
+          "nextCardId": null,
+          "effects": {}
+        }
+      }
+    }   
   ]
 }

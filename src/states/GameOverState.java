@@ -23,6 +23,10 @@ import java.awt.Rectangle;
 import java.util.List;
 
 public class GameOverState implements GameState, MouseInteractable {
+    @Override
+    public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
+        // Handle mouse wheel movement if needed
+    }
 
     private App app;
     private Point mouse = new Point();
@@ -75,7 +79,7 @@ public class GameOverState implements GameState, MouseInteractable {
             } else {
                 DatabaseManager.uploadReign(monarchName, finalYear, reason);
             }
-            
+
             app.setCurrentState(new MainMenuState(app));
         }
     }

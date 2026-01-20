@@ -21,6 +21,11 @@ import java.awt.FontMetrics;
 
 public class AchievementsState implements GameState, MouseInteractable {
     @Override
+    public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
+        // Handle mouse wheel events
+    }
+    
+    @Override
     public void mousePressed(java.awt.event.MouseEvent e) {
         // Handle mouse press events
         if (backButton.contains(e.getPoint())) {

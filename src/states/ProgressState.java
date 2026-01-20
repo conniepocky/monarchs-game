@@ -3,6 +3,8 @@ package states;
 import java.awt.Graphics;
 import ui.ButtonComponent;
 import java.awt.Rectangle;
+import java.awt.event.MouseWheelEvent;
+import ui.ScrollbarView; 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -38,7 +40,15 @@ public class ProgressState implements GameState, MouseInteractable {
         mouse.setLocation(e.getPoint());
     }
 
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        // Just pass the event to the view!
+        monarchListView.handleMouseWheel(e);
+    }
+
     private App app;
+
+    private ScrollbarView monarchListView;
 
     private List<Monarch> monarchs; 
 
@@ -57,6 +67,7 @@ public class ProgressState implements GameState, MouseInteractable {
 
         fetchMonarchs();
 
+        this.monarchListView = new ScrollbarView(100, 150, 700, 400);
     }
 
     @Override
@@ -184,26 +195,32 @@ public class ProgressState implements GameState, MouseInteractable {
         int startX = (width - 500) / 2;
         g.setFont(generalFont);
 
+        int listWidth = 700;
+        int listX = (width - listWidth) / 2;
+
+        monarchListView.setBounds(listX, 150, listWidth, 400);
+
         if (monarchs.isEmpty()) {
             g.setColor(Color.RED);
             g.drawString("No monarchs found in database. Come back once you have played a game!", startX, 150);
         } else {
-            for (Monarch monarch : monarchs) {
-                g.drawString(monarch.getMonarchName(), startX, 150 + monarchs.indexOf(monarch) * 20);
-    
+            // render the list
+            monarchListView.render(g, monarchs.size(), (graphics, index, x, y) -> {
+                
+                Monarch m = monarchs.get(index);
+                
+                graphics.setColor(java.awt.Color.BLACK);
+                graphics.drawString(m.getMonarchName(), x, y + 20); // +20 for text baseline offset
+
+                // format date
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy");
-                String formattedDate = monarch.getTimestamp()
-                                                .toInstant() // UTC time
-                                                .atZone(java.time.ZoneId.systemDefault()) // set to system default timezone
-                                                .toLocalDate() // removes time section
-                                                .format(formatter);
-    
-                g.drawString(formattedDate, startX+150, 150 + monarchs.indexOf(monarch) * 20);
-    
-                g.drawString(monarch.getReignLength().toString() + " years", startX+300, 150 + monarchs.indexOf(monarch) * 20);
-    
-                g.drawString(monarch.getCauseOfDeath(), startX+450, 150 + monarchs.indexOf(monarch) * 20);
-            }
+                String date = m.getTimestamp().toInstant().atZone(java.time.ZoneId.systemDefault())
+                                .toLocalDate().format(formatter);
+
+                graphics.drawString(date, x + 150, y + 20);
+                graphics.drawString(m.getReignLength() + " years", x + 300, y + 20);
+                graphics.drawString(m.getCauseOfDeath(), x + 450, y + 20);
+            });
         }
 
         // back button to return to main menu

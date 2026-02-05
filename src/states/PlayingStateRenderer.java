@@ -178,7 +178,7 @@ public class PlayingStateRenderer implements MouseInteractable {
     }
 
     private void drawCard(Graphics g, PlayingState state, int panelX, int panelY, int panelWidth, int panelHeight) {
-        // Draw card
+        // draw card
 
         int cardWidth = (int)(panelWidth * 0.5);
         int cardHeight = (int)(panelHeight * 0.7);

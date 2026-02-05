@@ -23,10 +23,6 @@ import java.awt.Rectangle;
 import java.util.List;
 
 public class GameOverState implements GameState, MouseInteractable {
-    @Override
-    public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
-        // Handle mouse wheel movement if needed
-    }
 
     private App app;
     private Point mouse = new Point();
@@ -35,6 +31,28 @@ public class GameOverState implements GameState, MouseInteractable {
     private String monarchName;
     private String reason;
     private String endMessage;
+
+    private enum GameOverReason {
+        PEOPLE_TOO_LOW("Discontent spreads like wildfire. The people rise against your rule, chanting your downfall. Overwhelmed and abandoned, your reign ends in revolution."),
+        WEALTH_TOO_LOW("The royal treasury is empty. With no coin to pay officials or allies, the court descends into chaos. You are blamed for the collapse and quietly disposed of."),
+        KNOWLEDGE_TOO_LOW("Your kingdom falls into ignorance and superstition. With no investment in learning or progress, society stagnates. You are ousted by reformers who promise a brighter future."),
+        ARMY_TOO_LOW("With a weakened army, your enemies grow bold. A military faction stages a swift coup. You are taken from your chambers before dawn, never to return."),
+        PEOPLE_TOO_HIGH("Your popularity reaches dizzying heights. The people adore you, but their expectations become impossible. When you fail to meet them, they turn on you. A mob storms the palace, and you are never seen again."),
+        WEALTH_TOO_HIGH("Your kingdom's riches overflow, attracting envy and corruption. Greedy nobles and foreign powers plot to seize your fortune. One night, a trusted advisor poisons your wine."),
+        KNOWLEDGE_TOO_HIGH("Obsessed with unraveling nature’s deepest secrets, your royal scientist crossed the final threshold. Their experiments defied morality, birthing something neither living nor dead. The creature turned on its creator, and the kingdom recoiled in horror, forcing your abdication in fear of what you had allowed to exist."),
+        ARMY_TOO_HIGH("Your army grows into an unstoppable force, and decides it doesn’t need a king. The generals declare you should be exiled."),
+        UNKNOWN("An unknown fate has befallen your reign.");
+
+        private final String message;
+
+        GameOverReason(String message) {
+            this.message = message;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
 
     public GameOverState(App app, Integer finalYear, String monarchName, String reason) {
         this.app = app;
@@ -46,27 +64,14 @@ public class GameOverState implements GameState, MouseInteractable {
 
         System.out.println("Game Over Reason: " + reason);
 
-        if (reason.equals("people too low")) {
-            this.endMessage = "Discontent spreads like wildfire. The people rise against your rule, chanting your downfall. Overwhelmed and abandoned, your reign ends in revolution.\"";
-        } else if (reason.equals("wealth too low")) {
-            this.endMessage = "The royal treasury is empty. With no coin to pay officials or allies, the court descends into chaos. You are blamed for the collapse and quietly disposed of.";
-        } else if (reason.equals("knowledge too low")) {
-            this.endMessage = "Your kingdom falls into ignorance and superstition. With no investment in learning or progress, society stagnates. You are ousted by reformers who promise a brighter future.";
-        } else if (reason.equals("army too low")) {
-            this.endMessage = "With a weakened army, your enemies grow bold. A military faction stages a swift coup. You are taken from your chambers before dawn, never to return.";
-        } else if (reason.equals("people too high")) {
-            this.endMessage = "Your popularity reaches dizzying heights. The people adore you, but their expectations become impossible. When you fail to meet them, they turn on you. A mob storms the palace, and you are never seen again.";
-        } else if (reason.equals("wealth too high")) {
-            this.endMessage = "Your kingdom's riches overflow, attracting envy and corruption. Greedy nobles and foreign powers plot to seize your fortune. One night, a trusted advisor poisons your wine.";
-        } else if (reason.equals("knowledge too high")) {
-            this.endMessage = "Obsessed with unraveling nature’s deepest secrets, your royal scientist crossed the final threshold. Their experiments defied morality, birthing something neither living nor dead. The creature turned on its creator, and the kingdom recoiled in horror, forcing your abdication in fear of what you had allowed to exist.";
-        } else if (reason.equals("army too high")) {
-            this.endMessage = "Your army grows into an unstoppable force, and decides it doesn’t need a king. The generals declare you should be exiled.";
-        } else if (reason != null && !reason.isEmpty()) {
-            this.endMessage = reason;
-        } else {
-            this.endMessage = "An unknown fate has befallen your reign.";
+        GameOverReason gameOverReason = GameOverReason.UNKNOWN;
+
+        try {
+            gameOverReason = GameOverReason.valueOf(reason.toUpperCase().replace(" ", "_"));
+        } catch (IllegalArgumentException e) {
+            // unknown reason
         }
+        this.endMessage = gameOverReason.getMessage();
     }
 
     @Override
@@ -82,6 +87,11 @@ public class GameOverState implements GameState, MouseInteractable {
 
             app.setCurrentState(new MainMenuState(app));
         }
+    }
+
+    @Override
+    public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
+        // Handle mouse wheel movement if needed
     }
 
     @Override

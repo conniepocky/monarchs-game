@@ -388,6 +388,15 @@ public class PlayingState implements GameState {
             chosenCard = cards.get(chosenIndex);
         }
 
+        // debug prints
+
+        System.out.println("Chosen Card ID: " + chosenCard.getId());
+        System.out.println("Chosen Card Text: " + chosenCard.getText());
+        System.out.println("Chosen Card Tags: " + chosenCard.getTags().toString());
+        System.out.println("Current Progression Counters: " + progressionCounters.toString());
+        System.out.println("Current Stats: " + stats.toString());
+        System.out.println("Recently Played Queue: " + recentlyPlayedQueue.toString());
+
         currentCard = chosenCard;
     }
 
@@ -507,7 +516,7 @@ public class PlayingState implements GameState {
             return;
         }
 
-        if (choice.getBonusCardId() != null) {
+        if (choice.getBonusCardId() != null && !bonusCardManager.getActiveBonusCards().contains(choice.getBonusCardId())) { // only activate if the bonus card is not already active
             bonusCardManager.activateBonus(choice.getBonusCardId());
         }
 

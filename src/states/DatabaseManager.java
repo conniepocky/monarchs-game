@@ -111,20 +111,22 @@ public class DatabaseManager {
     }
 
     public static void updateAchievement(int achievementId) {
-        String updateSql = "UPDATE achievements SET unlocked = ?, timestamp = CURRENT_TIMESTAMP WHERE id = ?";
-        
-        try (Connection conn = DriverManager.getConnection(URL);
+        new Thread(() -> {
+            String updateSql = "UPDATE achievements SET unlocked = ?, timestamp = CURRENT_TIMESTAMP WHERE id = ?";
+            
+            try (Connection conn = DriverManager.getConnection(URL);
                 PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
-            
-            pstmt.setInt(1, 1);
-            pstmt.setInt(2, achievementId);
-            pstmt.executeUpdate();
-            
-            System.out.println("Achievement " + achievementId + " updated successfully.");
-            
-        } catch (SQLException e) {
-            System.out.println("Error updating achievement: " + e.getMessage());
-        }
+                    
+                    pstmt.setInt(1, 1);
+                    pstmt.setInt(2, achievementId);
+                    pstmt.executeUpdate();
+                    
+                    System.out.println("Achievement " + achievementId + " updated successfully (Background Thread).");
+                
+            } catch (SQLException e) {
+                System.out.println("Error updating achievement: " + e.getMessage());
+            }
+        }).start(); 
     }
 
     public static void uploadReign(String monarchName, int reignLength, String causeOfDeath) {

@@ -39,7 +39,7 @@ public class CardComponent {
         StringBuilder currentLine = new StringBuilder(); 
 
         for (String word : words) {
-            if (currentLine.length() + word.length() + 1 <= 40) { // 30 characters per line, plus one accounts for space
+            if (currentLine.length() + word.length() + 1 <= 35) { // 35 characters per line, plus one accounts for space
                 if (currentLine.length() > 0) { // if not the first word add a space 
                     currentLine.append(" ");
                 }

@@ -41,6 +41,8 @@ public class GameOverState implements GameState, MouseInteractable {
         WEALTH_TOO_HIGH("Your kingdom's riches overflow, attracting envy and corruption. Greedy nobles and foreign powers plot to seize your fortune. One night, a trusted advisor poisons your wine."),
         KNOWLEDGE_TOO_HIGH("Obsessed with unraveling nature’s deepest secrets, your royal scientist crossed the final threshold. Their experiments defied morality, birthing something neither living nor dead. The creature turned on its creator, and the kingdom recoiled in horror, forcing your abdication in fear of what you had allowed to exist."),
         ARMY_TOO_HIGH("Your army grows into an unstoppable force, and decides it doesn’t need a king. The generals declare you should be exiled."),
+        VAMPIRE_1("The Count turned you into a vampire. Your reign is over."),
+        REVOLT("Your people and army have revolted. Your reign is over."),
         UNKNOWN("An unknown fate has befallen your reign.");
 
         private final String message;
@@ -62,8 +64,6 @@ public class GameOverState implements GameState, MouseInteractable {
         this.reason = reason;
         this.backButton = new Rectangle(50, 50, 150, 30); 
 
-        System.out.println("Game Over Reason: " + reason);
-
         GameOverReason gameOverReason = GameOverReason.UNKNOWN;
 
         try {
@@ -71,6 +71,7 @@ public class GameOverState implements GameState, MouseInteractable {
         } catch (IllegalArgumentException e) {
             // unknown reason
         }
+
         this.endMessage = gameOverReason.getMessage();
     }
 

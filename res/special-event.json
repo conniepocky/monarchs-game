@@ -112,20 +112,20 @@
     },
     {
       "id": 6,
-      "text": "You awaken in your bed, but with a strange, hollow feeling. Your commands are ignored. The whispers of the court are no longer about your rule, but about 'His' will. A small, subtle bite mark on your neck is the only physical evidence of your mistake.",
+      "text": "You awaken in your bed, but with a strange, hollow feeling. Your commands are ignored. A small, subtle bite mark on your neck is the only physical evidence of your mistake.",
       "characterName": "The Count",
       "imagePath": "src/assets/characters/count.png",
       "choices": {
         "left": {
           "text": "What...",
           "nextCardId": null,
-          "flags": {"game_over": true, "reason": "The Count turned you into a vampire. Your reign is over."},
+          "flags": {"game_over": true, "reason": "vampire 1"},
           "effects": {}
         },
         "right": {
           "text": "What...",
           "nextCardId": null,
-          "flags":{"game_over": true, "reason": "The Count turned you into a vampire. Your reign is over."},
+          "flags":{"game_over": true, "reason": "vampire 1"},
           "effects": {}
         }
       }
@@ -139,13 +139,13 @@
         "left": {
           "text": "What...",
           "nextCardId": null,
-          "flags": {"game_over": true, "reason": "Your people and army have revolted. Your reign is over."},
+          "flags": {"game_over": true, "reason": "revolt"},
           "effects": {}
         },
         "right": {
           "text": "What...",
           "nextCardId": null,
-          "flags": {"game_over": true, "reason": "Your people and army have revolted. Your reign is over."},
+          "flags": {"game_over": true, "reason": "revolt"},
           "effects": {}
         }
       }

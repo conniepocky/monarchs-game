@@ -1,854 +1,1291 @@
 {
-	"cards": [
-		{
-			"id": 1,
-			"text": "I have been experimenting with a new anaesthetic called 'ether'. It could make surgery painless, but it is risky and the Church calls it unnatural. May I demonstrate it?",
-			"characterName": "Royal Physician",
-			"imagePath": "src/assets/characters/doctor.png",
-			"choices": {
-				"left": {
-					"text": "Sure",
-					"effects": {
-						"people": -0.05,
-						"knowledge": 0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "It's too dangerous.",
-					"effects": {
-						"knowledge": -0.05,
-						"people": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"knowledge"
-			]
-		},
-		{
-			"id": 2,
-			"text": "Your Majesty, the literacy rate among the poor is decreasing each day. I propose we sponsor a series of cheap, thrilling stories to encourage the lower classes to read.",
-			"characterName": "Novelist",
-			"imagePath": "src/assets/characters/novelist.png",
-			"choices": {
-				"left": {
-					"text": "Yes, let's promote literacy.",
-					"effects": {
-						"people": 0.05,
-						"knowledge": 0.05,
-						"wealth": -0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "No, it's too expensive.",
-					"effects": {
-						"people": -0.1,
-						"knowledge": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people"
-			]
-		},
-		{
-			"id": 3,
-			"text": "The industrial revolution is transforming our world. Should we invest in new factories and technologies to keep up with the changing times?",
-			"characterName": "Industrialist",
-			"imagePath": "src/assets/characters/industrialist.png",
-			"choices": {
-				"left": {
-					"text": "Yes, invest in industry.",
-					"effects": {
-						"wealth": 0.1,
-						"people": -0.05,
-						"knowledge": 0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "No, stick to tradition.",
-					"effects": {
-						"wealth": -0.05,
-						"people": 0.05,
-						"knowledge": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"knowledge"
-			]
-		},
-		{
-			"id": 4,
-			"text": "The suffragette movement is gaining momentum. Should we grant women the right to vote?",
-			"characterName": "Prime Minister",
-			"imagePath": "src/assets/characters/primeminister.png",
-			"choices": {
-				"left": {
-					"text": "Yes.",
-					"effects": {
-						"people": 0.1,
-						"knowledge": 0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "No.",
-					"effects": {
-						"people": -0.1,
-						"knowledge": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"knowledge"
-			]
-		},
-		{
-			"id": 5,
-			"text": "A charismatic leader is rallying the working class to demand better wages and conditions. Should we negotiate with him?",
-			"characterName": "Industrialist",
-			"imagePath": "src/assets/characters/industrialist.png",
-			"choices": {
-				"left": {
-					"text": "Yes, negotiate.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "No, suppress the movement.",
-					"effects": {
-						"people": -0.1,
-						"army": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people"
-			]
-		},
-		{
-			"id": 6,
-			"text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. Shall we arrange a marriage with France?",
-			"characterName": "Foreign Ambassador",
-			"imagePath": "src/assets/characters/foreignambassador.png",
-			"choices": {
-				"left": {
-					"text": "Marry into the French court.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.1,
-						"army": 0.1
-					},
-					"achievementId": 11,
-					"bonusCardId": 1,
-					"flags": {
-						"is_married": true
-					}
-				},
-				"right": {
-					"text": "Reject the proposal.",
-					"effects": {
-						"people": -0.05,
-						"wealth": 0.05,
-						"army": -0.05
-					},
-					"flags": {
-						"reject_marriage": true
-					}
-				}
-			},
-			"tags": [
-				"people"
-			]
-		},
-		{
-			"id": 7,
-			"text": "Your Majesty, our rivals adopt the new breech-loading rifle. It is expensive, but it will give our soldiers a vast advantage. Shall we re-arm the military?",
-			"characterName": "The General",
-			"imagePath": "src/assets/characters/general.png",
-			"choices": {
-				"left": {
-					"text": "Arm them. We must have the best.",
-					"effects": {
-						"army": 0.15,
-						"wealth": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "The cost is too high.",
-					"effects": {
-						"army": -0.05,
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"army",
-				"wealth"
-			]
-		},
-		{
-			"id": 8,
-			"text": "My new book on natural selection is complete. The Church is outraged, calling it heresy. Will you grant me your Royal Patronage for its publication?",
-			"characterName": "The Scientist",
-			"imagePath": "src/assets/characters/scientist.png",
-			"choices": {
-				"left": {
-					"text": "Publish it. Truth is paramount.",
-					"effects": {
-						"knowledge": 0.15,
-						"people": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "This will cause chaos. Bury it.",
-					"effects": {
-						"knowledge": -0.1,
-						"people": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"knowledge",
-				"people"
-			]
-		},
-		{
-			"id": 9,
-			"text": "The public is restless. A grand Royal Charity Ball will lift their spirits and remind them of your generosity. Shall I begin preparations? It will be... opulent.",
-			"characterName": "The Aristocrat",
-			"imagePath": "src/assets/characters/aristocrat.png",
-			"choices": {
-				"left": {
-					"text": "An excellent idea. Spare no expense.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "What a waste of money.",
-					"effects": {
-						"people": -0.05,
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 10,
-			"text": "The Royal Physician's chemicals fail. A poultice of foxglove and willow bark will ease the royal consort's heart-fever. The old ways are strong. Will you trust me?",
-			"characterName": "The Witch",
-			"imagePath": "src/assets/characters/witch.png",
-			"choices": {
-				"left": {
-					"text": "I will trust the old ways.",
-					"effects": {
-						"knowledge": 0.1,
-						"people": 0.05
-					},
-					"flags": {
-						"rel_witch": "friendly"
-					}
-				},
-				"right": {
-					"text": "Get this peasant magic away from me.",
-					"effects": {
-						"knowledge": -0.05,
-						"people": -0.05
-					},
-					"flags": {
-						"rel_witch": "angry"
-					}
-				}
-			},
-			"tags": [
-				"knowledge",
-				"people"
-			]
-		},
-		{
-			"id": 11,
-			"text": "Our subjects in the colonies are rebelling! A quick, decisive show of force will crush their dissent and secure the trade routes. I await your order to deploy.",
-			"characterName": "The General",
-			"imagePath": "src/assets/characters/general.png",
-			"choices": {
-				"left": {
-					"text": "Crush the rebellion.",
-					"effects": {
-						"army": -0.1,
-						"wealth": 0.1,
-						"people": -0.05
-					},
-					"flags": {
-						"at_war": true
-					}
-				},
-				"right": {
-					"text": "Open negotiations.",
-					"effects": {
-						"army": 0.05,
-						"wealth": -0.1
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"army",
-				"wealth",
-				"people",
-				"war"
-			]
-		},
-		{
-			"id": 12,
-			"text": "The war effort is stalling. We need more funds for munitions and fresh horses. The treasury must assist us!",
-			"characterName": "The General",
-			"imagePath": "src/assets/characters/general.png",
-			"choices": {
-				"left": {
-					"text": "Give him the funds.",
-					"effects": {
-						"army": 0.1,
-						"wealth": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "The army must make do.",
-					"effects": {
-						"army": -0.1,
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"war",
-				"army",
-				"wealth"
-			]
-		},
-		{
-			"id": 13,
-			"text": "War-weariness has set in. The people are protesting the conscription and the food shortages. They demand we negotiate for peace!",
-			"characterName": "Prime Minister",
-			"imagePath": "src/assets/characters/primeminister.png",
-			"choices": {
-				"left": {
-					"text": "We will hold fast.",
-					"effects": {
-						"people": -0.1,
-						"army": 0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "Sue for peace.",
-					"effects": {
-						"people": 0.1,
-						"army": -0.1,
-						"wealth": -0.05
-					},
-					"flags": {
-						"at_war": false
-					}
-				}
-			},
-			"tags": [
-				"war",
-				"people",
-				"army"
-			]
-		},
-		{
-			"id": 14,
-			"text": "I have seen a vision, Your Majesty. A red eagle flies over a sleeping barracks. Your General is not who he seems... he plots against you.",
-			"characterName": "The Witch",
-			"imagePath": "src/assets/characters/witch.png",
-			"choices": {
-				"left": {
-					"text": "Investigate the General.",
-					"effects": {
-						"army": -0.05,
-						"knowledge": 0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "This is treasonous nonsense.",
-					"effects": {
-						"people": -0.05
-					},
-					"flags": {
-						"rel_witch": "angry"
-					}
-				}
-			},
-			"tags": [
-				"witch_advice",
-				"army",
-				"knowledge"
-			]
-		},
-		{
-			"id": 15,
-			"text": "The fields are blighted. For a small donation to the old ways, I can bless the fields and ensure a stronger harvest. The people will thank you.",
-			"characterName": "The Witch",
-			"imagePath": "src/assets/characters/witch.png",
-			"choices": {
-				"left": {
-					"text": "A small price for security.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.05
-					},
-					"flags": {
-						"rel_witch": "friendly"
-					}
-				},
-				"right": {
-					"text": "Superstition. They must ration.",
-					"effects": {
-						"people": -0.1
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"witch_advice",
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 16,
-			"text": "Disaster! A potato blight is sweeping the countryside. The harvest has failed and our grain reserves are empty. A great famine is upon us.",
-			"characterName": "Prime Minister",
-			"imagePath": "src/assets/characters/primeminister.png",
-			"choices": {
-				"left": {
-					"text": "Open the royal reserves.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.15
-					},
-					"flags": {
-						"famine": true
-					}
-				},
-				"right": {
-					"text": "They must fend for themselves.",
-					"effects": {
-						"people": -0.15,
-						"wealth": 0.05
-					},
-					"flags": {
-						"famine": true
-					}
-				}
-			},
-			"tags": [
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 17,
-			"text": "Your Majesty, the people are starving. May I suggest we import cheap grain from the colonies to alleviate their suffering?",
-			"characterName": "The Aristocrat",
-			"imagePath": "src/assets/characters/aristocrat.png",
-			"choices": {
-				"left": {
-					"text": "Do it. Whatever the cost.",
-					"effects": {
-						"people": 0.15,
-						"wealth": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "We cannot afford it.",
-					"effects": {
-						"people": -0.1,
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"famine",
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 18,
-			"text": "Good news! My research into chemical fertilizers is complete. We can end this famine and ensure it never happens again.",
-			"characterName": "The Scientist",
-			"imagePath": "src/assets/characters/scientist.png",
-			"choices": {
-				"left": {
-					"text": "Implement these new methods.",
-					"effects": {
-						"knowledge": 0.1,
-						"wealth": -0.05,
-						"people": 0.1
-					},
-					"flags": {
-						"famine": false
-					}
-				},
-				"right": {
-					"text": "We don't have time for experiments.",
-					"effects": {
-						"knowledge": -0.05,
-						"people": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"famine",
-				"knowledge",
-				"people"
-			]
-		},
-		{
-			"id": 19,
-			"text": "Your Majesty, reformers protest the use of children in our factories. They demand we enforce a '10-hour day'. This will hurt productivity!",
-			"characterName": "Industrialist",
-			"imagePath": "src/assets/characters/industrialist.png",
-			"choices": {
-				"left": {
-					"text": "The children must be protected.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "Productivity is paramount.",
-					"effects": {
-						"people": -0.1,
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 20,
-			"text": "My 'vaccine' for smallpox is ready. It uses a harmless strain of cowpox to grant immunity. Shall we begin a public vaccination campaign?",
-			"characterName": "The Scientist",
-			"imagePath": "src/assets/characters/scientist.png",
-			"choices": {
-				"left": {
-					"text": "A brilliant breakthrough. Do it.",
-					"effects": {
-						"knowledge": 0.1,
-						"people": 0.05,
-						"wealth": -0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "Injecting *what*? No.",
-					"effects": {
-						"knowledge": -0.05,
-						"people": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"knowledge",
-				"people"
-			]
-		},
-		{
-			"id": 21,
-			"text": "The old 'common lands' are inefficient. Allow us, the nobility, to enclose them for modern sheep farming. We will all profit handsomely.",
-			"characterName": "The Aristocrat",
-			"imagePath": "src/assets/characters/aristocrat.png",
-			"choices": {
-				"left": {
-					"text": "Efficiency brings wealth.",
-					"effects": {
-						"wealth": 0.1,
-						"people": -0.1
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "The land belongs to all.",
-					"effects": {
-						"wealth": -0.05,
-						"people": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"wealth",
-				"people"
-			]
-		},
-		{
-			"id": 22,
-			"text": "A new marvel: the electric telegraph! We can send messages across the empire in moments. It will require a vast investment in wires and poles.",
-			"characterName": "Industrialist",
-			"imagePath": "src/assets/characters/industrialist.png",
-			"choices": {
-				"left": {
-					"text": "Connect the empire.",
-					"effects": {
-						"knowledge": 0.1,
-						"wealth": -0.1,
-						"army": 0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "A waste of money.",
-					"effects": {
-						"knowledge": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"knowledge",
-				"wealth"
-			]
-		},
-		{
-			"id": 23,
-			"text": "The Crown's finances are strained, Your Majesty. I propose a new 'window tax'. It is an ingenious way to tax the wealthy, based on the size of their homes.",
-			"characterName": "Prime Minister",
-			"imagePath": "src/assets/characters/primeminister.png",
-			"choices": {
-				"left": {
-					"text": "A fair and modern tax.",
-					"effects": {
-						"wealth": 0.1,
-						"people": -0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "The people will revolt.",
-					"effects": {
-						"wealth": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"wealth",
-				"people"
-			]
-		},
-		{
-			"id": 24,
-			"text": "Your Majesty, you look pale. A good bloodletting with leeches will balance your humors and restore your vitality. It's perfectly safe.",
-			"characterName": "Royal Physician",
-			"imagePath": "src/assets/characters/doctor.png",
-			"choices": {
-				"left": {
-					"text": "Very well, I trust you.",
-					"effects": {
-						"people": -0.05,
-						"knowledge": -0.05
-					},
-					"flags": {}
-				},
-				"right": {
-					"text": "That sounds barbaric.",
-					"effects": {
-						"knowledge": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"knowledge"
-			]
-		},
-		{
-			"id": 25,
-			"text": "The General arrives with a sealed letter from an unfamiliar nobleman. Your advisors warn you against opening it.",
-			"characterName": "The General",
-			"imagePath": "src/assets/characters/general.png",
-			"choices": {
-				"left": {
-					"text": "Read it.",
-					"effects": {
-						"people": -0.05,
-						"army": 0.05
-					},
-					"flags": {
-						"start_vampire_event": true
-					}
-				},
-				"right": {
-					"text": "Decline.",
-					"effects": {
-						"people": 0.05,
-						"knowledge": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": ["special"]
-		},
-		{
-			"id": 26,
-			"text": "The industrialist approachs the throne. He wishes to build a railway directly through the ancient cathedral grounds to speed up trade.",
-			"characterName": "The Industrialist",
-			"imagePath": "src/assets/characters/industrialist.png",
-			"choices": {
-				"left": {
-					"text": "Approve the railway.",
-					"effects": {
-						"wealth": 0.1,
-						"people": -0.1
-					},
-					"bonusCardId": 3,
-					"flags": {}
-				},
-				"right": {
-					"text": "Preserve the cathedral.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 27,
-			"text": "A collective of eccentric poets and painters asks for a Royal Grant. They claim they will 'awaken the soul of the nation.'",
-			"characterName": "The Aristocrat",
-			"imagePath": "src/assets/characters/aristocrat.png",
-			"choices": {
-				"left": {
-					"text": "Fund the renaissance.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.1,
-						"knowledge": 0.05
-					},
-					"bonusCardId": 4,
-					"flags": {}
-				},
-				"right": {
-					"text": "It's too extravagant.",
-					"effects": {
-						"people": -0.05,	
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"wealth",
-				"knowledge"
-			]
-		},
-		{
-			"id": 28,
-			"text": "An author writes of the horrors in the workhouses. He pleads for royal intervention to improve conditions for the poor.",
-			"characterName": "The Novelist",
-			"imagePath": "src/assets/characters/novelist.png",
-			"choices": {
-				"left": {
-					"text": "Improve the workhouses.",
-					"effects": {
-						"people": 0.1,
-						"wealth": -0.1
-					},
-					"bonusCardId": 5,
-					"flags": {}
-				},
-				"right": {
-					"text": "It's not our concern.",
-					"effects": {
-						"people": -0.1,
-						"wealth": 0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"people",
-				"wealth"
-			]
-		},
-		{
-			"id": 29,
-			"text": "A famous writer seeks an audience. She wishes to meet with you to chronicle your reign and immortalize your legacy for future generations.",
-			"characterName": "The Novelist",
-			"imagePath": "src/assets/characters/novelist.png",
-			"choices": {
-				"left": {
-					"text": "Agree to visit.",
-					"effects": {
-						"knowledge": 0.1,
-						"people": 0.05
-					},
-					"flags": {
-						"start_writer_event": true
-					}
-				},
-				"right": {
-					"text": "I have no time for writers.",
-					"effects": {
-						"knowledge": -0.05,
-						"people": -0.05
-					},
-					"flags": {}
-				}
-			},
-			"tags": [
-				"special"
-			]
-		}
-	]
+  "cards": [
+    {
+      "id": 1,
+      "text": "I have been experimenting with a new anaesthetic called 'ether'. It could make surgery painless, but it is risky and the Church calls it unnatural. May I demonstrate it?",
+      "characterName": "Royal Physician",
+      "imagePath": "src/assets/characters/doctor.png",
+      "choices": {
+        "left": {
+          "text": "Sure",
+          "effects": {
+            "people": -0.05,
+            "knowledge": 0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "It's too dangerous.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge"
+      ]
+    },
+    {
+      "id": 2,
+      "text": "Your Majesty, the literacy rate among the poor is decreasing each day. I propose we sponsor a series of cheap, thrilling stories to encourage the lower classes to read.",
+      "characterName": "Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Yes, let's promote literacy.",
+          "effects": {
+            "people": 0.05,
+            "knowledge": 0.05,
+            "wealth": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "No, it's too expensive.",
+          "effects": {
+            "people": -0.1,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people"
+      ]
+    },
+    {
+      "id": 3,
+      "text": "The industrial revolution is transforming our world. Should we invest in new factories and technologies to keep up with the changing times?",
+      "characterName": "Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "Yes, invest in industry.",
+          "effects": {
+            "wealth": 0.1,
+            "people": -0.05,
+            "knowledge": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "No, stick to tradition.",
+          "effects": {
+            "wealth": -0.05,
+            "people": 0.05,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 4,
+      "text": "The suffragette movement is gaining momentum. Should we grant women the right to vote?",
+      "characterName": "Prime Minister",
+      "imagePath": "src/assets/characters/primeminister.png",
+      "choices": {
+        "left": {
+          "text": "Yes.",
+          "effects": {
+            "people": 0.1,
+            "knowledge": 0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "No.",
+          "effects": {
+            "people": -0.1,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 5,
+      "text": "A charismatic leader is rallying the working class to demand better wages and conditions. Should we negotiate with him?",
+      "characterName": "Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "Yes, negotiate.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "No, suppress the movement.",
+          "effects": {
+            "people": -0.1,
+            "army": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people"
+      ]
+    },
+    {
+      "id": 6,
+      "text": "Your Majesty, you remain unmarried and the line of succession is in jeopardy. A strategic marriage will secure the future. Shall we arrange a marriage with France?",
+      "characterName": "Foreign Ambassador",
+      "imagePath": "src/assets/characters/foreignambassador.png",
+      "choices": {
+        "left": {
+          "text": "Marry into the French court.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.1,
+            "army": 0.1
+          },
+          "achievementId": 11,
+          "bonusCardId": 1,
+          "flags": {
+            "is_married": true
+          }
+        },
+        "right": {
+          "text": "Reject the proposal.",
+          "effects": {
+            "people": -0.05,
+            "wealth": 0.05,
+            "army": -0.05
+          },
+          "flags": {
+            "reject_marriage": true
+          }
+        }
+      },
+      "tags": [
+        "people"
+      ]
+    },
+    {
+      "id": 7,
+      "text": "Your Majesty, our rivals adopt the new breech-loading rifle. It is expensive, but it will give our soldiers a vast advantage. Shall we re-arm the military?",
+      "characterName": "The General",
+      "imagePath": "src/assets/characters/general.png",
+      "choices": {
+        "left": {
+          "text": "Arm them. We must have the best.",
+          "effects": {
+            "army": 0.15,
+            "wealth": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "The cost is too high.",
+          "effects": {
+            "army": -0.05,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "army",
+        "wealth"
+      ]
+    },
+    {
+      "id": 8,
+      "text": "My new book on natural selection is complete. The Church is outraged, calling it heresy. Will you grant me your Royal Patronage for its publication?",
+      "characterName": "The Scientist",
+      "imagePath": "src/assets/characters/scientist.png",
+      "choices": {
+        "left": {
+          "text": "Publish it. Truth is paramount.",
+          "effects": {
+            "knowledge": 0.15,
+            "people": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "This will cause chaos. Bury it.",
+          "effects": {
+            "knowledge": -0.1,
+            "people": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge",
+        "people"
+      ]
+    },
+    {
+      "id": 9,
+      "text": "The public is restless. A grand Royal Charity Ball will lift their spirits and remind them of your generosity. Shall I begin preparations? It will be... opulent.",
+      "characterName": "The Aristocrat",
+      "imagePath": "src/assets/characters/aristocrat.png",
+      "choices": {
+        "left": {
+          "text": "An excellent idea. Spare no expense.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "What a waste of money.",
+          "effects": {
+            "people": -0.05,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 10,
+      "text": "The Royal Physician's chemicals fail. A poultice of foxglove and willow bark will ease the royal consort's heart-fever. The old ways are strong. Will you trust me?",
+      "characterName": "The Witch",
+      "imagePath": "src/assets/characters/witch.png",
+      "choices": {
+        "left": {
+          "text": "I will trust the old ways.",
+          "effects": {
+            "knowledge": 0.1,
+            "people": 0.05
+          },
+          "flags": {
+            "rel_witch": "friendly"
+          }
+        },
+        "right": {
+          "text": "Get this peasant magic away from me.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": -0.05
+          },
+          "flags": {
+            "rel_witch": "angry"
+          }
+        }
+      },
+      "tags": [
+        "knowledge",
+        "people"
+      ]
+    },
+    {
+      "id": 11,
+      "text": "Our subjects in the colonies are rebelling! A quick, decisive show of force will crush their dissent and secure the trade routes. I await your order to deploy.",
+      "characterName": "The General",
+      "imagePath": "src/assets/characters/general.png",
+      "choices": {
+        "left": {
+          "text": "Crush the rebellion.",
+          "effects": {
+            "army": -0.1,
+            "wealth": 0.1,
+            "people": -0.05
+          },
+          "flags": {
+            "at_war": true
+          }
+        },
+        "right": {
+          "text": "Open negotiations.",
+          "effects": {
+            "army": 0.05,
+            "wealth": -0.1
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "army",
+        "wealth",
+        "people",
+        "war"
+      ]
+    },
+    {
+      "id": 12,
+      "text": "The war effort is stalling. We need more funds for munitions and fresh horses. The treasury must assist us!",
+      "characterName": "The General",
+      "imagePath": "src/assets/characters/general.png",
+      "choices": {
+        "left": {
+          "text": "Give him the funds.",
+          "effects": {
+            "army": 0.1,
+            "wealth": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "The army must make do.",
+          "effects": {
+            "army": -0.1,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "war",
+        "army",
+        "wealth"
+      ]
+    },
+    {
+      "id": 13,
+      "text": "War-weariness has set in. The people are protesting the conscription and the food shortages. They demand we negotiate for peace!",
+      "characterName": "Prime Minister",
+      "imagePath": "src/assets/characters/primeminister.png",
+      "choices": {
+        "left": {
+          "text": "We will hold fast.",
+          "effects": {
+            "people": -0.1,
+            "army": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Sue for peace.",
+          "effects": {
+            "people": 0.1,
+            "army": -0.1,
+            "wealth": -0.05
+          },
+          "flags": {
+            "at_war": false
+          }
+        }
+      },
+      "tags": [
+        "war",
+        "people",
+        "army"
+      ]
+    },
+    {
+      "id": 14,
+      "text": "I have seen a vision, Your Majesty. A red eagle flies over a sleeping barracks. Your General is not who he seems... he plots against you.",
+      "characterName": "The Witch",
+      "imagePath": "src/assets/characters/witch.png",
+      "choices": {
+        "left": {
+          "text": "Investigate the General.",
+          "effects": {
+            "army": -0.05,
+            "knowledge": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "This is treasonous nonsense.",
+          "effects": {
+            "people": -0.05
+          },
+          "flags": {
+            "rel_witch": "angry"
+          }
+        }
+      },
+      "tags": [
+        "witch_advice",
+        "army",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 15,
+      "text": "The fields are blighted. For a small donation to the old ways, I can bless the fields and ensure a stronger harvest. The people will thank you.",
+      "characterName": "The Witch",
+      "imagePath": "src/assets/characters/witch.png",
+      "choices": {
+        "left": {
+          "text": "A small price for security.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.05
+          },
+          "flags": {
+            "rel_witch": "friendly"
+          }
+        },
+        "right": {
+          "text": "Superstition. They must ration.",
+          "effects": {
+            "people": -0.1
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "witch_advice",
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 16,
+      "text": "Disaster! A potato blight is sweeping the countryside. The harvest has failed and our grain reserves are empty. A great famine is upon us.",
+      "characterName": "Prime Minister",
+      "imagePath": "src/assets/characters/primeminister.png",
+      "choices": {
+        "left": {
+          "text": "Open the royal reserves.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.15
+          },
+          "flags": {
+            "famine": true
+          }
+        },
+        "right": {
+          "text": "They must fend for themselves.",
+          "effects": {
+            "people": -0.15,
+            "wealth": 0.05
+          },
+          "flags": {
+            "famine": true
+          }
+        }
+      },
+      "tags": [
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 17,
+      "text": "Your Majesty, the people are starving. May I suggest we import cheap grain from the colonies to alleviate their suffering?",
+      "characterName": "The Aristocrat",
+      "imagePath": "src/assets/characters/aristocrat.png",
+      "choices": {
+        "left": {
+          "text": "Do it. Whatever the cost.",
+          "effects": {
+            "people": 0.15,
+            "wealth": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "We cannot afford it.",
+          "effects": {
+            "people": -0.1,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "famine",
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 18,
+      "text": "Good news! My research into chemical fertilizers is complete. We can end this famine and ensure it never happens again.",
+      "characterName": "The Scientist",
+      "imagePath": "src/assets/characters/scientist.png",
+      "choices": {
+        "left": {
+          "text": "Implement these new methods.",
+          "effects": {
+            "knowledge": 0.1,
+            "wealth": -0.05,
+            "people": 0.1
+          },
+          "flags": {
+            "famine": false
+          }
+        },
+        "right": {
+          "text": "We don't have time for experiments.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "famine",
+        "knowledge",
+        "people"
+      ]
+    },
+    {
+      "id": 19,
+      "text": "Your Majesty, reformers protest the use of children in our factories. They demand we enforce a '10-hour day'. This will hurt productivity!",
+      "characterName": "Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "The children must be protected.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Productivity is paramount.",
+          "effects": {
+            "people": -0.1,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 20,
+      "text": "My 'vaccine' for smallpox is ready. It uses a harmless strain of cowpox to grant immunity. Shall we begin a public vaccination campaign?",
+      "characterName": "The Scientist",
+      "imagePath": "src/assets/characters/scientist.png",
+      "choices": {
+        "left": {
+          "text": "A brilliant breakthrough. Do it.",
+          "effects": {
+            "knowledge": 0.1,
+            "people": 0.05,
+            "wealth": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Injecting *what*? No.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge",
+        "people"
+      ]
+    },
+    {
+      "id": 21,
+      "text": "The old 'common lands' are inefficient. Allow us, the nobility, to enclose them for modern sheep farming. We will all profit handsomely.",
+      "characterName": "The Aristocrat",
+      "imagePath": "src/assets/characters/aristocrat.png",
+      "choices": {
+        "left": {
+          "text": "Efficiency brings wealth.",
+          "effects": {
+            "wealth": 0.1,
+            "people": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "The land belongs to all.",
+          "effects": {
+            "wealth": -0.05,
+            "people": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "wealth",
+        "people"
+      ]
+    },
+    {
+      "id": 22,
+      "text": "A new marvel: the electric telegraph! We can send messages across the empire in moments. It will require a vast investment in wires and poles.",
+      "characterName": "Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "Connect the empire.",
+          "effects": {
+            "knowledge": 0.1,
+            "wealth": -0.1,
+            "army": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "A waste of money.",
+          "effects": {
+            "knowledge": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge",
+        "wealth"
+      ]
+    },
+    {
+      "id": 23,
+      "text": "The Crown's finances are strained, Your Majesty. I propose a new 'window tax'. It is an ingenious way to tax the wealthy, based on the size of their homes.",
+      "characterName": "Prime Minister",
+      "imagePath": "src/assets/characters/primeminister.png",
+      "choices": {
+        "left": {
+          "text": "A fair and modern tax.",
+          "effects": {
+            "wealth": 0.1,
+            "people": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "The people will revolt.",
+          "effects": {
+            "wealth": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "wealth",
+        "people"
+      ]
+    },
+    {
+      "id": 24,
+      "text": "Your Majesty, you look pale. A good bloodletting with leeches will balance your humors and restore your vitality. It's perfectly safe.",
+      "characterName": "Royal Physician",
+      "imagePath": "src/assets/characters/doctor.png",
+      "choices": {
+        "left": {
+          "text": "Very well, I trust you.",
+          "effects": {
+            "people": -0.05,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "That sounds barbaric.",
+          "effects": {
+            "knowledge": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 25,
+      "text": "The General arrives with a sealed letter from an unfamiliar nobleman. Your advisors warn you against opening it.",
+      "characterName": "The General",
+      "imagePath": "src/assets/characters/general.png",
+      "choices": {
+        "left": {
+          "text": "Read it.",
+          "effects": {
+            "people": -0.05,
+            "army": 0.05
+          },
+          "flags": {
+            "start_vampire_event": true
+          }
+        },
+        "right": {
+          "text": "Decline.",
+          "effects": {
+            "people": 0.05,
+            "knowledge": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "special"
+      ]
+    },
+    {
+      "id": 26,
+      "text": "The industrialist approachs the throne. He wishes to build a railway directly through the ancient cathedral grounds to speed up trade.",
+      "characterName": "The Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "Approve the railway.",
+          "effects": {
+            "wealth": 0.1,
+            "people": -0.1
+          },
+          "bonusCardId": 3,
+          "flags": {}
+        },
+        "right": {
+          "text": "Preserve the cathedral.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 27,
+      "text": "A collective of eccentric poets and painters asks for a Royal Grant. They claim they will 'awaken the soul of the nation.'",
+      "characterName": "The Aristocrat",
+      "imagePath": "src/assets/characters/aristocrat.png",
+      "choices": {
+        "left": {
+          "text": "Fund the renaissance.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.1,
+            "knowledge": 0.05
+          },
+          "bonusCardId": 4,
+          "flags": {}
+        },
+        "right": {
+          "text": "It's too extravagant.",
+          "effects": {
+            "people": -0.05,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "wealth",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 28,
+      "text": "An author writes of the horrors in the workhouses. He pleads for royal intervention to improve conditions for the poor.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Improve the workhouses.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.1
+          },
+          "bonusCardId": 5,
+          "flags": {}
+        },
+        "right": {
+          "text": "It's not our concern.",
+          "effects": {
+            "people": -0.1,
+            "wealth": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "wealth"
+      ]
+    },
+    {
+      "id": 29,
+      "text": "A famous writer seeks an audience. She wishes to meet with you to chronicle your reign and immortalize your legacy for future generations.",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Agree to visit.",
+          "effects": {
+            "knowledge": 0.1,
+            "people": 0.05
+          },
+          "flags": {
+            "start_writer_event": true
+          }
+        },
+        "right": {
+          "text": "I have no time for writers.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "special"
+      ]
+    },
+    {
+      "id": 30,
+      "text": "The factories are chugging day and night. The smog is thick, and the people are coughing, but profits have never been higher.",
+      "characterName": "Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "Install filters. Clean the air.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Smoke is the scent of progress.",
+          "effects": {
+            "wealth": 0.15,
+            "people": -0.15
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "wealth",
+        "people"
+      ]
+    },
+    {
+      "id": 31,
+      "text": "Deserters from the front lines have been caught hiding in the capital. Military law demands the firing squad, but they claim they were starving.",
+      "characterName": "The General",
+      "imagePath": "src/assets/characters/general.png",
+      "choices": {
+        "left": {
+          "text": "Make an example of them.",
+          "effects": {
+            "army": 0.1,
+            "people": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Show mercy. Reassign them.",
+          "effects": {
+            "people": 0.05,
+            "army": -0.1
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "army",
+        "people"
+      ]
+    },
+    {
+      "id": 32,
+      "text": "I wish to organize a 'Great Exhibition' of the works of industry of all nations. It will be a glass palace showing our superiority to the world!",
+      "characterName": "The Scientist",
+      "imagePath": "src/assets/characters/scientist.png",
+      "choices": {
+        "left": {
+          "text": "Build the Crystal Palace!",
+          "effects": {
+            "knowledge": 0.15,
+            "wealth": -0.15,
+            "people": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "We cannot afford a glass house.",
+          "effects": {
+            "wealth": 0.05,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge",
+        "wealth"
+      ]
+    },
+    {
+      "id": 33,
+      "text": "A black cat crossed the throne room steps during the eclipse. The spirits are restless. We must bury a chest of gold at the crossroads to appease them.",
+      "characterName": "The Witch",
+      "imagePath": "src/assets/characters/witch.png",
+      "choices": {
+        "left": {
+          "text": "Do it. I fear the spirits.",
+          "effects": {
+            "wealth": -0.1,
+            "people": 0.05
+          },
+          "flags": {
+            "rel_witch": "friendly"
+          }
+        },
+        "right": {
+          "text": "Ignore the cat.",
+          "effects": {
+            "knowledge": 0.05
+          },
+          "flags": {
+            "rel_witch": "angry"
+          }
+        }
+      },
+      "tags": [
+        "witch_advice",
+        "wealth"
+      ]
+    },
+    {
+      "id": 34,
+      "text": "Crime in the capital is rampant. I propose forming a professional, uniformed police force to maintain order, rather than relying on local watchmen.",
+      "characterName": "Prime Minister",
+      "imagePath": "src/assets/characters/primeminister.png",
+      "choices": {
+        "left": {
+          "text": "Establish the Police Force.",
+          "effects": {
+            "people": 0.05,
+            "wealth": -0.05,
+            "army": 0.05
+          },
+          "flags": {
+            "police_force": true
+          }
+        },
+        "right": {
+          "text": "The old ways work fine.",
+          "effects": {
+            "wealth": 0.05,
+            "people": -0.1
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "army"
+      ]
+    },
+    {
+      "id": 35,
+      "text": "I have observed that washing one's hands between patients reduces mortality. My colleagues laugh at me. Will you issue a Royal Decree on hygiene?",
+      "characterName": "Royal Physician",
+      "imagePath": "src/assets/characters/doctor.png",
+      "choices": {
+        "left": {
+          "text": "Issue the decree.",
+          "effects": {
+            "knowledge": 0.1,
+            "people": 0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Decline.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge",
+        "people"
+      ]
+    },
+    {
+      "id": 36,
+      "text": "A satirical play mocks the nobility and the Royal Family. Shall we censor the theater?",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Shut it down immediately.",
+          "effects": {
+            "people": -0.1,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "I can take a joke.",
+          "effects": {
+            "people": 0.1,
+            "knowledge": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 37,
+      "text": "A foreign trade delegation arrives. They offer exotic spices and silks in exchange for our steel.",
+      "characterName": "Foreign Ambassador",
+      "imagePath": "src/assets/characters/foreignambassador.png",
+      "choices": {
+        "left": {
+          "text": "Sign the trade deal.",
+          "effects": {
+            "wealth": 0.15,
+            "people": 0.05,
+            "knowledge": 0.05
+          },
+		  "bonusCardId": 2,
+          "flags": {}
+        },
+        "right": {
+          "text": "Send them away.",
+          "effects": {
+            "wealth": -0.05,
+            "army": 0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "wealth",
+        "people"
+      ]
+    },
+    {
+      "id": 38,
+      "text": "My nephew has been insulted by a rival duke! He demands a duel to restore his honor. Dueling is illegal, but... it is tradition.",
+      "characterName": "The Aristocrat",
+      "imagePath": "src/assets/characters/aristocrat.png",
+      "choices": {
+        "left": {
+          "text": "Let them fight.",
+          "effects": {
+            "people": -0.05,
+            "army": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Arrest them if they try.",
+          "effects": {
+            "people": 0.05,
+            "army": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "army"
+      ]
+    },
+    {
+      "id": 39,
+      "text": "We are developing a steam-powered automaton to assist in the mines. It is dangerous work, but the machine feels no pain.",
+      "characterName": "Industrialist",
+      "imagePath": "src/assets/characters/industrialist.png",
+      "choices": {
+        "left": {
+          "text": "Build the machines.",
+          "effects": {
+            "wealth": 0.1,
+            "people": -0.1,
+            "knowledge": 0.1
+          },
+		  "bonusCardId": 3,
+		  "flags": {}
+        },
+        "right": {
+          "text": "Men need those jobs.",
+          "effects": {
+            "people": 0.1,
+            "wealth": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "wealth",
+        "knowledge"
+      ]
+    },
+    {
+      "id": 40,
+      "text": "We have discovered the bones of a 'Thunder Lizard' in the cliffs. It contradicts the church's timeline of the world. What shall we do with the bones?",
+      "characterName": "The Scientist",
+      "imagePath": "src/assets/characters/scientist.png",
+      "choices": {
+        "left": {
+          "text": "Display them in the museum.",
+          "effects": {
+            "knowledge": 0.15,
+            "people": 0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Hide them in the basement.",
+          "effects": {
+            "knowledge": -0.05,
+            "people": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "knowledge"
+      ]
+    },
+    {
+      "id": 41,
+      "text": "The city's old defensive walls are crumbling and blocking traffic. Developers want to tear them down to build boulevards.",
+      "characterName": "The General",
+      "imagePath": "src/assets/characters/general.png",
+      "choices": {
+        "left": {
+          "text": "Tear down the walls.",
+          "effects": {
+            "wealth": 0.1,
+            "people": 0.05,
+            "army": -0.1
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Repair them. We need defense.",
+          "effects": {
+            "army": 0.1,
+            "wealth": -0.1
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "army",
+        "wealth"
+      ]
+    },
+    {
+      "id": 42,
+      "text": "The moon has turned the color of blood. It is a sign that the King's bloodline is weak. You must drink a potion of herbs and iron to strengthen it.",
+      "characterName": "The Witch",
+      "imagePath": "src/assets/characters/witch.png",
+      "choices": {
+        "left": {
+          "text": "I will drink it.",
+          "effects": {
+            "people": 0.05,
+            "knowledge": -0.05
+          },
+          "flags": {
+            "rel_witch": "friendly"
+          }
+        },
+        "right": {
+          "text": "Pour it in the garden.",
+          "effects": {
+            "knowledge": 0.05
+          },
+          "flags": {
+            "rel_witch": "angry"
+          }
+        }
+      },
+      "tags": [
+        "witch_advice"
+      ]
+    },
+    {
+      "id": 43,
+      "text": "A renowned spy offers to sell us the naval plans of our enemy. It is dishonorable, but it could save thousands of our sailors.",
+      "characterName": "Foreign Ambassador",
+      "imagePath": "src/assets/characters/foreignambassador.png",
+      "choices": {
+        "left": {
+          "text": "Buy the plans.",
+          "effects": {
+            "army": 0.15,
+            "wealth": -0.1,
+            "people": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "We fight with honor.",
+          "effects": {
+            "people": 0.05,
+            "army": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "army",
+        "wealth"
+      ]
+    },
+    {
+      "id": 44,
+      "text": "The public is bored with stiff, moral literature. They crave 'Penny Dreadfuls'—cheap stories of vampires and crime. Shall I write one?",
+      "characterName": "The Novelist",
+      "imagePath": "src/assets/characters/novelist.png",
+      "choices": {
+        "left": {
+          "text": "Give the people what they want.",
+          "effects": {
+            "people": 0.1,
+            "wealth": 0.05,
+            "knowledge": -0.05
+          },
+          "flags": {}
+        },
+        "right": {
+          "text": "Keep it highbrow.",
+          "effects": {
+            "knowledge": 0.05,
+            "people": -0.05
+          },
+          "flags": {}
+        }
+      },
+      "tags": [
+        "people",
+        "knowledge"
+      ]
+    }
+  ]
 }

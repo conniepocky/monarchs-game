@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import utils.CardSelector;
+
 import core.App;
 
 import data.Card;
@@ -44,6 +46,7 @@ public class PlayingState implements GameState {
     private PlayingStateRenderer renderer;
     private SpecialEventManager eventManager;
     private BonusCardManager bonusCardManager;
+    private CardSelector cardSelector;
 
     private Integer year = 1; 
 
@@ -71,6 +74,7 @@ public class PlayingState implements GameState {
         this.renderer = new PlayingStateRenderer(this);
         this.eventManager = new SpecialEventManager();
         this.bonusCardManager = new BonusCardManager();
+        this.cardSelector = new CardSelector();
 
         initStats();
         initProgressionRules();
@@ -270,87 +274,10 @@ public class PlayingState implements GameState {
         }
     }
 
-    public TableResult setupAliasTables(List<Float> weights, Float totalWeight, Integer N) {
-        Float[] probTable = new Float[N];
-        Integer[] aliasTable = new Integer[N];
-
-        double[] scaledProbs = new double[N]; // use double for better floating point precision during calculations
-
-        Stack<Integer> small = new Stack<>(); // stack for small probabilities
-        Stack<Integer> large = new Stack<>(); // stack for large probabilities
-
-        // scale the probabilities and sort into stacks
-
-        for (int i = 0; i < N; i++) {
-            double scaledProb = weights.get(i) * N / totalWeight; // scale the probability, so that the average is 1
-            scaledProbs[i] = scaledProb;
-
-            // sort the index i into the small or large stack
-            if (scaledProb < 1.0) {
-                small.push(i); 
-            } else {
-                large.push(i); 
-            }
-        }
-
-        // fill the buckets
-
-        while (!small.isEmpty() && !large.isEmpty()) { // while both stacks have indices
-            Integer smallIndex = small.pop();
-            Integer largeIndex = large.pop();
-
-            probTable[smallIndex] = (float) scaledProbs[smallIndex];
-            aliasTable[smallIndex] = largeIndex;
-
-            // update the large items remaining probability
-
-            double remainingProb = (scaledProbs[largeIndex] + scaledProbs[smallIndex]) - 1.0;
-            scaledProbs[largeIndex] = remainingProb;
-
-            // re-sort the large index
-
-            if (remainingProb < 1.0) { 
-                small.push(largeIndex);
-            } else {
-                large.push(largeIndex);
-            }
-        }
-
-        // handle remaining indices
-
-        while (!large.isEmpty()) {
-            Integer largeIndex = large.pop();
-            probTable[largeIndex] = 1.0f;
-        }
-
-        while (!small.isEmpty()) {
-            Integer smallIndex = small.pop();
-            probTable[smallIndex] = 1.0f; 
-        }
-
-        // return the resulting tables
-
-        return new TableResult(probTable, aliasTable);
-    }
-
-
-    public Integer drawWeightedCard(Float[] Prob, Integer[] Alias, Integer N) {
-        Integer randomBucketIndex = (int)(Math.random() * N); 
-        Float randomProb = (float)(Math.random());
-
-        if (randomProb < Prob[randomBucketIndex]) {
-            return randomBucketIndex; // return the main card index
-        } else {
-            return Alias[randomBucketIndex]; // return the alias card index
-        }
-    }
-
     public void cardSelection() {
 
         Card chosenCard = null;
         Card previousCard = currentCard;
-
-        // update the queue and set the chosen card
 
         // enqueue the previous card ID
         if (previousCard != null) {
@@ -359,39 +286,21 @@ public class PlayingState implements GameState {
 
         // dequeue oldest if size exceeds 5
         while (recentlyPlayedQueue.size() >= 5) {
-            recentlyPlayedQueue.poll(); // .poll() removes the Head (the oldest item)
+            recentlyPlayedQueue.poll(); 
         }
 
         List<Float> weights = new ArrayList<>();
 
-        Float totalWeight = 0.0f;
-        Integer N = cards.size();
-
         // calculate card weights and update total weight
-
         for (Card card: cards) {
             Float weight = calculateCardWeight(card);
             weights.add(weight);
-            totalWeight += weight;
         }
 
-        if (totalWeight == 0.0f || totalWeight == N.floatValue()) {  // error check, select at random uniformly
-            Integer randomIndex = (int)(Math.random() * N);
-            chosenCard = cards.get(randomIndex);
-        } else {
-            // weighted random selection
-
-            TableResult tableResult = setupAliasTables(weights, totalWeight, N);
-
-            // select a card using the draw a card algorithm
-
-            Integer chosenIndex = drawWeightedCard(tableResult.getProbTable(), tableResult.getAliasTable(), N);
-
-            chosenCard = cards.get(chosenIndex);
-        }
+        Integer chosenIndex = cardSelector.selectNextCardIndex(weights);
+        chosenCard = cards.get(chosenIndex);
 
         // debug prints
-
         System.out.println("Chosen Card ID: " + chosenCard.getId());
         System.out.println("Chosen Card Text: " + chosenCard.getText());
         System.out.println("Chosen Card Tags: " + chosenCard.getTags().toString());

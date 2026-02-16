@@ -1,5 +1,6 @@
 package states;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,7 +11,15 @@ import java.sql.SQLException;
 public class DatabaseManager {
 
     // creates a connection to the database
-    private static final String URL = "jdbc:sqlite:res/monarchs-database.db";
+    // private static final String URL = "jdbc:sqlite:res/monarchs-database.db";
+
+    private static final String USER_HOME = System.getProperty("user.home");
+    // Create a hidden application folder for the game
+    private static final String APP_DIR = USER_HOME + File.separator + ".monarchs_game";
+    private static final String DB_FILE = APP_DIR + File.separator + "monarchs-database.db";
+    
+    // The new dynamic JDBC URL
+    private static final String URL = "jdbc:sqlite:" + DB_FILE;
 
     public static void main(String[] args) {
         createNewTables();            
@@ -73,6 +82,11 @@ public class DatabaseManager {
     }
 
     public static void createNewTables() {
+
+        File directory = new File(APP_DIR);
+        if (!directory.exists()) {
+            directory.mkdirs(); // Creates the folder if it doesn't exist
+        }
         
         // 1. SQL for the 'progress' table
         String sqlProgress = "CREATE TABLE IF NOT EXISTS progress ("

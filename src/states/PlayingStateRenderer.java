@@ -107,10 +107,10 @@ public class PlayingStateRenderer implements MouseInteractable {
         this.knowledgeStatIcon = new Rectangle();
         this.armyStatIcon = new Rectangle();
 
-        this.peopleStatImage = new StatImageComponent("src/assets/stats/people.png");
-        this.wealthStatImage = new StatImageComponent("src/assets/stats/wealth.png");
-        this.knowledgeStatImage = new StatImageComponent("src/assets/stats/knowledge.png");
-        this.armyStatImage = new StatImageComponent("src/assets/stats/army.png");
+        this.peopleStatImage = new StatImageComponent("stats/people.png");
+        this.wealthStatImage = new StatImageComponent("stats/wealth.png");
+        this.knowledgeStatImage = new StatImageComponent("stats/knowledge.png");
+        this.armyStatImage = new StatImageComponent("stats/army.png");
     }
 
     public void render(Graphics g, PlayingState state, int width, int height) {

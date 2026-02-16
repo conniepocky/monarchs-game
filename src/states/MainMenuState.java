@@ -76,9 +76,11 @@ public class MainMenuState implements GameState, MouseInteractable {
     @Override
     public void render(Graphics g, int width, int height) {
         try { // load menu title image from files
-            File file = new File("src/assets/menutitle.png");
-
-            Image img = ImageIO.read(file);
+            java.net.URL imageUrl = getClass().getResource("/assets/menutitle.png");
+            if (imageUrl == null) {
+                throw new IOException("Could not find image resource");
+            }
+            Image img = ImageIO.read(imageUrl);
 
             int imgWidth = img.getWidth(null) / 8;
             int imgHeight = img.getHeight(null) / 8;

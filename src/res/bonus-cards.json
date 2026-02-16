@@ -1,0 +1,78 @@
+{
+    "bonusCards": [
+        {
+            "id": 1,
+            "title": "Heir to the Throne",
+            "colour": {
+                "r": 255,
+                "g": 223,
+                "b": 186
+            },
+            "description": "Your royal lineage inspires loyalty among the people, boosting morale and unity.",
+            "effects": {
+                "people": 0.05
+            },
+            "duration": 15
+        },
+        {
+            "id": 2,
+            "title": "Trade Alliance",
+            "description": "Forge a trade alliance",
+            "colour": {
+                "r": 186,
+                "g": 225,
+                "b": 255
+            },
+            "effects": {
+                "wealth": 0.01
+            },
+            "duration": 4
+        },
+        {
+            "id": 3,
+            "title": "The steam age",
+            "description": "Factories smoke and gears turn. Gold flows, but the air is thick and the people are angry.",
+            "colour": {
+                "r": 192,
+                "g": 192,
+                "b": 192
+            },
+            "effects": {
+                "wealth": 0.03,
+                "people": -0.02
+            },
+            "duration": 5
+        },
+        {
+            "id": 4,
+            "title": "Cultural Renaissance",
+            "description": "A rebirth of arts and knowledge sweeps through the land, inspiring innovation and creativity.",
+            "colour": {
+                "r": 255,
+                "g": 182,
+                "b": 193
+            },
+            "effects": {
+                "knowledge": 0.04,
+                "people": 0.02
+            },
+            "duration": 7
+        },
+        {
+            "id": 5,
+            "title" : "The people's monarch",
+            "description": "You are beloved by the masses. They will tolerate military failures, but the aristocracy and treasury are drained.",
+            "colour": {
+                "r": 144,
+                "g": 238,
+                "b": 144
+            },
+            "effects": {
+                "people": 0.05,
+                "wealth": -0.03,
+                "army": -0.02
+            },
+            "duration": 6
+        }
+    ]
+}

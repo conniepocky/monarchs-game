@@ -12,7 +12,11 @@ public class StatImageComponent {
 
     public StatImageComponent(String imagePath) {
         try {
-            this.image = ImageIO.read(new File(imagePath));
+            java.net.URL imageUrl = getClass().getResource("/assets/" + imagePath);
+            if (imageUrl == null) {
+                throw new IOException("Could not find image resource");
+            }
+            this.image = ImageIO.read(imageUrl);
         } catch (IOException e) {
             e.printStackTrace();
             this.image = null; // Fallback if image loading fails

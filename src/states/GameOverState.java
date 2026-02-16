@@ -116,9 +116,11 @@ public class GameOverState implements GameState, MouseInteractable {
         // draw title text
 
         try { // load game over title image from files
-            File file = new File("src/assets/gameover.png");
-
-            Image img = ImageIO.read(file);
+            java.net.URL imageUrl = getClass().getResource("/assets/gameover.png");
+            if (imageUrl == null) {
+                throw new IOException("Could not find image resource");
+            }
+            Image img = ImageIO.read(imageUrl);
 
             int imgWidth = img.getWidth(null) / 8;
             int imgHeight = img.getHeight(null) / 8;

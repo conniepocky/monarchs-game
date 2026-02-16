@@ -3,6 +3,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +55,12 @@ public class SpecialEventManager {
     public void advanceStory(SpecialChoice choice) {
         this.currentEventCardId = choice.getNodeId(); // get next card ID from choice and set current card ID
 
+        // check if the next card exists in the current event's deck, if not end the event
+        if (!allEvents.get(currentEventName).containsKey(this.currentEventCardId)) {
+            endEvent();
+            return;
+        }
+
         // if the next card ID is null, end the event
 
         if (this.currentEventCardId == null) { // terminal card, event is over
@@ -89,9 +97,12 @@ public class SpecialEventManager {
     // method to read the JSON file and return the content as a string
     public String readJsonFile(String filePath) {
         try {
-            File file = new File(filePath);
-
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            InputStream is = getClass().getResourceAsStream(filePath);
+            if (is == null) {
+                throw new IOException("Could not find " + filePath + " in resources");
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            
             StringBuilder jsonContent = new StringBuilder();
             String line; // variable to hold each line read from the file
 
@@ -170,7 +181,7 @@ public class SpecialEventManager {
     }
 
     private void loadEventCards() {
-        String jsonContent = readJsonFile("res/special-event.json");
+        String jsonContent = readJsonFile("/res/special-event.json");
         if (jsonContent == null) return;
 
         try {

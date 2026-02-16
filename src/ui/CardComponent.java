@@ -1,6 +1,9 @@
 package ui;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 public class CardComponent {
     public static void draw(Graphics g, Rectangle rect, Point mouse, String text, String name, String imagePath, Color fillColor) { 

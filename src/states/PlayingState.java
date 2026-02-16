@@ -5,6 +5,8 @@ import javax.swing.JOptionPane;
 import javax.xml.crypto.Data;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import core.App;
 
@@ -577,9 +579,12 @@ public class PlayingState implements GameState {
     // Method to read the cards JSON file and return the content as a string
     public String readJsonFile(String filePath) {
         try {
-            File file = new File(filePath);
+            InputStream is = getClass().getResourceAsStream(filePath);
+            if (is == null) {
+                throw new IOException("Could not find " + filePath + " in resources");
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-            BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder jsonContent = new StringBuilder();
             String line; // variable to hold each line read from the file
 
@@ -634,7 +639,8 @@ public class PlayingState implements GameState {
     }
 
     public void parseCards() {
-        String jsonContent = readJsonFile("res/cards.json");
+        String jsonContent = readJsonFile("/res/cards.json");
+        //String jsonContent = readJsonFile("res/cards.json");
 
         // verify the content right before parsing
         // System.out.println("DEBUG: JSON String to be Parsed: " + jsonContent); 
